@@ -18,7 +18,7 @@ pub fn parse_instruction(
   }
 
   // Ended indentation block, just return what we got.
-  if !match_indentation(current_indentation, line) { 
+  if !match_indentation(current_indentation, line) {
     return LineResult {
       new_indentation: current_indentation - 2,
       instruction: None,
