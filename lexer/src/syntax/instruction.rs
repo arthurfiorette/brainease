@@ -1,7 +1,7 @@
 use super::{CellPosition, CellValue, IfLogic};
 
 /// A Instruction that contain brainease logic.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Instruction {
   /// Increment the value at the given position.
   ///

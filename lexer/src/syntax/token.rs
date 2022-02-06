@@ -1,6 +1,7 @@
 use lazy_regex::{regex, Lazy, Regex};
 
 pub enum TokenKind {
+  Header,
   Increment,
   Decrement,
   Move,
@@ -17,6 +18,7 @@ pub enum TokenKind {
 impl TokenKind {
   pub fn all() -> Vec<TokenKind> {
     vec![
+      TokenKind::Header,
       TokenKind::Increment,
       TokenKind::Decrement,
       TokenKind::Move,
@@ -32,6 +34,7 @@ impl TokenKind {
   }
 
   pub fn regex(&self) -> &Lazy<Regex> {
+    static HEADER: &Lazy<Regex> = regex!(r"^@(\w+)(=[A-Za-z0-9_.]+)?$");
     static INCREMENT: &Lazy<Regex> = regex!(r"^inc\s(\d{1,3})\sin\s(\d+)(.*)");
     static DECREMENT: &Lazy<Regex> = regex!(r"^dec\s(\d{1,3})\sin\s(\d+)(.*)");
     static MOVE: &Lazy<Regex> = regex!(r"^move\s(\d+)\sto\s(\d+)(.*)");
@@ -46,6 +49,7 @@ impl TokenKind {
       regex!(r"^if_cell\s(\d+)\s(==|!=|>|<|<=|>=)\s(\d+)(.*)");
 
     match &self {
+      TokenKind::Header => HEADER,
       TokenKind::Increment => INCREMENT,
       TokenKind::Decrement => DECREMENT,
       TokenKind::Move => MOVE,
@@ -68,7 +72,21 @@ mod tests {
   #[test]
   fn all_returns_all_token_kinds() {
     let all = TokenKind::all();
-    assert_eq!(all.len(), 11);
+    assert_eq!(all.len(), 12);
+  }
+
+  #[test]
+  fn tests_header_regex() {
+    let regex = TokenKind::Header.regex();
+
+    assert!(regex.is_match("@hasdfader"));
+    assert!(regex.is_match("@hsafder=1"));
+    assert!(regex.is_match("@heasdfer=true"));
+    assert!(regex.is_match("@h234ader=1.0.0"));
+
+    assert!(!regex.is_match("@hasdfader="));
+    assert!(!regex.is_match("@heasdfder= asd"));
+    assert!(!regex.is_match("heaasdfer=asd"));
   }
 
   #[test]
