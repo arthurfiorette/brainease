@@ -1,1 +1,5 @@
 target
+
+
+.vscode/*
+!.vscode/launch.json
