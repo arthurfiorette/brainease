@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use super::CellValue;
 
 /// A simple enum that represents the values of
@@ -24,17 +26,21 @@ impl IfLogic {
       IfLogic::GreaterOrEqual => value >= other,
     }
   }
+}
+
+impl FromStr for IfLogic {
+  type Err = ();
 
   /// Parses the given string into an if logic enum.
-  pub fn from_str(s: &str) -> Option<Self> {
+  fn from_str(s: &str) -> Result<Self, ()> {
     match s {
-      "==" => Some(IfLogic::Equal),
-      "!=" => Some(IfLogic::NotEqual),
-      "<" => Some(IfLogic::Less),
-      ">" => Some(IfLogic::Greater),
-      "<=" => Some(IfLogic::LessOrEqual),
-      ">=" => Some(IfLogic::GreaterOrEqual),
-      _ => None,
+      "==" => Ok(IfLogic::Equal),
+      "!=" => Ok(IfLogic::NotEqual),
+      "<" => Ok(IfLogic::Less),
+      ">" => Ok(IfLogic::Greater),
+      "<=" => Ok(IfLogic::LessOrEqual),
+      ">=" => Ok(IfLogic::GreaterOrEqual),
+      _ => Err(()),
     }
   }
 }
@@ -93,13 +99,14 @@ mod tests {
 
   #[test]
   fn test_if_logic_from_str() {
-    assert_eq!(IfLogic::from_str("=="), Some(IfLogic::Equal));
-    assert_eq!(IfLogic::from_str("!="), Some(IfLogic::NotEqual));
-    assert_eq!(IfLogic::from_str("<"), Some(IfLogic::Less));
-    assert_eq!(IfLogic::from_str(">"), Some(IfLogic::Greater));
-    assert_eq!(IfLogic::from_str("<="), Some(IfLogic::LessOrEqual));
-    assert_eq!(IfLogic::from_str(">="), Some(IfLogic::GreaterOrEqual));
-    assert_eq!(IfLogic::from_str(""), None);
-    assert_eq!(IfLogic::from_str("==="), None);
+    assert!(IfLogic::from_str("==").is_ok());
+    assert!(IfLogic::from_str("!=").is_ok());
+    assert!(IfLogic::from_str("<").is_ok());
+    assert!(IfLogic::from_str(">").is_ok());
+    assert!(IfLogic::from_str("<=").is_ok());
+    assert!(IfLogic::from_str(">=").is_ok());
+
+    assert!(IfLogic::from_str("").is_err());
+    assert!(IfLogic::from_str("===").is_err());
   }
 }
