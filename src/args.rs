@@ -13,6 +13,6 @@ pub struct Args {
   pub memory: usize,
 
   /// The compiler log level to use
-  #[clap(long = "log", default_value = "trace")]
+  #[clap(long = "log", default_value = "info")]
   pub log_level: String,
 }

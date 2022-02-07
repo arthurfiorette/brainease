@@ -1,45 +1,43 @@
 use brainease_lexer::parser;
 use brainease_runtime::runtime::Runtime;
 use clap::Parser;
-use std::{env, fs};
+use std::{
+  fs,
+  io::{stdout, Write}, process,
+};
+
+use crate::util::{fallback_rust_log, normalize_path};
 
 pub mod args;
+pub mod util;
 
 fn main() {
   let args = args::Args::parse();
 
-  {
-    let log_env = env::var("RUST_LOG");
-    if log_env.is_err() || log_env.unwrap().is_empty() {
-      env::set_var("RUST_LOG", args.log_level);
-    }
+  fallback_rust_log(&args.log_level);
+  let (absolute_path, filename) = normalize_path(&args.main);
 
-    env_logger::builder()
-      .format_indent(None)
-      .format_module_path(false)
-      .format_target(false)
-      .format_timestamp(None)
-      .init();
-  }
+  log::trace!("Reading '{}'", filename);
 
-  let main_file = fs::read_to_string(&args.main);
+  let main_file = fs::read_to_string(&absolute_path);
 
   if main_file.is_err() {
-    log::error!("File {} could not be read.", args.main);
-    return;
+    log::error!("Could not read {} ", absolute_path);
+    process::exit(1);
   }
 
-  log::debug!("Running {}...", args.main);
-
   let main_file = main_file.unwrap();
-
   let instructions = parser::parse_file(&main_file);
+
   let mut runtime = Runtime::new(instructions, args.memory);
 
-  // A little space between stdout
-  println!();
-  let elapsed_time = runtime.run();
-  println!("\n");
+  log::trace!("Runtime initialized");
+  log::trace!("{:#?}", args);
+  log::trace!("Starting runtime for {}", filename);
 
+  // A little space between stdout
+  let elapsed_time = runtime.run();
+
+  stdout().write_all(b"\n").unwrap();
   log::debug!("Elapsed time: {}s.", elapsed_time);
 }
