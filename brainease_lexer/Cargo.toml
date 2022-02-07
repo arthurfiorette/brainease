@@ -1,5 +1,5 @@
 [package]
-name = "brainease"
+name = "brainease_lexer"
 version = "1.0.0"
 edition = "2021"
 description = "A brainf*ck-style programming language, but readable"
@@ -12,16 +12,13 @@ categories = [
   "ease",
   "brainfuck",
 ]
-documentation = "https://arthurfiorette.github.io/brainease/"
+documentation = "https://arthurfiorette.github.io/brainease"
+homepage = "https://github.com/arthurfiorette/brainease"
 repository = "https://github.com/arthurfiorette/brainease"
 license = "MIT"
-readme = "../README.md"
+readme = "./README.md"
 
 
 [dependencies]
-brainease-runtime = { path = "../runtime", version = "1.0.0"}
-brainease-lexer = { path = "../lexer", version = "1.0.0"}
-
-clap = { version = "^3.0", features = ["derive"] }
-env_logger = "^0.9"
+lazy-regex = "^2"
 log = "^0.4"
