@@ -60,8 +60,12 @@ jobs:
       - name: Publish lexer to crates.io
         run: cargo publish --package brainease_lexer
 
+      - run: sleep 10
+
       - name: Publish runtime to crates.io
         run: cargo publish --package brainease_runtime
+
+      - run: sleep 10
 
       - name: Publish cli to crates.io
         run: cargo publish
