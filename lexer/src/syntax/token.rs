@@ -52,7 +52,20 @@ impl TokenKind {
   }
 
   pub fn iter() -> Iter<'static, Self> {
-    static TOKEN_KINDS: [TokenKind; 2] = [TokenKind::Increment, TokenKind::Decrement];
+    static TOKEN_KINDS: [TokenKind; 11] = [
+      TokenKind::Increment,
+      TokenKind::Decrement,
+      TokenKind::Move,
+      TokenKind::Swap,
+      TokenKind::Save,
+      TokenKind::Read,
+      TokenKind::Write,
+      TokenKind::Print,
+      TokenKind::Loop,
+      TokenKind::If,
+      TokenKind::IfCell,
+    ];
+
     TOKEN_KINDS.iter()
   }
 
