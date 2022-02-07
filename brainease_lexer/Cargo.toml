@@ -1,6 +1,6 @@
 [package]
 name = "brainease_lexer"
-version = "1.0.2"
+version = "1.0.3"
 edition = "2021"
 description = "A brainf*ck-style programming language, but readable"
 documentation = "https://arthurfiorette.github.io/brainease"
