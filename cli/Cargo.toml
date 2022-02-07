@@ -1,6 +1,6 @@
 [package]
 name = "brainease"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 description = "A brainf*ck-style programming language, but readable"
 categories = [
@@ -19,8 +19,8 @@ readme = "../README.md"
 
 
 [dependencies]
-brainease-runtime = { path = "../runtime" }
-brainease-lexer = { path = "../lexer" }
+brainease-runtime = { path = "../runtime", version = "1.0.0"}
+brainease-lexer = { path = "../lexer", version = "1.0.0"}
 
 clap = { version = "^3.0", features = ["derive"] }
 env_logger = "^0.9"
