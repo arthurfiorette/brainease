@@ -1,6 +1,9 @@
-use crate::util::{is_empty_line, match_indentation};
-
 use super::LineResult;
+use crate::{
+  logger,
+  syntax::{TokenKind, TokenParser},
+  util::{is_empty_line, match_indentation},
+};
 
 pub fn parse_instruction(
   file: &[&str],
@@ -29,6 +32,24 @@ pub fn parse_instruction(
   // Clears indentation
   line = &line[current_indentation..];
 
-  println!("{}, {}", line, line_index);
-  todo!();
+  if let Some((token, captures)) = TokenKind::find_match(line) {
+    let parser: TokenParser = token.parser();
+
+    let (next_line, instruction) =
+      parser(file, captures, line_index, current_indentation);
+
+    return LineResult {
+      instruction,
+      next_line,
+      new_indentation: current_indentation,
+    };
+  }
+
+  logger::unknown_line(&line_index, line);
+
+  LineResult {
+    new_indentation: current_indentation,
+    instruction: None,
+    next_line: line_index + 1,
+  }
 }

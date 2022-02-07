@@ -27,14 +27,13 @@ mod tests {
 
   #[test]
   fn tests_empty_line() {
+    assert!(is_empty_line(""));
     assert!(is_empty_line("        "));
     assert!(is_empty_line("# comment"));
-    assert!(is_empty_line(""));
-
     assert!(is_empty_line("         　       　    "));
 
-    assert!(!is_empty_line("a"));
-    assert!(!is_empty_line("   a"));
+    assert!(!is_empty_line("a        "));
+    assert!(!is_empty_line("           a"));
     assert!(!is_empty_line("   aasd a"));
     assert!(!is_empty_line("   　  a"));
   }

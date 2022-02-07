@@ -65,7 +65,7 @@ pub enum Instruction {
   /// # Saves the ASCII code of the given input at cell 10
   /// read 10
   /// ```
-  Read { cell: CellPosition },
+  Read(CellPosition),
 
   /// Sends the current cell value to stdout.
   ///
@@ -73,7 +73,7 @@ pub enum Instruction {
   /// # Prints the byte value of cell 10 to stdout
   /// write 10
   /// ```
-  Write { cell: CellPosition },
+  Write(CellPosition),
 
   /// Sends the current ASCII code of the given char to stdout.
   ///
@@ -81,7 +81,7 @@ pub enum Instruction {
   /// # Prints the ASCII code stored in cell 10
   /// print 10
   /// ```
-  Print { cell: CellPosition },
+  Print(CellPosition),
 
   /// Loops the inner instructions until the given cell value is 0
   ///

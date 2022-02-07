@@ -32,7 +32,7 @@ impl FromStr for IfLogic {
   type Err = ();
 
   /// Parses the given string into an if logic enum.
-  fn from_str(s: &str) -> Result<Self, ()> {
+  fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
       "==" => Ok(IfLogic::Equal),
       "!=" => Ok(IfLogic::NotEqual),

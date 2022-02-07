@@ -1,9 +1,8 @@
-use super::{parse_instruction, FileResult};
-use crate::headers::Headers;
+use super::parse_instruction;
+use crate::syntax::Instruction;
 
-pub fn parse_file(file: &[&str]) -> FileResult {
+pub fn parse_file(file: &[&str]) -> Vec<Instruction> {
   let mut instructions = Vec::new();
-  let headers = Headers::from_lines(file);
 
   let mut line_index = 0;
 
@@ -17,8 +16,5 @@ pub fn parse_file(file: &[&str]) -> FileResult {
     line_index = result.next_line;
   }
 
-  FileResult {
-    headers,
-    instructions,
-  }
+  instructions
 }

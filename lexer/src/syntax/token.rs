@@ -1,7 +1,10 @@
-use lazy_regex::{regex, Lazy, Regex};
+use lazy_regex::{Captures, Lazy, Regex};
+use std::slice::Iter;
 
+use super::{parser, regex, TokenParser};
+
+#[derive(PartialEq, Debug, Clone)]
 pub enum TokenKind {
-  Header,
   Increment,
   Decrement,
   Move,
@@ -16,325 +19,174 @@ pub enum TokenKind {
 }
 
 impl TokenKind {
-  pub fn all() -> Vec<TokenKind> {
-    vec![
-      TokenKind::Header,
-      TokenKind::Increment,
-      TokenKind::Decrement,
-      TokenKind::Move,
-      TokenKind::Swap,
-      TokenKind::Save,
-      TokenKind::Read,
-      TokenKind::Write,
-      TokenKind::Print,
-      TokenKind::Loop,
-      TokenKind::If,
-      TokenKind::IfCell,
-    ]
+  pub fn regex(&self) -> &Lazy<Regex> {
+    match self {
+      TokenKind::Increment => regex::INCREMENT,
+      TokenKind::Decrement => regex::DECREMENT,
+      TokenKind::Move => regex::MOVE,
+      TokenKind::Swap => regex::SWAP,
+      TokenKind::Save => regex::SAVE,
+      TokenKind::Read => regex::READ,
+      TokenKind::Write => regex::WRITE,
+      TokenKind::Print => regex::PRINT,
+      TokenKind::Loop => regex::LOOP,
+      TokenKind::If => regex::IF,
+      TokenKind::IfCell => regex::IF_CELL,
+    }
   }
 
-  pub fn regex(&self) -> &Lazy<Regex> {
-    static HEADER: &Lazy<Regex> = regex!(r"^@(\w+)(=[A-Za-z0-9_.]+)?$");
-    static INCREMENT: &Lazy<Regex> = regex!(r"^inc\s(\d{1,3})\sin\s(\d+)(.*)");
-    static DECREMENT: &Lazy<Regex> = regex!(r"^dec\s(\d{1,3})\sin\s(\d+)(.*)");
-    static MOVE: &Lazy<Regex> = regex!(r"^move\s(\d+)\sto\s(\d+)(.*)");
-    static SWAP: &Lazy<Regex> = regex!(r"^swap\s(\d+)\sand\s(\d+)(.*)");
-    static SAVE: &Lazy<Regex> = regex!(r"^save\s'(\w)'\sat\s(\d+)(.*)");
-    static READ: &Lazy<Regex> = regex!(r"^read\s(\d+)(.*)");
-    static WRITE: &Lazy<Regex> = regex!(r"^write\s(\d+)(.*)");
-    static PRINT: &Lazy<Regex> = regex!(r"^print\s(\d+)(.*)");
-    static LOOP: &Lazy<Regex> = regex!(r"^loop\s(\d+)(.*)");
-    static IF: &Lazy<Regex> = regex!(r"^if\s(\d+)\s(==|!=|>|<|<=|>=)\s(\d+)(.*)");
-    static IFCELL: &Lazy<Regex> =
-      regex!(r"^if_cell\s(\d+)\s(==|!=|>|<|<=|>=)\s(\d+)(.*)");
-
-    match &self {
-      TokenKind::Header => HEADER,
-      TokenKind::Increment => INCREMENT,
-      TokenKind::Decrement => DECREMENT,
-      TokenKind::Move => MOVE,
-      TokenKind::Swap => SWAP,
-      TokenKind::Save => SAVE,
-      TokenKind::Read => READ,
-      TokenKind::Write => WRITE,
-      TokenKind::Print => PRINT,
-      TokenKind::Loop => LOOP,
-      TokenKind::If => IF,
-      TokenKind::IfCell => IFCELL,
+  pub fn parser(&self) -> TokenParser {
+    match self {
+      TokenKind::Increment => parser::INCREMENT,
+      TokenKind::Decrement => parser::DECREMENT,
+      TokenKind::Move => parser::MOVE,
+      TokenKind::Swap => parser::SWAP,
+      TokenKind::Save => parser::SAVE,
+      TokenKind::Read => parser::READ,
+      TokenKind::Write => parser::WRITE,
+      TokenKind::Print => parser::PRINT,
+      TokenKind::Loop => parser::LOOP,
+      TokenKind::If => parser::IF,
+      TokenKind::IfCell => parser::IF_CELL,
     }
+  }
+
+  pub fn iter() -> Iter<'static, Self> {
+    static TOKEN_KINDS: [TokenKind; 2] = [TokenKind::Increment, TokenKind::Decrement];
+    TOKEN_KINDS.iter()
+  }
+
+  /// Returns a token that his regex matches the given string.
+  /// Also returns the captures of the regex.
+  pub fn find_match(text: &str) -> Option<(&TokenKind, Captures)> {
+    let possible_tokens = TokenKind::iter();
+
+    for token in possible_tokens {
+      let regex = token.regex();
+      let captures = regex.captures(text);
+
+      // Regex did not match.
+      if captures.is_none() {
+        continue;
+      }
+
+      return Some((token, captures.unwrap()));
+    }
+
+    None
   }
 }
 
+// Thanks copilot for these tests:)
 #[cfg(test)]
 mod tests {
   use super::*;
 
   #[test]
-  fn all_returns_all_token_kinds() {
-    let all = TokenKind::all();
-    assert_eq!(all.len(), 12);
+  fn tests_detect_increment() {
+    let text = "inc 123 in 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
+
+    assert_eq!(token, &TokenKind::Increment);
+    assert_eq!(&captures[1], "123");
+    assert_eq!(&captures[2], "467");
   }
 
   #[test]
-  fn tests_header_regex() {
-    let regex = TokenKind::Header.regex();
+  fn tests_detect_decrement() {
+    let text = "dec 123 in 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("@hasdfader"));
-    assert!(regex.is_match("@hsafder=1"));
-    assert!(regex.is_match("@heasdfer=true"));
-    assert!(regex.is_match("@h234ader=1.0.0"));
-
-    assert!(!regex.is_match("@hasdfader="));
-    assert!(!regex.is_match("@heasdfder= asd"));
-    assert!(!regex.is_match("heaasdfer=asd"));
+    assert_eq!(token, &TokenKind::Decrement);
+    assert_eq!(&captures[1], "123");
+    assert_eq!(&captures[2], "467");
   }
 
   #[test]
-  fn tests_inc_regex() {
-    let regex = TokenKind::Increment.regex();
+  fn tests_detect_move() {
+    let text = "move 123 to 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("inc 1 in 1"));
-    assert!(regex.is_match("inc 1 in 1   asdfgsdfh random text :)      "));
-
-    assert!(!regex.is_match(" inc 1 in 1"));
-    assert!(!regex.is_match("inc a in 1"));
-    assert!(!regex.is_match(" inc a in 1"));
-    assert!(!regex.is_match("inc a in a"));
-    assert!(!regex.is_match(" inc a in a"));
-    assert!(!regex.is_match("inc 1 in1"));
+    assert_eq!(token, &TokenKind::Move);
+    assert_eq!(&captures[1], "123");
+    assert_eq!(&captures[2], "467");
   }
 
   #[test]
-  fn tests_dec_regex() {
-    let regex = TokenKind::Decrement.regex();
+  fn tests_detect_swap() {
+    let text = "swap 123 and 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("dec 1 in 1"));
-    assert!(regex.is_match("dec 1 in 1   asdfgsdfh random text :)      "));
-
-    assert!(!regex.is_match(" dec 1 in 1"));
-    assert!(!regex.is_match("dec a in 1"));
-    assert!(!regex.is_match(" dec a in 1"));
-    assert!(!regex.is_match("dec a in a"));
-    assert!(!regex.is_match(" dec a in a"));
-    assert!(!regex.is_match("dec 1 in1"));
+    assert_eq!(token, &TokenKind::Swap);
+    assert_eq!(&captures[1], "123");
+    assert_eq!(&captures[2], "467");
   }
 
   #[test]
-  fn tests_move_regex() {
-    let regex = TokenKind::Move.regex();
+  fn tests_detect_save() {
+    let text = "save 'a' at 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("move 1 to 1"));
-    assert!(regex.is_match("move 1 to 1   asdfgsdfh random text :)      "));
-
-    assert!(!regex.is_match(" move 1 to 1"));
-    assert!(!regex.is_match("move a to 1"));
-    assert!(!regex.is_match(" move a to 1"));
-    assert!(!regex.is_match("move a to a"));
-    assert!(!regex.is_match(" move a to a"));
-    assert!(!regex.is_match("move 1 to1"));
+    assert_eq!(token, &TokenKind::Save);
+    assert_eq!(&captures[1], "a");
+    assert_eq!(&captures[2], "467");
   }
 
   #[test]
-  fn tests_swap_regex() {
-    let regex = TokenKind::Swap.regex();
+  fn tests_detect_read() {
+    let text = "read 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("swap 1 and 1"));
-    assert!(regex.is_match("swap 1 and 1   asdfgsdfh random text :)      "));
-
-    assert!(!regex.is_match(" swap 1 and 1"));
-    assert!(!regex.is_match("swap a and 1"));
-    assert!(!regex.is_match(" swap a and 1"));
-    assert!(!regex.is_match("swap a and a"));
-    assert!(!regex.is_match(" swap a and a"));
-    assert!(!regex.is_match("swap 1 and1"));
+    assert_eq!(token, &TokenKind::Read);
+    assert_eq!(&captures[1], "467");
   }
 
   #[test]
-  fn tests_save_regex() {
-    let regex = TokenKind::Save.regex();
+  fn tests_detect_write() {
+    let text = "write 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("save 'a' at 9"));
-    assert!(regex.is_match("save 'a' at 1   asdfgsdfh random text :)      "));
-
-    assert!(!regex.is_match(" save 'a' at 1"));
-    assert!(!regex.is_match("save a at 1"));
-    assert!(!regex.is_match(" save a at 9"));
-    assert!(!regex.is_match("save a at a"));
-    assert!(!regex.is_match(" save a at a"));
-    assert!(!regex.is_match("save 1 at1"));
+    assert_eq!(token, &TokenKind::Write);
+    assert_eq!(&captures[1], "467");
   }
 
   #[test]
-  fn tests_read_regex() {
-    let regex = TokenKind::Read.regex();
+  fn tests_detect_print() {
+    let text = "print 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("read 1"));
-    assert!(regex.is_match("read 7   asdfgsdfh random text :)      "));
-
-    assert!(!regex.is_match(" read 1"));
-    assert!(!regex.is_match("read a"));
-    assert!(!regex.is_match(" read a"));
-    assert!(!regex.is_match("read 'a'"));
-    assert!(!regex.is_match(" read a"));
-    assert!(!regex.is_match("read 'a' at 1"));
+    assert_eq!(token, &TokenKind::Print);
+    assert_eq!(&captures[1], "467");
   }
 
   #[test]
-  fn tests_write_regex() {
-    let regex = TokenKind::Write.regex();
+  fn tests_detect_loop() {
+    let text = "loop 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("write 5"));
-    assert!(regex.is_match("write 1   asdfgsdfh random text :)      "));
-
-    assert!(!regex.is_match(" write 1"));
-    assert!(!regex.is_match("write a"));
-    assert!(!regex.is_match(" write a"));
-    assert!(!regex.is_match("write 'a'"));
-    assert!(!regex.is_match(" write a"));
-    assert!(!regex.is_match("write 'a' at 1"));
+    assert_eq!(token, &TokenKind::Loop);
+    assert_eq!(&captures[1], "467");
   }
 
   #[test]
-  fn tests_print_regex() {
-    let regex = TokenKind::Print.regex();
+  fn tests_detect_if() {
+    let text = "if 467 == 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("print 1"));
-    assert!(regex.is_match("print 3   asdfgsdfh random text :)      "));
-
-    assert!(!regex.is_match(" print 1"));
-    assert!(!regex.is_match("print a"));
-    assert!(!regex.is_match(" print a"));
-    assert!(!regex.is_match("print 'a'"));
-    assert!(!regex.is_match(" print a"));
-    assert!(!regex.is_match("print 'a' at 1"));
+    assert_eq!(token, &TokenKind::If);
+    assert_eq!(&captures[1], "467");
+    assert_eq!(&captures[2], "==");
+    assert_eq!(&captures[3], "467");
   }
 
   #[test]
-  fn tests_loop_regex() {
-    let regex = TokenKind::Loop.regex();
+  fn tests_detect_if_cell() {
+    let text = "if_cell 467 == 467";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
 
-    assert!(regex.is_match("loop 1"));
-    assert!(regex.is_match("loop 2  asdfgsdfh random text :)      "));
-
-    assert!(!regex.is_match(" loop"));
-    assert!(!regex.is_match("loop a"));
-    assert!(!regex.is_match(" loop a"));
-    assert!(!regex.is_match("loop 'a'"));
-    assert!(!regex.is_match(" loop a"));
-    assert!(!regex.is_match("loop 'a' at 1"));
-  }
-
-  #[test]
-  fn tests_if_regex() {
-    let regex = TokenKind::If.regex();
-
-    assert!(regex.is_match("if 1 == 2"));
-    assert!(regex.is_match("if 1 != 2"));
-    assert!(regex.is_match("if 1 <= 2"));
-    assert!(regex.is_match("if 1 >= 2"));
-    assert!(regex.is_match("if 1 < 2"));
-    assert!(regex.is_match("if 1 > 2"));
-
-    assert!(regex.is_match("if 1 == 2 dafhsdghsgfh"));
-    assert!(regex.is_match("if 1 != 2 sfghdfgh sdfg"));
-    assert!(regex.is_match("if 1 <= 2 dsfg sdfg"));
-    assert!(regex.is_match("if 1 >= 2 sdfg sdfg s"));
-    assert!(regex.is_match("if 1 < 2 sdf asdf"));
-    assert!(regex.is_match("if 1 > 2 asdf asdf"));
-
-    assert!(!regex.is_match(" if 1 == 2"));
-    assert!(!regex.is_match(" if 1 != 2"));
-    assert!(!regex.is_match(" if 1 <= 2"));
-    assert!(!regex.is_match(" if 1 >= 2"));
-    assert!(!regex.is_match(" if 1 < 2"));
-    assert!(!regex.is_match(" if 1 > 2"));
-
-    assert!(!regex.is_match("if 1== 2"));
-    assert!(!regex.is_match("if 1!= 2"));
-    assert!(!regex.is_match("if 1<= 2"));
-    assert!(!regex.is_match("if 1>= 2"));
-    assert!(!regex.is_match("if 1< 2"));
-    assert!(!regex.is_match("if 1> 2"));
-
-    assert!(!regex.is_match("if 1==2"));
-    assert!(!regex.is_match("if 1!=2"));
-    assert!(!regex.is_match("if 1<=2"));
-    assert!(!regex.is_match("if 1>=2"));
-    assert!(!regex.is_match("if 1<2"));
-    assert!(!regex.is_match("if 1>2"));
-
-    assert!(!regex.is_match("if 1 & 2"));
-    assert!(!regex.is_match("if 1 | 2"));
-    assert!(!regex.is_match("if 1 ^ 2"));
-    assert!(!regex.is_match("if 1 << 2"));
-    assert!(!regex.is_match("if 1 >> 2"));
-    assert!(!regex.is_match("if 1 >>> 2"));
-    assert!(!regex.is_match("if 1 + 2"));
-    assert!(!regex.is_match("if 1 - 2"));
-    assert!(!regex.is_match("if 1 * 2"));
-    assert!(!regex.is_match("if 1 / 2"));
-    assert!(!regex.is_match("if 1 % 2"));
-    assert!(!regex.is_match("if 1 ** 2"));
-    assert!(!regex.is_match("if 1 ++ 2"));
-    assert!(!regex.is_match("if 1 -- 2"));
-    assert!(!regex.is_match("if 1 += 2"));
-    assert!(!regex.is_match("if 1 -= 2"));
-  }
-
-  #[test]
-  fn tests_if_cell_regex() {
-    let regex = TokenKind::IfCell.regex();
-
-    assert!(regex.is_match("if_cell 1 == 2"));
-    assert!(regex.is_match("if_cell 1 != 2"));
-    assert!(regex.is_match("if_cell 1 <= 2"));
-    assert!(regex.is_match("if_cell 1 >= 2"));
-    assert!(regex.is_match("if_cell 1 < 2"));
-    assert!(regex.is_match("if_cell 1 > 2"));
-
-    assert!(regex.is_match("if_cell 1 == 2 dafhsdghsgfh"));
-    assert!(regex.is_match("if_cell 1 != 2 sfghdfgh sdfg"));
-    assert!(regex.is_match("if_cell 1 <= 2 dsfg sdfg"));
-    assert!(regex.is_match("if_cell 1 >= 2 sdfg sdfg s"));
-    assert!(regex.is_match("if_cell 1 < 2 sdf asdf"));
-    assert!(regex.is_match("if_cell 1 > 2 asdf asdf"));
-
-    assert!(!regex.is_match(" if_cell 1 == 2"));
-    assert!(!regex.is_match(" if_cell 1 != 2"));
-    assert!(!regex.is_match(" if_cell 1 <= 2"));
-    assert!(!regex.is_match(" if_cell 1 >= 2"));
-    assert!(!regex.is_match(" if_cell 1 < 2"));
-    assert!(!regex.is_match(" if_cell 1 > 2"));
-
-    assert!(!regex.is_match("if_cell 1== 2"));
-    assert!(!regex.is_match("if_cell 1!= 2"));
-    assert!(!regex.is_match("if_cell 1<= 2"));
-    assert!(!regex.is_match("if_cell 1>= 2"));
-    assert!(!regex.is_match("if_cell 1< 2"));
-    assert!(!regex.is_match("if_cell 1> 2"));
-
-    assert!(!regex.is_match("if_cell 1==2"));
-    assert!(!regex.is_match("if_cell 1!=2"));
-    assert!(!regex.is_match("if_cell 1<=2"));
-    assert!(!regex.is_match("if_cell 1>=2"));
-    assert!(!regex.is_match("if_cell 1<2"));
-    assert!(!regex.is_match("if_cell 1>2"));
-
-    assert!(!regex.is_match("if_cell 1 & 2"));
-    assert!(!regex.is_match("if_cell 1 | 2"));
-    assert!(!regex.is_match("if_cell 1 ^ 2"));
-    assert!(!regex.is_match("if_cell 1 << 2"));
-    assert!(!regex.is_match("if_cell 1 >> 2"));
-    assert!(!regex.is_match("if_cell 1 >>> 2"));
-    assert!(!regex.is_match("if_cell 1 + 2"));
-    assert!(!regex.is_match("if_cell 1 - 2"));
-    assert!(!regex.is_match("if_cell 1 * 2"));
-    assert!(!regex.is_match("if_cell 1 / 2"));
-    assert!(!regex.is_match("if_cell 1 % 2"));
-    assert!(!regex.is_match("if_cell 1 ** 2"));
-    assert!(!regex.is_match("if_cell 1 ++ 2"));
-    assert!(!regex.is_match("if_cell 1 -- 2"));
-    assert!(!regex.is_match("if_cell 1 += 2"));
-    assert!(!regex.is_match("if_cell 1 -= 2"));
+    assert_eq!(token, &TokenKind::IfCell);
+    assert_eq!(&captures[1], "467");
+    assert_eq!(&captures[2], "==");
+    assert_eq!(&captures[3], "467");
   }
 }
