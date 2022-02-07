@@ -1,3 +1,5 @@
+use crate::logger;
+
 /// Checks if the given line is empty or is a comment (starts with `#`).
 pub fn is_empty_line(line: &str) -> bool {
   line.starts_with('#') || line.chars().all(char::is_whitespace)
@@ -19,6 +21,12 @@ pub fn match_indentation(spaces: usize, line: &str) -> bool {
 
   // Ensures that indentation has ended.
   !chars.next().unwrap().is_whitespace()
+}
+
+pub fn log_extra_chars(line_index: &usize, str: &str) {
+  if !str.is_empty() {
+    logger::extra_characters(line_index, str);
+  }
 }
 
 #[cfg(test)]

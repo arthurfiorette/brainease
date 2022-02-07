@@ -1,7 +1,7 @@
 use lazy_regex::{Captures, Lazy, Regex};
 use std::slice::Iter;
 
-use super::{parser, regex, TokenParser};
+use super::{regex, token_parser, TokenParser};
 
 #[derive(PartialEq, Debug, Clone)]
 pub enum TokenKind {
@@ -37,17 +37,17 @@ impl TokenKind {
 
   pub fn parser(&self) -> TokenParser {
     match self {
-      TokenKind::Increment => parser::INCREMENT,
-      TokenKind::Decrement => parser::DECREMENT,
-      TokenKind::Move => parser::MOVE,
-      TokenKind::Swap => parser::SWAP,
-      TokenKind::Save => parser::SAVE,
-      TokenKind::Read => parser::READ,
-      TokenKind::Write => parser::WRITE,
-      TokenKind::Print => parser::PRINT,
-      TokenKind::Loop => parser::LOOP,
-      TokenKind::If => parser::IF,
-      TokenKind::IfCell => parser::IF_CELL,
+      TokenKind::Increment => token_parser::INCREMENT,
+      TokenKind::Decrement => token_parser::DECREMENT,
+      TokenKind::Move => token_parser::MOVE,
+      TokenKind::Swap => token_parser::SWAP,
+      TokenKind::Save => token_parser::SAVE,
+      TokenKind::Read => token_parser::READ,
+      TokenKind::Write => token_parser::WRITE,
+      TokenKind::Print => token_parser::PRINT,
+      TokenKind::Loop => token_parser::LOOP,
+      TokenKind::If => token_parser::IF,
+      TokenKind::IfCell => token_parser::IF_CELL,
     }
   }
 
