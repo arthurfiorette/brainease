@@ -1,4 +1,4 @@
-name: Cli CI
+name: Cargo workspace CI
 
 on:
   push:

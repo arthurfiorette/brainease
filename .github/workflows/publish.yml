@@ -1,4 +1,4 @@
-name: Runtime CI
+name: Publish to crates.io
 
 on:
   release:
