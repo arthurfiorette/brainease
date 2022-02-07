@@ -3,7 +3,7 @@ members = ["brainease_lexer", "brainease_runtime"]
 
 [package]
 name = "brainease"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 description = "A brainf*ck-style programming language, but readable"
 documentation = "https://arthurfiorette.github.io/brainease"
@@ -13,8 +13,8 @@ license = "MIT"
 readme = "./README.md"
 
 [dependencies]
-brainease_runtime = { path = "brainease_runtime", version = "1.0.0" }
-brainease_lexer = { path = "brainease_lexer", version = "1.0.0" }
+brainease_runtime = { path = "brainease_runtime", version = "1.0.1" }
+brainease_lexer = { path = "brainease_lexer", version = "1.0.1" }
 
 clap = { version = "^3.0", features = ["derive"] }
 env_logger = "^0.9"
