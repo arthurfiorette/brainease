@@ -3,7 +3,8 @@ use brainease_runtime::runtime::Runtime;
 use clap::Parser;
 use std::{
   fs,
-  io::{stdout, Write}, process,
+  io::{stdout, Write},
+  process,
 };
 
 use crate::util::{fallback_rust_log, normalize_path};
