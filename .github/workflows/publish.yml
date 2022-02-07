@@ -1,7 +1,8 @@
 name: Runtime CI
 
 on:
-  publish:
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
