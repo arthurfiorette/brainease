@@ -14,6 +14,10 @@ dependencies = [
 [[package]]
 name = "brainease"
 version = "0.1.0"
+dependencies = [
+ "brainease-lexer",
+ "brainease-runtime",
+]
 
 [[package]]
 name = "brainease-lexer"
@@ -26,6 +30,9 @@ dependencies = [
 [[package]]
 name = "brainease-runtime"
 version = "0.1.0"
+dependencies = [
+ "brainease-lexer",
+]
 
 [[package]]
 name = "cfg-if"
