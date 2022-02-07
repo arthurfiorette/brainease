@@ -3,15 +3,6 @@ name = "brainease_runtime"
 version = "1.0.0"
 edition = "2021"
 description = "A brainf*ck-style programming language, but readable"
-categories = [
-  "language",
-  "rust",
-  "programming",
-  "language",
-  "brain",
-  "ease",
-  "brainfuck",
-]
 documentation = "https://arthurfiorette.github.io/brainease"
 homepage = "https://github.com/arthurfiorette/brainease"
 repository = "https://github.com/arthurfiorette/brainease"
@@ -19,5 +10,5 @@ license = "MIT"
 readme = "./README.md"
 
 [dependencies]
-brainease_lexer = { path = "../brainease_lexer", version = "1.0.0"}
+brainease_lexer = { path = "../brainease_lexer", version = "1.0.0" }
 log = "^0.4"

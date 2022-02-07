@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  lints:
-    name: Lints
+  test:
+    name: Test, Lint and Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,9 +40,13 @@ jobs:
         run: cargo check
 
   publish:
-    needs: [check, test, lints]
+    needs: [test]
     name: Publish monorepo
     runs-on: ubuntu-latest
+
+    env:
+      CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -52,8 +56,14 @@ jobs:
 
       - name: Login to crates.io
         run: cargo login
-        env:
-          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
 
-      - name: Publish to crates.io
-        run: cargo publish --all --dry-run
+      - name: Publish lexer to crates.io
+        run: cargo publish
+        working-directory: ./brainease_lexer
+
+      - name: Publish runtime to crates.io
+        run: cargo publish
+        working-directory: ./brainease_runtime
+
+      - name: Publish cli to crates.io
+        run: cargo publish
