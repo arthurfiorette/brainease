@@ -1,6 +1,7 @@
 [![Issues](https://img.shields.io/github/issues/arthurfiorette/brainease?logo=github&label=Issues)](https://github.com/arthurfiorette/brainease/issues)
 [![Stars](https://img.shields.io/github/stars/arthurfiorette/brainease?logo=github&label=Stars)](https://github.com/arthurfiorette/brainease/stargazers)
-[![License](https://img.shields.io/github/license/arthurfiorette/brainease?logo=githu&label=License)](https://github.com/arthurfiorette/brainease/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/arthurfiorette/brainease?label=License)](https://github.com/arthurfiorette/brainease/blob/main/LICENSE)
+[![Version](https://img.shields.io/crates/v/brainease?logo=rust&label=Version)](https://crates.io/crates/brainease)
 
 <br />
 
@@ -20,8 +21,14 @@ Brainease</h1>
 
 <br />
 
+```sh
+$ cargo install brainease
+```
+
+<br />
+
 ```r
-# bzc -f examples/hello.bz
+# brainease -f examples/hello.bz
 
 save 'H' at 1
 save 'e' at 2
