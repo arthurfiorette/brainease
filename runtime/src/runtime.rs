@@ -21,8 +21,8 @@ impl Runtime {
     }
   }
 
-  /// Runs his instructions and return the elapsed time.
-  pub fn run(&mut self) -> u128 {
+  /// Runs his instructions and return the elapsed time in seconds.
+  pub fn run(&mut self) -> f64 {
     let instructions = self.instructions.iter().enumerate();
 
     let now = Instant::now();
@@ -33,7 +33,7 @@ impl Runtime {
       execute(instruction, runtime);
     }
 
-    now.elapsed().as_millis()
+    now.elapsed().as_secs_f64()
   }
 
   pub fn get_memory(&self) -> Vec<CellValue> {

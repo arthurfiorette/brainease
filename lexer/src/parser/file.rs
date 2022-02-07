@@ -1,8 +1,9 @@
 use super::parse_instruction;
 use crate::syntax::Instruction;
 
-pub fn parse_file(file: &[&str]) -> Vec<Instruction> {
-  parse_partial_file(file, 0, 0).1
+pub fn parse_file(file: &str) -> Vec<Instruction> {
+  let lines: Vec<&str> = file.lines().collect();
+  parse_partial_file(&lines, 0, 0).1
 }
 
 /// Parses a file from a specified starting point. Returns the next line to parse and the

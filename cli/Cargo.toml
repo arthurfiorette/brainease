@@ -2,9 +2,26 @@
 name = "brainease"
 version = "0.1.0"
 edition = "2021"
+description = "A brainf*ck-style programming language, but readable"
+categories = [
+  "language",
+  "rust",
+  "programming",
+  "language",
+  "brain",
+  "ease",
+  "brainfuck",
+]
+documentation = "https://arthurfiorette.github.io/brainease/"
+repository = "https://github.com/arthurfiorette/brainease"
+license = "MIT"
+readme = "../README.md"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 brainease-runtime = { path = "../runtime" }
 brainease-lexer = { path = "../lexer" }
+
+clap = { version = "^3.0", features = ["derive"] }
+env_logger = "^0.9"
+log = "^0.4"
