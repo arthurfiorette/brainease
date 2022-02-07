@@ -58,12 +58,10 @@ jobs:
         run: cargo login
 
       - name: Publish lexer to crates.io
-        run: cargo publish
-        working-directory: ./brainease_lexer
+        run: cargo publish --package brainease_lexer
 
       - name: Publish runtime to crates.io
-        run: cargo publish
-        working-directory: ./brainease_runtime
+        run: cargo publish --package brainease_runtime
 
       - name: Publish cli to crates.io
         run: cargo publish

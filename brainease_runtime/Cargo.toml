@@ -10,5 +10,5 @@ license = "MIT"
 readme = "./README.md"
 
 [dependencies]
-brainease_lexer = { path = "../brainease_lexer", version = "1.0.1" }
+brainease_lexer = { path = "../brainease_lexer", version = "^1" }
 log = "^0.4"

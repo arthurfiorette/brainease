@@ -13,8 +13,8 @@ license = "MIT"
 readme = "./README.md"
 
 [dependencies]
-brainease_runtime = { path = "brainease_runtime", version = "1.0.1" }
-brainease_lexer = { path = "brainease_lexer", version = "1.0.1" }
+brainease_runtime = { path = "brainease_runtime", version = "^1" }
+brainease_lexer = { path = "brainease_lexer", version = "^1" }
 
 clap = { version = "^3.0", features = ["derive"] }
 env_logger = "^0.9"
