@@ -3,12 +3,9 @@ name: Cli CI
 on:
   push:
     paths:
-      - 'cli/**'
+      - '**/*.rs'
+      - '**/*.toml'
   workflow_dispatch:
-
-defaults:
-  run:
-    working-directory: ./cli
 
 jobs:
   lints:

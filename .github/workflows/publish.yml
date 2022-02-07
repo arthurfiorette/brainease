@@ -1,14 +1,8 @@
 name: Runtime CI
 
 on:
-  push:
-    paths:
-      - 'runtime/**'
+  publish:
   workflow_dispatch:
-
-defaults:
-  run:
-    working-directory: ./runtime
 
 jobs:
   lints:
@@ -82,3 +76,22 @@ jobs:
 
       - name: Run check
         run: cargo check
+
+  publish:
+    needs: [check, test, lints]
+    name: Publish monorepo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Login to crates.io
+        run: cargo login
+        env:
+          CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
+
+      - name: Publish to crates.io
+        run: cargo publish --all --dry-run
