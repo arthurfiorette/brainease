@@ -1,16 +1,6 @@
 # Syntax
 
-## Instructions
-
-The syntax of this language is very simple. For each line, you have one instruction.
-
-```r
-instruction_1
-
-instruction_2
-
-# Comments starts with '#'
-```
+Brainease has a syntax based on batch files, as you can see, they all have only one instruction per line. Indentation is also pretty simple, just **two** spaces.
 
 ## Learn by example
 
@@ -27,6 +17,7 @@ You can learn the whole language syntax by looking at this example. Focus on the
 inc 123 in 2
 
 # Instruction that has inner codeblocks
+# Every indentation is made by 2 spaces, no more, no less.
 if 2 >= 120
 
   dec 120 in 2
@@ -40,6 +31,6 @@ if 2 >= 120
     dec 130 in 2
 
 
-# Instruction out of the if_cell above
+# Instruction out of the if_cell codeblock above
 print 2
 ```

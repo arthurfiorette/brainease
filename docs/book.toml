@@ -1,6 +1,13 @@
 [book]
+title = "Brainease"
 authors = ["arthurfiorette"]
+description = "A brainf*ck-style programming language, but readable"
+
 language = "en"
 multilingual = false
+
 src = "src"
-title = "Brainease"
+
+[output.html]
+git-repository-url = "https://github.com/arthurfiorette/brainease"
+edit-url-template = "https://github.com/arthurfiorette/brainease/edit/main/docs/{path}"

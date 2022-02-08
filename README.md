@@ -64,7 +64,7 @@ print 8
 
 ## License
 
-Licensed under the **GPLv3**. See [`LICENSE`](LICENSE) for more informations.
+The brainease compiler source and his documentation are released under **GPLv3**. See [`LICENSE`](LICENSE) for more informations.
 
 <br />
 

@@ -1,6 +1,18 @@
 # Instructions
 
-In this sections, we will cover all present instructions in this language.
+In this sections, we will cover all present instructions in this language:
+
+- `increment`
+- `decrement`
+- `move`
+- `swap`
+- `save`
+- `read`
+- `write`
+- `print`
+- `loop`
+- `if`
+- `if_cell`
 
 ## Common comments
 
