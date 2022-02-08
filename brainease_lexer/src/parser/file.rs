@@ -22,7 +22,8 @@ pub fn parse_partial_file(
 
     // Indentation is over, we're done.
     if result.new_indentation < starting_indentation {
-      break;
+      line_index += 1;
+      continue;
     }
 
     if let Some(instruction) = result.instruction {
