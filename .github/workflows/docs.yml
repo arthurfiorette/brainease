@@ -1,11 +1,11 @@
-name: Cargo workspace CI
+name: Deploy docs
 
 on:
   push:
     paths:
       - 'docs/**'
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
