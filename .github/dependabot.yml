@@ -1,0 +1,17 @@
+version: 2
+
+updates:
+  - package-ecosystem: cargo
+    directory: '/'
+    schedule:
+      interval: 'daily'
+
+  - package-ecosystem: cargo
+    directory: '/brainease_lexer'
+    schedule:
+      interval: 'daily'
+
+  - package-ecosystem: cargo
+    directory: '/brainease_runtime'
+    schedule:
+      interval: 'daily'

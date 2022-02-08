@@ -3,10 +3,9 @@ title = "Brainease"
 authors = ["arthurfiorette"]
 description = "A brainf*ck-style programming language, but readable"
 
+src = "src"
 language = "en"
 multilingual = false
-
-src = "src"
 
 [output.html]
 site-url = "/brainease/"
