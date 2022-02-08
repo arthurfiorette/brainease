@@ -1,18 +1,15 @@
-use std::io::{stdin, stdout, Read, Write};
+use brainease_lexer::syntax::Instruction;
 
 use crate::runtime::Runtime;
-use brainease_lexer::syntax::Instruction;
 
 pub fn execute(instruction: &Instruction, runtime: &mut Runtime) {
   match instruction {
     Instruction::Increment { cell, value } => {
-      let cell_value = runtime.memory[*cell];
-      runtime.memory[*cell] = cell_value.wrapping_add(*value);
+      runtime.memory[*cell] = runtime.memory[*cell].wrapping_add(*value);
     }
 
     Instruction::Decrement { cell, value } => {
-      let cell_value = runtime.memory[*cell];
-      runtime.memory[*cell] = cell_value.wrapping_sub(*value);
+      runtime.memory[*cell] = runtime.memory[*cell].wrapping_sub(*value);
     }
 
     Instruction::Move { current, next } => {
@@ -29,23 +26,17 @@ pub fn execute(instruction: &Instruction, runtime: &mut Runtime) {
     }
 
     Instruction::Read(cell) => {
-      let mut input = [0u8];
-
-      stdin()
-        .read_exact(&mut input)
-        .expect("failed to read stdin");
-
-      runtime.memory[*cell] = input[0];
+      runtime.memory[*cell] = runtime.io_handler.read_input();
     }
 
     Instruction::Write(cell) => {
-      print!("{}", runtime.memory[*cell]);
+      runtime
+        .io_handler
+        .write_output(runtime.memory[*cell].to_ne_bytes()[0]);
     }
 
     Instruction::Print(cell) => {
-      stdout()
-        .write_all(&[runtime.memory[*cell]])
-        .expect("failed to write to stdout");
+      runtime.io_handler.write_output(runtime.memory[*cell]);
     }
 
     Instruction::Loop { cell, inner } => {
