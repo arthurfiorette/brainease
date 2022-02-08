@@ -1,0 +1,45 @@
+name: Cargo workspace CI
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Lints
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Cache cargo files
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            ./target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install mdbook
+        run: cargo install mdbook
+
+      - name: Build docs
+        run: mdbook build docs
+
+      - name: Deploy docs
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: ./docs/book/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
