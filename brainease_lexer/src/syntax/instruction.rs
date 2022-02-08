@@ -115,27 +115,9 @@ pub enum Instruction {
   /// ```
   If {
     cell: CellPosition,
-    value: CellValue,
-    logic: IfLogic,
-    inner: Vec<Instruction>,
-  },
-
-  /// Executes the inner instructions if the specified cell matches
-  /// the logic with the other given cell
-  ///
-  /// ```r
-  /// # Adds 10 to cell 1
-  /// inc 10 in 1
-  /// inc 5 in 2
-  ///
-  /// # Prints the value of cell 1 if its value is lower than cell 2
-  /// if 1 < 2
-  ///   write 1
-  ///
-  /// ```
-  IfCell {
-    a: CellPosition,
-    b: CellPosition,
+    cell_or_value: CellPosition,
+    /// If the cellOrValue points to a cell instead of a value
+    is_cell: bool,
     logic: IfLogic,
     inner: Vec<Instruction>,
   },

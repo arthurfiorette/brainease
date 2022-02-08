@@ -15,7 +15,6 @@ pub enum TokenKind {
   Print,
   Loop,
   If,
-  IfCell,
 }
 
 impl TokenKind {
@@ -31,7 +30,6 @@ impl TokenKind {
       TokenKind::Print => regex::PRINT,
       TokenKind::Loop => regex::LOOP,
       TokenKind::If => regex::IF,
-      TokenKind::IfCell => regex::IF_CELL,
     }
   }
 
@@ -47,12 +45,11 @@ impl TokenKind {
       TokenKind::Print => token_parser::PRINT,
       TokenKind::Loop => token_parser::LOOP,
       TokenKind::If => token_parser::IF,
-      TokenKind::IfCell => token_parser::IF_CELL,
     }
   }
 
   pub fn iter() -> Iter<'static, Self> {
-    static TOKEN_KINDS: [TokenKind; 11] = [
+    static TOKEN_KINDS: [TokenKind; 10] = [
       TokenKind::Increment,
       TokenKind::Decrement,
       TokenKind::Move,
@@ -63,7 +60,6 @@ impl TokenKind {
       TokenKind::Print,
       TokenKind::Loop,
       TokenKind::If,
-      TokenKind::IfCell,
     ];
 
     TOKEN_KINDS.iter()
@@ -94,6 +90,11 @@ impl TokenKind {
 #[cfg(test)]
 mod tests {
   use super::*;
+
+  #[test]
+  fn all_returns_all_token_kinds() {
+    assert_eq!(TokenKind::iter().len(), 10);
+  }
 
   #[test]
   fn tests_detect_increment() {
@@ -187,17 +188,6 @@ mod tests {
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::If);
-    assert_eq!(&captures[1], "467");
-    assert_eq!(&captures[2], "==");
-    assert_eq!(&captures[3], "467");
-  }
-
-  #[test]
-  fn tests_detect_if_cell() {
-    let text = "if_cell *467 == *467";
-    let (token, captures) = TokenKind::find_match(text).unwrap();
-
-    assert_eq!(token, &TokenKind::IfCell);
     assert_eq!(&captures[1], "467");
     assert_eq!(&captures[2], "==");
     assert_eq!(&captures[3], "467");

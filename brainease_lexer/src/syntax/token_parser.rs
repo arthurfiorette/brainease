@@ -135,10 +135,5 @@ pub static LOOP: TokenParser = |file, captures, line_index, indentation| {
 
 // A token parser for the If instruction regex result.
 pub static IF: TokenParser = |file, captures, line_index, indentation| {
-  IfLogic::parse(file, captures, line_index, indentation, false)
-};
-
-// A token parser for the IfCell instruction regex result.
-pub static IF_CELL: TokenParser = |file, captures, line_index, indentation| {
-  IfLogic::parse(file, captures, line_index, indentation, true)
+  IfLogic::parse(file, captures, line_index, indentation)
 };

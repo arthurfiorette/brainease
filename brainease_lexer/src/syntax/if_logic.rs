@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 use lazy_regex::Captures;
 
-use crate::{logger, parser::parse_partial_file};
+use crate::{parser::parse_partial_file, util};
 
 use super::{CellValue, Instruction};
 
@@ -36,39 +36,26 @@ impl IfLogic {
     captures: Captures,
     line_index: usize,
     indentation: usize,
-    is_if_cell: bool,
   ) -> (usize, Option<Instruction>) {
     let first_cell = captures[1].parse().unwrap();
     let logic = IfLogic::from_str(&captures[2]).unwrap();
-    let value_or_cell = captures[3].parse().unwrap();
 
-    logger::extra_characters(&line_index, &captures[4]);
+    let is_if_cell = file[line_index].matches('*').count() == 2;
+    let value_or_cell = captures[if is_if_cell { 4 } else { 3 }].parse().unwrap();
+
+    util::log_extra_chars(&line_index, &captures[5]);
 
     let (next_line, inner) = parse_partial_file(file, line_index + 1, indentation + 2);
 
-    if is_if_cell {
-      return (
-        next_line,
-        Some(Instruction::IfCell {
-          a: first_cell,
-          b: value_or_cell,
-          logic,
-          inner,
-        }),
-      );
-    }
-
-    if value_or_cell > u8::MAX as usize {
-      logger::value_too_big(&line_index, &value_or_cell, u8::MAX as usize);
-    }
 
     (
       next_line,
       Some(Instruction::If {
         cell: first_cell,
-        inner,
         logic,
-        value: value_or_cell as u8,
+        is_cell: is_if_cell,
+        cell_or_value: value_or_cell,
+        inner,
       }),
     )
   }

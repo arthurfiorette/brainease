@@ -58,19 +58,18 @@ pub fn execute(instruction: &Instruction, runtime: &mut Runtime) {
 
     Instruction::If {
       cell,
-      value,
+      cell_or_value: value,
       logic,
       inner,
+      is_cell,
     } => {
-      if logic.matches(runtime.memory[*cell], *value) {
-        for instruction in inner {
-          execute(instruction, runtime);
-        }
-      }
-    }
+      let other = if *is_cell {
+        runtime.memory[*value]
+      } else {
+        *value as u8
+      };
 
-    Instruction::IfCell { a, b, logic, inner } => {
-      if logic.matches(runtime.memory[*a], runtime.memory[*b]) {
+      if logic.matches(runtime.memory[*cell], other) {
         for instruction in inner {
           execute(instruction, runtime);
         }
