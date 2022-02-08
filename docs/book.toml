@@ -9,5 +9,6 @@ multilingual = false
 src = "src"
 
 [output.html]
+site-url = "/brainease/"
 git-repository-url = "https://github.com/arthurfiorette/brainease"
 edit-url-template = "https://github.com/arthurfiorette/brainease/edit/main/docs/{path}"
