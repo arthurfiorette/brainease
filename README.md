@@ -30,26 +30,26 @@ $ cargo install brainease
 ```r
 # brainease -f examples/hello.bz
 
-save 'H' at 1
-save 'e' at 2
-save 'l' at 3
-save 'o' at 4
-save ' ' at 5
-save 'W' at 6
-save 'r' at 7
-save 'd' at 8
+save 'H' at *1
+save 'e' at *2
+save 'l' at *3
+save 'o' at *4
+save ' ' at *5
+save 'W' at *6
+save 'r' at *7
+save 'd' at *8
 
-print 1
-print 2
-print 3
-print 3
-print 4
-print 5
-print 6
-print 4
-print 7
-print 3
-print 8
+print *1
+print *2
+print *3
+print *3
+print *4
+print *5
+print *6
+print *4
+print *7
+print *3
+print *8
 
 #> Hello World
 ```

@@ -97,7 +97,7 @@ mod tests {
 
   #[test]
   fn tests_detect_increment() {
-    let text = "inc 123 in 467";
+    let text = "inc 123 in *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::Increment);
@@ -107,7 +107,7 @@ mod tests {
 
   #[test]
   fn tests_detect_decrement() {
-    let text = "dec 123 in 467";
+    let text = "dec 123 in *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::Decrement);
@@ -117,7 +117,7 @@ mod tests {
 
   #[test]
   fn tests_detect_move() {
-    let text = "move 123 to 467";
+    let text = "move *123 to *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::Move);
@@ -127,7 +127,7 @@ mod tests {
 
   #[test]
   fn tests_detect_swap() {
-    let text = "swap 123 and 467";
+    let text = "swap *123 and *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::Swap);
@@ -137,7 +137,7 @@ mod tests {
 
   #[test]
   fn tests_detect_save() {
-    let text = "save 'a' at 467";
+    let text = "save 'a' at *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::Save);
@@ -147,7 +147,7 @@ mod tests {
 
   #[test]
   fn tests_detect_read() {
-    let text = "read 467";
+    let text = "read *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::Read);
@@ -156,7 +156,7 @@ mod tests {
 
   #[test]
   fn tests_detect_write() {
-    let text = "write 467";
+    let text = "write *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::Write);
@@ -165,7 +165,7 @@ mod tests {
 
   #[test]
   fn tests_detect_print() {
-    let text = "print 467";
+    let text = "print *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::Print);
@@ -174,7 +174,7 @@ mod tests {
 
   #[test]
   fn tests_detect_loop() {
-    let text = "loop 467";
+    let text = "loop *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::Loop);
@@ -183,7 +183,7 @@ mod tests {
 
   #[test]
   fn tests_detect_if() {
-    let text = "if 467 == 467";
+    let text = "if *467 == 467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::If);
@@ -194,7 +194,7 @@ mod tests {
 
   #[test]
   fn tests_detect_if_cell() {
-    let text = "if_cell 467 == 467";
+    let text = "if_cell *467 == *467";
     let (token, captures) = TokenKind::find_match(text).unwrap();
 
     assert_eq!(token, &TokenKind::IfCell);
