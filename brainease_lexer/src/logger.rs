@@ -3,7 +3,11 @@ pub fn unknown_line(line_index: &usize, line: &str) {
 }
 
 pub fn extra_characters(line_index: &usize, extra: &str) {
-  log::warn!("Extra characters at line {}, \"{}\".", line_index + 1, extra);
+  log::warn!(
+    "Extra characters at line {}, \"{}\".",
+    line_index + 1,
+    extra
+  );
 }
 
 pub fn value_too_big(line_index: &usize, val: &usize, max: usize) {

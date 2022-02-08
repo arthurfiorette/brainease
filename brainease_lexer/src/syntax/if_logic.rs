@@ -47,7 +47,6 @@ impl IfLogic {
 
     let (next_line, inner) = parse_partial_file(file, line_index + 1, indentation + 2);
 
-
     (
       next_line,
       Some(Instruction::If {
