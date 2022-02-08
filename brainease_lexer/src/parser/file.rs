@@ -16,13 +16,15 @@ pub fn parse_partial_file(
   let mut instructions = Vec::new();
 
   let mut line_index = starting_line;
+  let mut indentation = starting_indentation;
 
   while line_index < file.len() {
-    let result = parse_instruction(file, starting_indentation, line_index);
+    let result = parse_instruction(file, indentation, line_index);
 
     // Indentation is over, we're done.
     if result.new_indentation < starting_indentation {
-      line_index += 1;
+      line_index = result.next_line;
+      indentation = result.new_indentation;
       continue;
     }
 

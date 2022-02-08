@@ -1,3 +1,5 @@
+use std::process;
+
 use super::LineResult;
 use crate::{
   logger,
@@ -20,12 +22,19 @@ pub fn parse_instruction(
     };
   }
 
-  // Ended indentation block, just return what we got.
+  // Indentation was over, try again with one indentation less.
   if !match_indentation(indentation, line) {
+    // This should never, REALLY, happen.
+    // But time may go backwards.
+    if indentation < 2 {
+      logger::unknown_indentation(&line_index, &indentation);
+      process::exit(1);
+    }
+
     return LineResult {
-      new_indentation: if indentation > 0 { indentation - 2 } else { 0 },
+      new_indentation: indentation - 2,
       instruction: None,
-      next_line: line_index + 1,
+      next_line: line_index,
     };
   }
 
