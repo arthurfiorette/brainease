@@ -1,5 +1,5 @@
 use brainease_lexer::parser;
-use brainease_runtime::runtime::Runtime;
+use brainease_runtime::{io_handler::DefaultIoHandler, runtime::Runtime};
 use clap::Parser;
 use std::{
   fs,
@@ -30,11 +30,11 @@ fn main() {
   let main_file = main_file.unwrap();
   let instructions = parser::parse_file(&main_file);
 
-  let mut runtime = Runtime::new(instructions, args.memory);
+  log::trace!("Parsed instructions: {:#?}", instructions);
 
-  log::trace!("Runtime initialized");
-  log::trace!("{:#?}", args);
-  log::trace!("Starting runtime for {}", filename);
+  let mut runtime = Runtime::<DefaultIoHandler>::new(instructions, args.memory);
+
+  log::debug!("Starting runtime for {}", filename);
 
   // A little space between stdout
   let elapsed_time = runtime.run();

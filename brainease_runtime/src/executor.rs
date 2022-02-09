@@ -1,8 +1,11 @@
 use brainease_lexer::syntax::Instruction;
 
-use crate::runtime::Runtime;
+use crate::{io_handler::IoHandler, runtime::Runtime};
 
-pub fn execute(instruction: &Instruction, runtime: &mut Runtime) {
+pub fn execute<I: Clone + IoHandler>(
+  instruction: &Instruction,
+  runtime: &mut Runtime<I>,
+) {
   match instruction {
     Instruction::Increment { cell, value } => {
       runtime.memory[*cell] = runtime.memory[*cell].wrapping_add(*value);
