@@ -9,12 +9,7 @@
       "request": "launch",
       "name": "Debug unit tests in library 'brainease_lexer'",
       "cargo": {
-        "args": [
-          "test",
-          "--no-run",
-          "--lib",
-          "--package=brainease_lexer"
-        ],
+        "args": ["test", "--no-run", "--lib", "--package=brainease_lexer"],
         "filter": {
           "name": "brainease_lexer",
           "kind": "lib"
@@ -28,12 +23,7 @@
       "request": "launch",
       "name": "Debug unit tests in library 'brainease_runtime'",
       "cargo": {
-        "args": [
-          "test",
-          "--no-run",
-          "--lib",
-          "--package=brainease_runtime"
-        ],
+        "args": ["test", "--no-run", "--lib", "--package=brainease_runtime"],
         "filter": {
           "name": "brainease_runtime",
           "kind": "lib"
@@ -47,11 +37,7 @@
       "request": "launch",
       "name": "Debug executable 'brainease'",
       "cargo": {
-        "args": [
-          "build",
-          "--bin=brainease",
-          "--package=brainease"
-        ],
+        "args": ["build", "--bin=brainease", "--package=brainease"],
         "filter": {
           "name": "brainease",
           "kind": "bin"
@@ -69,14 +55,14 @@
           "test",
           "--no-run",
           "--bin=brainease",
-          "--package=brainease"
+          "--package=brainease",
+          "--test=integration_tests"
         ],
         "filter": {
-          "name": "brainease",
-          "kind": "bin"
+          "name": "integration_tests",
+          "kind": "test"
         }
       },
-      "args": [],
       "cwd": "${workspaceFolder}"
     }
   ]

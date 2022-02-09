@@ -22,20 +22,16 @@ pub fn parse_instruction(
     };
   }
 
-  // Indentation was over, try again with one indentation less.
   if !match_indentation(indentation, line) {
-    // This should never, REALLY, happen.
-    // But time may go backwards.
+    // This should never, REALLY, happen. But time may go backwards.
     if indentation < 2 {
       logger::unknown_indentation(&line_index, &indentation);
       process::exit(1);
     }
 
-    return LineResult {
-      new_indentation: indentation - 2,
-      instruction: None,
-      next_line: line_index,
-    };
+    // Indentation has ended.
+    // Parse, again, with one indentation less.
+    return parse_instruction(file, indentation - 2, line_index);
   }
 
   // Clears indentation
