@@ -9,18 +9,16 @@ pub fn is_empty_line(line: &str) -> bool {
 pub fn match_indentation(spaces: usize, line: &str) -> bool {
   let mut chars = line.chars();
 
-  if spaces >= line.len() {
-    return chars.all(char::is_whitespace);
-  }
-
   for _ in 0..spaces {
-    if !chars.next().unwrap().is_whitespace() {
+    let char = chars.next();
+    if char.is_none() || !char.unwrap().is_whitespace() {
       return false;
     }
   }
 
   // Ensures that indentation has ended.
-  !chars.next().unwrap().is_whitespace()
+  let char = chars.next();
+  char.is_none() || !char.unwrap().is_whitespace()
 }
 
 pub fn log_extra_chars(line_index: &usize, str: &str) {
@@ -47,26 +45,49 @@ mod tests {
   }
 
   #[test]
-  fn tests_match_indentation() {
-    assert!(match_indentation(0, ""));
-    assert!(match_indentation(0, "a"));
-    assert!(match_indentation(1, " "));
-    assert!(match_indentation(1, " a"));
-    assert!(match_indentation(2, "  "));
-    assert!(match_indentation(2, "  a"));
+  fn indentation_with_empty_lines() {
+    for i in 1..10 {
+      assert!(!match_indentation(i, ""));
+    }
+  }
 
-    // tabs
-    assert!(match_indentation(2, "  a"));
-    assert!(match_indentation(4, "    a"));
-    assert!(match_indentation(6, "      a"));
+  #[test]
+  fn exact_indentation() {
+    for i in 0..50 {
+      assert!(match_indentation(
+        i,
+        &format!("{}{}", " ".repeat(i), "exact")
+      ));
+    }
+  }
 
-    // Exact indentation
-    assert!(!match_indentation(0, "      asd asd asd"));
-    assert!(!match_indentation(1, "      asd asd asd"));
-    assert!(!match_indentation(2, "      asd asd asd"));
-    assert!(!match_indentation(3, "      asd asd asd"));
-    assert!(!match_indentation(4, "      asd asd asd"));
-    assert!(!match_indentation(5, "      asd asd asd"));
-    assert!(match_indentation(6, "      asd asd asd"));
+  #[test]
+  fn indentation_more() {
+    for i in 0..50 {
+      assert!(!match_indentation(
+        i,
+        &format!("{}{}", " ".repeat(i), " one space more")
+      ));
+    }
+  }
+
+  #[test]
+  fn indentation_less() {
+    for i in 1..50 {
+      assert!(!match_indentation(
+        i,
+        &format!("{}{}", " ".repeat(i - 1), "one space less")
+      ));
+    }
+  }
+
+  #[test]
+  fn oversized_indentation() {
+    for i in 2..50 {
+      assert!(!match_indentation(
+        2,
+        &format!("{}{}", " ".repeat(i + 1), "end")
+      ));
+    }
   }
 }
