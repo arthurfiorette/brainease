@@ -2,7 +2,7 @@ use crate::logger;
 
 /// Checks if the given line is empty or is a comment (starts with `#`).
 pub fn is_empty_line(line: &str) -> bool {
-  line.starts_with('#') || line.chars().all(char::is_whitespace)
+  line.trim_start().starts_with('#') || line.chars().all(char::is_whitespace)
 }
 
 /// Returns true if the given line has the exact given number of spaces.
@@ -32,16 +32,45 @@ mod tests {
   use super::*;
 
   #[test]
-  fn tests_empty_line() {
-    assert!(is_empty_line(""));
-    assert!(is_empty_line("        "));
-    assert!(is_empty_line("# comment"));
-    assert!(is_empty_line("         　       　    "));
+  fn test_empty_line_comment() {
+    for i in 1..50 {
+      assert!(is_empty_line(&format!("{}# comment", " ".repeat(i))));
+    }
+  }
 
-    assert!(!is_empty_line("a        "));
-    assert!(!is_empty_line("           a"));
-    assert!(!is_empty_line("   aasd a"));
-    assert!(!is_empty_line("   　  a"));
+  #[test]
+  fn test_empty_line_random_chars() {
+    let space_chars = [
+      ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '　', ' ', ' ', ' ', ' ', ' ', ' ',
+      ' ', '　', ' ', ' ', ' ', ' ',
+    ];
+
+    for char in space_chars {
+      for char2 in space_chars {
+        for i in 1..20 {
+          assert!(is_empty_line(&format!("{}{}", char, char2).repeat(i)));
+        }
+
+        for i in 1..20 {
+          assert!(is_empty_line(
+            &format!("{}{} # comment", char, char2).repeat(i)
+          ));
+        }
+
+        for i in 1..20 {
+          assert!(!is_empty_line(
+            &format!("{}{} not a comment", char, char2).repeat(i)
+          ));
+        }
+      }
+    }
+  }
+
+  #[test]
+  fn test_not_empty_line() {
+    for i in 1..50 {
+      assert!(!is_empty_line(&format!("{} not a comment", " ".repeat(i))));
+    }
   }
 
   #[test]
