@@ -1,0 +1,13 @@
+# Second line is expected output and third line is provided input.
+#CCCCCCCCCCCCCCCCCCCCCCCC
+#
+
+inc 50 in *1
+inc 25 in *2
+save 'C' at *3
+
+loop *1
+  if *1 < *2
+  # Should run only 24 times, because in the 25th time, *1 is 0
+    print *3
+  dec 1 in *1

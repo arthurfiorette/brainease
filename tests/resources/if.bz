@@ -1,0 +1,31 @@
+# Second line is expected output and third line is provided input.
+#BF
+#
+
+
+inc 20 in *1
+inc 40 in *20
+
+save 'A' at *10
+if *1 > 20
+  print *10
+
+save 'B' at *11
+if *1 == 20
+  print *11
+
+save 'C' at *12
+if *1 < 20
+  print *12
+
+save 'D' at *13
+if *1 > *20
+  print *13
+
+save 'E' at *14
+if *1 == *20
+  print *14
+
+save 'F' at *15
+if *1 < *20
+  print *15
