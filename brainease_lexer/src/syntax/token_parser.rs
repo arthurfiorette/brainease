@@ -128,7 +128,8 @@ pub static LOOP: TokenParser = |file, captures, line_index, indentation| {
   let cell = captures[1].parse().unwrap();
 
   // Read and parses the inner indentation block
-  let (next_line, inner) = parse_partial_file(file, line_index + 1, indentation + 2, line_index);
+  let (next_line, inner) =
+    parse_partial_file(file, line_index + 1, indentation + 2, line_index);
 
   (next_line, Some(Instruction::Loop { cell, inner }))
 };

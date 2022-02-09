@@ -45,7 +45,8 @@ impl IfLogic {
 
     util::log_extra_chars(&line_index, &captures[5]);
 
-    let (next_line, inner) = parse_partial_file(file, line_index + 1, indentation + 2, line_index);
+    let (next_line, inner) =
+      parse_partial_file(file, line_index + 1, indentation + 2, line_index);
 
     (
       next_line,
