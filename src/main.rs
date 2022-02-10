@@ -7,16 +7,14 @@ use std::{
   process,
 };
 
-use crate::util::{fallback_rust_log, normalize_path};
-
 pub mod args;
 pub mod util;
 
 fn main() {
   let args = args::Args::parse();
 
-  fallback_rust_log(&args.log_level);
-  let (absolute_path, filename) = normalize_path(&args.main);
+  util::fallback_rust_log(&args.log_level);
+  let (absolute_path, filename) = util::normalize_path(&args.main);
 
   log::trace!("Reading '{}'", filename);
 

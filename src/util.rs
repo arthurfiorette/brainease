@@ -18,7 +18,7 @@ pub fn fallback_rust_log(def: &str) {
 pub fn normalize_path(raw: &str) -> (String, String) {
   let path = Path::new(raw);
 
-  // There has to be a better way
+  // FIXME: There has to be a better way
   (
     path.canonicalize().unwrap().to_str().unwrap().to_string(),
     path.file_name().unwrap().to_str().unwrap().to_string(),
