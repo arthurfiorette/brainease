@@ -104,7 +104,7 @@ pub fn execute<I: Clone + IoHandler>(
           // How much cells do we have until an memory overflow. (1, 2, 3, PANIC(Array out of bounds))
           let space_left = runtime.memory.len() - runtime.pointer;
 
-          if amount > space_left {
+          if amount >= space_left {
             amount -= space_left;
 
             // End of the memory, so go to the start.
@@ -118,7 +118,7 @@ pub fn execute<I: Clone + IoHandler>(
           // How much cells do we have until an negative overflow. (3, 2, 1, 0, PANIC(Subtract with overflow))
           let space_left = runtime.pointer;
 
-          if amount > space_left {
+          if amount >= space_left {
             amount -= space_left;
 
             // Start of the memory, so go to the end.
