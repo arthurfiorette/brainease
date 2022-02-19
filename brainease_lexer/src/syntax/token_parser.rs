@@ -1,9 +1,7 @@
-use std::str::FromStr;
-
 use lazy_regex::Captures;
 
-use super::{GotoDirection, IfLogic, Instruction};
-use crate::{logger, parser::parse_partial_file, syntax::GotoBy, util};
+use super::{IfLogic, Instruction};
+use crate::{logger, parser::parse_partial_file, util};
 
 /// A closure that parses a line of code into a `Instruction`.
 ///
@@ -145,11 +143,11 @@ pub static IF: TokenParser = |file, captures, line_index, indentation| {
 pub static GOTO: TokenParser = |_, captures, line_index, _| {
   let left_raw = &captures[1];
 
-  let dir = GotoDirection::from_str(left_raw).unwrap();
+  let dir = left_raw.parse().unwrap();
 
   let by = captures
     .get(2)
-    .and_then(|by_value| GotoBy::from_str(by_value.as_str()).ok());
+    .and_then(|by_value| by_value.as_str().parse().ok());
 
   (line_index + 1, Some(Instruction::Goto { dir, by }))
 };

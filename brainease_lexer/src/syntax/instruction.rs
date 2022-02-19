@@ -1,4 +1,4 @@
-use super::{CellPosition, CellValue, GotoBy, GotoDirection, IfLogic};
+use super::{CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic};
 
 /// A Instruction that contain brainease logic.
 #[derive(Debug, Clone, PartialEq)]
@@ -10,7 +10,7 @@ pub enum Instruction {
   /// inc 1 in 10
   /// ```
   Increment {
-    cell: CellPosition,
+    cell: CellOrPointer,
     value: CellValue,
   },
 
@@ -21,7 +21,7 @@ pub enum Instruction {
   /// dec 7 in 43
   /// ```
   Decrement {
-    cell: CellPosition,
+    cell: CellOrPointer,
     value: CellValue,
   },
 
@@ -29,12 +29,12 @@ pub enum Instruction {
   /// The current cell will end up resetting to 0.
   ///
   /// ```r
-  /// # Moves cell 1 to 2
-  /// move 1 to 2
+  /// # Moves cell 1 to @2
+  /// move # to 2
   /// ```
   Move {
-    current: CellPosition,
-    next: CellPosition,
+    current: CellOrPointer,
+    next: CellOrPointer,
   },
 
   /// Swap the value of two cells
@@ -44,8 +44,8 @@ pub enum Instruction {
   /// swap 4 with 5
   /// ```
   Swap {
-    from: CellPosition,
-    with: CellPosition,
+    from: CellOrPointer,
+    with: CellOrPointer,
   },
 
   /// Save the char ASCII value at the given cell
@@ -55,7 +55,7 @@ pub enum Instruction {
   /// save 'J' in 10
   /// ```
   Save {
-    cell: CellPosition,
+    cell: CellOrPointer,
     value: CellValue,
   },
 
@@ -65,7 +65,7 @@ pub enum Instruction {
   /// # Saves the ASCII code of the given input at cell 10
   /// read 10
   /// ```
-  Read(CellPosition),
+  Read(CellOrPointer),
 
   /// Sends the current cell value to stdout.
   ///
@@ -73,7 +73,7 @@ pub enum Instruction {
   /// # Prints the byte value of cell 10 to stdout
   /// write 10
   /// ```
-  Write(CellPosition),
+  Write(CellOrPointer),
 
   /// Sends the current ASCII code of the given char to stdout.
   ///
@@ -81,7 +81,7 @@ pub enum Instruction {
   /// # Prints the ASCII code stored in cell 10
   /// print 10
   /// ```
-  Print(CellPosition),
+  Print(CellOrPointer),
 
   /// Loops the inner instructions until the given cell value is 0
   ///
@@ -97,7 +97,7 @@ pub enum Instruction {
   ///   write 1
   /// ```
   Loop {
-    cell: CellPosition,
+    cell: CellOrPointer,
     inner: Vec<Instruction>,
   },
 
@@ -114,8 +114,8 @@ pub enum Instruction {
   ///
   /// ```
   If {
-    cell: CellPosition,
-    cell_or_value: CellPosition,
+    cell: CellOrPointer,
+    cell_or_value: CellOrPointer,
     /// If the cellOrValue points to a cell instead of a value
     is_cell: bool,
     logic: IfLogic,
@@ -123,6 +123,14 @@ pub enum Instruction {
   },
 
   /// Moves the current pointer to another cell
+  ///
+  /// ```r
+  /// # Moves the current pointer by two cells to left
+  /// goto left by 2
+  ///
+  /// # Moves the current pointer by (value of cell 2) cells to right
+  /// goto right by *2
+  /// ```
   Goto {
     dir: GotoDirection,
     by: Option<GotoBy>,

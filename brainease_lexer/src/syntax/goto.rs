@@ -21,19 +21,23 @@ impl FromStr for GotoDirection {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum GotoBy {
-  ByCell(CellPosition),
-  ByValue(CellPosition),
+  Cell(CellPosition),
+  Pointer,
+  /// Value means a number of cells to jump.
+  Number(usize),
 }
 
 impl FromStr for GotoBy {
   type Err = ParseIntError;
 
   fn from_str(s: &str) -> Result<Self, Self::Err> {
-    if s.contains('*') {
-      Ok(GotoBy::ByCell(s[1..].parse()?))
+    Ok(if let Some(num) = s.strip_prefix('*') {
+      GotoBy::Cell(num.parse()?)
+    } else if s.eq("#") {
+      GotoBy::Pointer
     } else {
-      Ok(GotoBy::ByValue(s.parse()?))
-    }
+      GotoBy::Number(s.parse()?)
+    })
   }
 }
 
@@ -42,26 +46,28 @@ pub mod tests {
   use super::*;
 
   #[test]
-  pub fn test_goto_by_from_str_by_cell() {
-    assert_eq!(GotoBy::from_str("*2"), Ok(GotoBy::ByCell(2)));
-    assert_eq!(GotoBy::from_str("*22312"), Ok(GotoBy::ByCell(22312)));
-    assert_eq!(GotoBy::from_str("*1234"), Ok(GotoBy::ByCell(1234)));
-
-    assert!(GotoBy::from_str("*").is_err());
-    assert!(GotoBy::from_str("*a").is_err());
-    assert!(GotoBy::from_str("*-1").is_err());
-    assert!(GotoBy::from_str("*1a").is_err());
+  fn test_goto_by_from_str_cell() {
+    assert_eq!(GotoBy::from_str("*2"), Ok(GotoBy::Cell(2)));
+    assert_eq!(GotoBy::from_str("*22312"), Ok(GotoBy::Cell(22312)));
+    assert_eq!(GotoBy::from_str("*1234"), Ok(GotoBy::Cell(1234)));
   }
 
   #[test]
-  pub fn test_goto_by_from_str_by_value() {
-    assert_eq!(GotoBy::from_str("1"), Ok(GotoBy::ByValue(1)));
-    assert_eq!(GotoBy::from_str("22312"), Ok(GotoBy::ByValue(22312)));
-    assert_eq!(GotoBy::from_str("1234"), Ok(GotoBy::ByValue(1234)));
+  fn test_goto_by_from_str_number() {
+    assert_eq!(GotoBy::from_str("1"), Ok(GotoBy::Number(1)));
+    assert_eq!(GotoBy::from_str("22312"), Ok(GotoBy::Number(22312)));
+    assert_eq!(GotoBy::from_str("1234"), Ok(GotoBy::Number(1234)));
+  }
 
-    assert!(GotoBy::from_str("").is_err());
-    assert!(GotoBy::from_str("a").is_err());
-    assert!(GotoBy::from_str("-1").is_err());
-    assert!(GotoBy::from_str("1a").is_err());
+  #[test]
+  fn test_goto_by_from_str_pointer() {
+    assert_eq!(GotoBy::from_str("#"), Ok(GotoBy::Pointer));
+  }
+
+  #[test]
+  fn test_goto_by_from_str_errors() {
+    for val in ["", "a", "-1", "1a", "*", "*a", "*-1", "*1a"] {
+      assert!(GotoBy::from_str(val).is_err());
+    }
   }
 }

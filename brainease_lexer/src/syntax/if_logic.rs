@@ -38,7 +38,7 @@ impl IfLogic {
     indentation: usize,
   ) -> (usize, Option<Instruction>) {
     let first_cell = captures[1].parse().unwrap();
-    let logic = IfLogic::from_str(&captures[2]).unwrap();
+    let logic = captures[2].parse().unwrap();
 
     let is_if_cell = file[line_index].matches('*').count() == 2;
     let value_or_cell = captures[if is_if_cell { 4 } else { 3 }].parse().unwrap();
@@ -138,7 +138,6 @@ mod tests {
     assert!(IfLogic::from_str(">").is_ok());
     assert!(IfLogic::from_str("<=").is_ok());
     assert!(IfLogic::from_str(">=").is_ok());
-
     assert!(IfLogic::from_str("").is_err());
     assert!(IfLogic::from_str("===").is_err());
   }
