@@ -12,8 +12,10 @@ pub mod util;
 
 fn main() {
   let args = args::Args::parse();
-
   util::fallback_rust_log(&args.log_level);
+
+  log::trace!("Cli args: {:?}", args);
+
   let (absolute_path, filename) = util::normalize_path(&args.main);
 
   log::trace!("Reading '{}'", filename);
@@ -28,7 +30,7 @@ fn main() {
   let main_file = main_file.unwrap();
   let instructions = parser::parse_file(&main_file);
 
-  log::trace!("Parsed instructions: {:#?}", instructions);
+  log::trace!("Instructions: {:?}", instructions);
 
   let mut runtime = Runtime::<DefaultIoHandler>::new(instructions, args.memory);
 
