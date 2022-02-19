@@ -1,4 +1,4 @@
-use super::{CellPosition, CellValue, IfLogic, GotoBy, GotoDirection};
+use super::{CellPosition, CellValue, GotoBy, GotoDirection, IfLogic};
 
 /// A Instruction that contain brainease logic.
 #[derive(Debug, Clone, PartialEq)]
@@ -9,7 +9,7 @@ pub enum Instruction {
   /// # Increments cell 10 by 1
   /// inc 1 in 10
   /// ```
-  Increment { 
+  Increment {
     cell: CellPosition,
     value: CellValue,
   },
@@ -125,6 +125,6 @@ pub enum Instruction {
   /// Moves the current pointer to another cell
   Goto {
     dir: GotoDirection,
-    by: Option<GotoBy>
-  }
+    by: Option<GotoBy>,
+  },
 }

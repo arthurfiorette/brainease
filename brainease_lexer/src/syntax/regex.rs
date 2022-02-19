@@ -272,7 +272,6 @@ mod tests {
     assert!(regex.is_match("goto left by 5"));
     assert!(regex.is_match("goto left by *5"));
 
-
     assert!(!regex.is_match("goto"));
     assert!(!regex.is_match("gotoleft"));
     assert!(!regex.is_match("goto_left"));

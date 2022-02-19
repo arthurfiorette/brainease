@@ -63,7 +63,7 @@ impl TokenKind {
       TokenKind::Print,
       TokenKind::Loop,
       TokenKind::If,
-      TokenKind::Goto
+      TokenKind::Goto,
     ];
 
     TOKEN_KINDS.iter()

@@ -1,9 +1,9 @@
+mod goto;
 mod if_logic;
 mod instruction;
 mod regex;
 mod token;
 mod token_parser;
-mod goto;
 
 pub use goto::*;
 pub use if_logic::*;

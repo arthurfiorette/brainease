@@ -1,5 +1,5 @@
-use std::{num::ParseIntError, str::FromStr};
 use super::CellPosition;
+use std::{num::ParseIntError, str::FromStr};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum GotoDirection {
