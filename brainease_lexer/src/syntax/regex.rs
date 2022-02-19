@@ -1,18 +1,18 @@
 use lazy_regex::{regex, Lazy, Regex};
 
-pub static INCREMENT: &Lazy<Regex> = regex!(r"^inc\s(\d{1,3})\sin\s\*(\d+|#)(.*)");
-pub static DECREMENT: &Lazy<Regex> = regex!(r"^dec\s(\d{1,3})\sin\s\*(\d+|#)(.*)");
-pub static MOVE: &Lazy<Regex> = regex!(r"^move\s\*(\d+|#)\sto\s\*(\d+|#)(.*)");
-pub static SWAP: &Lazy<Regex> = regex!(r"^swap\s\*(\d+|#)\sand\s\*(\d+|#)(.*)");
-pub static SAVE: &Lazy<Regex> = regex!(r"^save\s'(.)'\sat\s\*(\d+|#)(.*)");
-pub static READ: &Lazy<Regex> = regex!(r"^read\s\*(\d+|#)(.*)");
-pub static WRITE: &Lazy<Regex> = regex!(r"^write\s\*(\d+|#)(.*)");
-pub static PRINT: &Lazy<Regex> = regex!(r"^print\s\*(\d+|#)(.*)");
-pub static LOOP: &Lazy<Regex> = regex!(r"^loop\s\*(\d+|#)(.*)");
+pub static INCREMENT: &Lazy<Regex> = regex!(r"^inc\s(\d{1,3})\sin\s\*(\d+|@)(.*)");
+pub static DECREMENT: &Lazy<Regex> = regex!(r"^dec\s(\d{1,3})\sin\s\*(\d+|@)(.*)");
+pub static MOVE: &Lazy<Regex> = regex!(r"^move\s\*(\d+|@)\sto\s\*(\d+|@)(.*)");
+pub static SWAP: &Lazy<Regex> = regex!(r"^swap\s\*(\d+|@)\sand\s\*(\d+|@)(.*)");
+pub static SAVE: &Lazy<Regex> = regex!(r"^save\s'(.)'\sat\s\*(\d+|@)(.*)");
+pub static READ: &Lazy<Regex> = regex!(r"^read\s\*(\d+|@)(.*)");
+pub static WRITE: &Lazy<Regex> = regex!(r"^write\s\*(\d+|@)(.*)");
+pub static PRINT: &Lazy<Regex> = regex!(r"^print\s\*(\d+|@)(.*)");
+pub static LOOP: &Lazy<Regex> = regex!(r"^loop\s\*(\d+|@)(.*)");
 pub static IF: &Lazy<Regex> =
-  regex!(r"^if\s\*(\d+|#)\s(==|!=|>|<|<=|>=)\s(\d{1,3}|\*(\d+|#))(.*)");
+  regex!(r"^if\s\*(\d+|@)\s(==|!=|>|<|<=|>=)\s(\d{1,3}|\*(\d+|@))(.*)");
 pub static GOTO: &Lazy<Regex> =
-  regex!(r"^goto\s(left|right)(\sby\s(\d+|\*(\d+|#)))?(.*)");
+  regex!(r"^goto\s(left|right)(\sby\s(\d+|\*(\d+|@)))?(.*)");
 
 #[cfg(test)]
 mod tests {
@@ -23,7 +23,7 @@ mod tests {
     let regex = TokenKind::Increment.regex();
 
     assert!(regex.is_match("inc 1 in *1"));
-    assert!(regex.is_match("inc 1 in *#"));
+    assert!(regex.is_match("inc 1 in *@"));
     assert!(regex.is_match("inc 1 in *1   asdfgsdfh random text :)      "));
 
     assert!(!regex.is_match(" inc 1 in *1"));
@@ -39,7 +39,7 @@ mod tests {
     let regex = TokenKind::Decrement.regex();
 
     assert!(regex.is_match("dec 1 in *1"));
-    assert!(regex.is_match("dec 1 in *#"));
+    assert!(regex.is_match("dec 1 in *@"));
     assert!(regex.is_match("dec 1 in *1   asdfgsdfh random text :)      "));
 
     assert!(!regex.is_match(" dec 1 in *1"));
@@ -55,7 +55,7 @@ mod tests {
     let regex = TokenKind::Move.regex();
 
     assert!(regex.is_match("move *1 to *1"));
-    assert!(regex.is_match("move *1 to *#"));
+    assert!(regex.is_match("move *1 to *@"));
     assert!(regex.is_match("move *1 to *1   asdfgsdfh random text :)      "));
 
     assert!(!regex.is_match(" move *1 to *1"));
@@ -71,7 +71,7 @@ mod tests {
     let regex = TokenKind::Swap.regex();
 
     assert!(regex.is_match("swap *1 and *1"));
-    assert!(regex.is_match("swap *1 and *#"));
+    assert!(regex.is_match("swap *1 and *@"));
     assert!(regex.is_match("swap *1 and *1   asdfgsdfh random text :)      "));
 
     assert!(!regex.is_match(" swap *1 and *1"));
@@ -87,7 +87,7 @@ mod tests {
     let regex = TokenKind::Save.regex();
 
     assert!(regex.is_match("save 'a' at *9"));
-    assert!(regex.is_match("save 'a' at *#"));
+    assert!(regex.is_match("save 'a' at *@"));
     assert!(regex.is_match("save 'a' at *1   asdfgsdfh random text :)      "));
 
     assert!(!regex.is_match(" save 'a' at *1"));
@@ -103,7 +103,7 @@ mod tests {
     let regex = TokenKind::Read.regex();
 
     assert!(regex.is_match("read *1"));
-    assert!(regex.is_match("read *#"));
+    assert!(regex.is_match("read *@"));
     assert!(regex.is_match("read *7   asdfgsdfh random text :)      "));
 
     assert!(!regex.is_match(" read *1"));
@@ -119,7 +119,7 @@ mod tests {
     let regex = TokenKind::Write.regex();
 
     assert!(regex.is_match("write *5"));
-    assert!(regex.is_match("write *#"));
+    assert!(regex.is_match("write *@"));
     assert!(regex.is_match("write *1   asdfgsdfh random text :)      "));
 
     assert!(!regex.is_match(" write *1"));
@@ -135,7 +135,7 @@ mod tests {
     let regex = TokenKind::Print.regex();
 
     assert!(regex.is_match("print *1"));
-    assert!(regex.is_match("print *#"));
+    assert!(regex.is_match("print *@"));
     assert!(regex.is_match("print *3   asdfgsdfh random text :)      "));
 
     assert!(!regex.is_match(" print *1"));
@@ -151,7 +151,7 @@ mod tests {
     let regex = TokenKind::Loop.regex();
 
     assert!(regex.is_match("loop *1"));
-    assert!(regex.is_match("loop *#"));
+    assert!(regex.is_match("loop *@"));
     assert!(regex.is_match("loop *2  asdfgsdfh random text :)      "));
 
     assert!(!regex.is_match(" loop"));
@@ -173,12 +173,12 @@ mod tests {
     assert!(regex.is_match("if *1 < 2"));
     assert!(regex.is_match("if *1 > 2"));
 
-    assert!(regex.is_match("if *# == 2"));
-    assert!(regex.is_match("if *# != 2"));
-    assert!(regex.is_match("if *# <= 2"));
-    assert!(regex.is_match("if *# >= 2"));
-    assert!(regex.is_match("if *# < 2"));
-    assert!(regex.is_match("if *# > 2"));
+    assert!(regex.is_match("if *@ == 2"));
+    assert!(regex.is_match("if *@ != 2"));
+    assert!(regex.is_match("if *@ <= 2"));
+    assert!(regex.is_match("if *@ >= 2"));
+    assert!(regex.is_match("if *@ < 2"));
+    assert!(regex.is_match("if *@ > 2"));
 
     assert!(regex.is_match("if *1 == *2"));
     assert!(regex.is_match("if *1 != *2"));
@@ -187,19 +187,19 @@ mod tests {
     assert!(regex.is_match("if *1 < *2"));
     assert!(regex.is_match("if *1 > *2"));
 
-    assert!(regex.is_match("if *1 == *#"));
-    assert!(regex.is_match("if *1 != *#"));
-    assert!(regex.is_match("if *1 <= *#"));
-    assert!(regex.is_match("if *1 >= *#"));
-    assert!(regex.is_match("if *1 < *#"));
-    assert!(regex.is_match("if *1 > *#"));
+    assert!(regex.is_match("if *1 == *@"));
+    assert!(regex.is_match("if *1 != *@"));
+    assert!(regex.is_match("if *1 <= *@"));
+    assert!(regex.is_match("if *1 >= *@"));
+    assert!(regex.is_match("if *1 < *@"));
+    assert!(regex.is_match("if *1 > *@"));
 
-    assert!(regex.is_match("if *# == *#"));
-    assert!(regex.is_match("if *# != *#"));
-    assert!(regex.is_match("if *# <= *#"));
-    assert!(regex.is_match("if *# >= *#"));
-    assert!(regex.is_match("if *# < *#"));
-    assert!(regex.is_match("if *# > *#"));
+    assert!(regex.is_match("if *@ == *@"));
+    assert!(regex.is_match("if *@ != *@"));
+    assert!(regex.is_match("if *@ <= *@"));
+    assert!(regex.is_match("if *@ >= *@"));
+    assert!(regex.is_match("if *@ < *@"));
+    assert!(regex.is_match("if *@ > *@"));
 
     assert!(regex.is_match("if *1 == 2 dafhsdghsgfh"));
     assert!(regex.is_match("if *1 != 2 sfghdfgh sdfg"));

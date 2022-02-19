@@ -12,7 +12,7 @@ impl FromStr for CellOrPointer {
   type Err = ParseIntError;
 
   fn from_str(str: &str) -> Result<Self, Self::Err> {
-    if str.eq("#") {
+    if str.eq("@") {
       Ok(CellOrPointer::Pointer)
     } else {
       Ok(CellOrPointer::Cell(str.parse()?))

@@ -33,7 +33,7 @@ impl FromStr for GotoBy {
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     Ok(if let Some(num) = s.strip_prefix('*') {
       GotoBy::Cell(num.parse()?)
-    } else if s.eq("#") {
+    } else if s.eq("@") {
       GotoBy::Pointer
     } else {
       GotoBy::Number(s.parse()?)
@@ -61,7 +61,7 @@ pub mod tests {
 
   #[test]
   fn test_goto_by_from_str_pointer() {
-    assert_eq!(GotoBy::from_str("#"), Ok(GotoBy::Pointer));
+    assert_eq!(GotoBy::from_str("@"), Ok(GotoBy::Pointer));
   }
 
   #[test]
