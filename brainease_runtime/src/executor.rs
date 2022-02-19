@@ -1,4 +1,4 @@
-use brainease_lexer::syntax::Instruction;
+use brainease_lexer::syntax::{GotoBy, GotoDirection, Instruction};
 
 use crate::{io_handler::IoHandler, runtime::Runtime};
 
@@ -68,6 +68,22 @@ pub fn execute<I: Clone + IoHandler>(
           execute(instruction, runtime);
         }
       }
+    }
+
+    Instruction::Goto { dir, by } => {
+      let amount = if let Some(goto_by) = by {
+        match goto_by {
+          GotoBy::ByCell(cell) => runtime.memory[*cell] as usize,
+          GotoBy::ByValue(value) => *value,
+        }
+      } else {
+        1
+      };
+
+      match dir {
+        GotoDirection::Right => runtime.pointer += amount,
+        GotoDirection::Left => runtime.pointer -= amount,
+      };
     }
   }
 }

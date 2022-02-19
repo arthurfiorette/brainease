@@ -15,11 +15,12 @@ pub enum TokenKind {
   Print,
   Loop,
   If,
+  Goto,
 }
 
 impl TokenKind {
   pub fn regex(&self) -> &Lazy<Regex> {
-    match self {
+    match *self {
       TokenKind::Increment => regex::INCREMENT,
       TokenKind::Decrement => regex::DECREMENT,
       TokenKind::Move => regex::MOVE,
@@ -30,11 +31,12 @@ impl TokenKind {
       TokenKind::Print => regex::PRINT,
       TokenKind::Loop => regex::LOOP,
       TokenKind::If => regex::IF,
+      TokenKind::Goto => regex::GOTO,
     }
   }
 
   pub fn parser(&self) -> TokenParser {
-    match self {
+    match *self {
       TokenKind::Increment => token_parser::INCREMENT,
       TokenKind::Decrement => token_parser::DECREMENT,
       TokenKind::Move => token_parser::MOVE,
@@ -45,11 +47,12 @@ impl TokenKind {
       TokenKind::Print => token_parser::PRINT,
       TokenKind::Loop => token_parser::LOOP,
       TokenKind::If => token_parser::IF,
+      TokenKind::Goto => token_parser::GOTO,
     }
   }
 
   pub fn iter() -> Iter<'static, Self> {
-    static TOKEN_KINDS: [TokenKind; 10] = [
+    static TOKEN_KINDS: [TokenKind; 11] = [
       TokenKind::Increment,
       TokenKind::Decrement,
       TokenKind::Move,
@@ -60,6 +63,7 @@ impl TokenKind {
       TokenKind::Print,
       TokenKind::Loop,
       TokenKind::If,
+      TokenKind::Goto
     ];
 
     TOKEN_KINDS.iter()
@@ -74,12 +78,10 @@ impl TokenKind {
       let regex = token.regex();
       let captures = regex.captures(text);
 
-      // Regex did not match.
-      if captures.is_none() {
-        continue;
+      // Regex match
+      if let Some(captures) = captures {
+        return Some((token, captures));
       }
-
-      return Some((token, captures.unwrap()));
     }
 
     None
@@ -93,7 +95,7 @@ mod tests {
 
   #[test]
   fn all_returns_all_token_kinds() {
-    assert_eq!(TokenKind::iter().len(), 10);
+    assert_eq!(TokenKind::iter().len(), 11);
   }
 
   #[test]

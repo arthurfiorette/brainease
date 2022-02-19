@@ -11,6 +11,7 @@ pub static PRINT: &Lazy<Regex> = regex!(r"^print\s\*(\d+)(.*)");
 pub static LOOP: &Lazy<Regex> = regex!(r"^loop\s\*(\d+)(.*)");
 pub static IF: &Lazy<Regex> =
   regex!(r"^if\s\*(\d+)\s(==|!=|>|<|<=|>=)\s(\d{1,3}|\*(\d+))(.*)");
+pub static GOTO: &Lazy<Regex> = regex!(r"^goto\s(left|right)(\sby\s(\d+|\*(\d+)))?(.*)");
 
 #[cfg(test)]
 mod tests {
@@ -258,5 +259,40 @@ mod tests {
     assert!(!regex.is_match("if *1 -- *2"));
     assert!(!regex.is_match("if *1 += *2"));
     assert!(!regex.is_match("if *1 -= *2"));
+  }
+
+  #[test]
+  fn tests_goto_regex() {
+    let regex = TokenKind::Goto.regex();
+
+    assert!(regex.is_match("goto right"));
+    assert!(regex.is_match("goto right by 5"));
+    assert!(regex.is_match("goto right by *5"));
+    assert!(regex.is_match("goto left"));
+    assert!(regex.is_match("goto left by 5"));
+    assert!(regex.is_match("goto left by *5"));
+
+
+    assert!(!regex.is_match("goto"));
+    assert!(!regex.is_match("gotoleft"));
+    assert!(!regex.is_match("goto_left"));
+    assert!(!regex.is_match("gotoright"));
+    assert!(!regex.is_match("goto_right"));
+
+    assert!(!regex.is_match("goto down"));
+    assert!(!regex.is_match("goto_down"));
+    assert!(!regex.is_match("goto_down by 5"));
+    assert!(!regex.is_match("goto_down by *5"));
+    assert!(!regex.is_match("goto_down_by 5"));
+    assert!(!regex.is_match("goto down by 5"));
+    assert!(!regex.is_match("goto down by *5"));
+
+    assert!(!regex.is_match("goto up"));
+    assert!(!regex.is_match("goto_up"));
+    assert!(!regex.is_match("goto_up by 5"));
+    assert!(!regex.is_match("goto_up by *5"));
+    assert!(!regex.is_match("goto_up_by 5"));
+    assert!(!regex.is_match("goto up by 5"));
+    assert!(!regex.is_match("goto up by *5"));
   }
 }

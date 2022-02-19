@@ -1,7 +1,9 @@
+use std::str::FromStr;
+
 use lazy_regex::Captures;
 
-use super::{IfLogic, Instruction};
-use crate::{logger, parser::parse_partial_file, util};
+use super::{GotoDirection, IfLogic, Instruction};
+use crate::{logger, parser::parse_partial_file, syntax::GotoBy, util};
 
 /// A closure that parses a line of code into a `Instruction`.
 ///
@@ -137,4 +139,18 @@ pub static LOOP: TokenParser = |file, captures, line_index, indentation| {
 // A token parser for the If instruction regex result.
 pub static IF: TokenParser = |file, captures, line_index, indentation| {
   IfLogic::parse(file, captures, line_index, indentation)
+};
+
+// A token parser for the Goto instruction regex result.
+pub static GOTO: TokenParser = |_, captures, line_index, _| {
+  let left_raw = &captures[1];
+
+  let dir = GotoDirection::from_str(left_raw).unwrap();
+  let by = if captures.len() >= 2 {
+    GotoBy::from_str(&captures[2]).ok()
+  } else {
+    None
+  };
+
+  (line_index + 1, Some(Instruction::Goto { dir, by }))
 };

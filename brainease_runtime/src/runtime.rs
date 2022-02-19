@@ -1,6 +1,6 @@
 use std::time::Instant;
 
-use brainease_lexer::syntax::{CellValue, Instruction};
+use brainease_lexer::syntax::{CellValue, Instruction, CellPosition};
 
 use crate::{
   executor::execute,
@@ -15,6 +15,7 @@ where
   I: IoHandler + Clone,
 {
   pub instructions: Vec<Instruction>,
+  pub pointer: CellPosition,
   pub(crate) memory: Vec<CellValue>,
   pub io_handler: Box<I>,
 }
@@ -36,6 +37,7 @@ where
     io_handler: I,
   ) -> Runtime<I> {
     Runtime {
+      pointer: 0,
       instructions,
       memory: vec![0; memory_length],
       io_handler: Box::new(io_handler),
