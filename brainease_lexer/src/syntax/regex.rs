@@ -12,7 +12,7 @@ pub static LOOP: &Lazy<Regex> = regex!(r"^loop\s\*(\d+|@)(.*)");
 pub static IF: &Lazy<Regex> =
   regex!(r"^if\s\*(\d+|@)\s(==|!=|>|<|<=|>=)\s(\d{1,3}|\*(\d+|@))(.*)");
 pub static GOTO: &Lazy<Regex> =
-  regex!(r"^goto\s(left|right)(\sby\s(\d+|\*(\d+|@)))?(.*)");
+  regex!(r"^goto\s(left|right)(?:\sby\s(\d+|\*(\d+|@)))?(.*)");
 
 #[cfg(test)]
 mod tests {

@@ -194,4 +194,33 @@ mod tests {
     assert_eq!(&captures[2], "==");
     assert_eq!(&captures[3], "467");
   }
+
+  #[test]
+  fn tests_detect_goto() {
+    let text = "goto left";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
+
+    assert_eq!(token, &TokenKind::Goto);
+    assert_eq!(&captures[1], "left");
+
+    let text = "goto right";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
+
+    assert_eq!(token, &TokenKind::Goto);
+    assert_eq!(&captures[1], "right");
+
+    let text = "goto left by 2";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
+
+    assert_eq!(token, &TokenKind::Goto);
+    assert_eq!(&captures[1], "left");
+    assert_eq!(&captures[2], "2");
+
+    let text = "goto right by 2";
+    let (token, captures) = TokenKind::find_match(text).unwrap();
+
+    assert_eq!(token, &TokenKind::Goto);
+    assert_eq!(&captures[1], "right");
+    assert_eq!(&captures[2], "2");
+  }
 }
