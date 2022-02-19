@@ -146,11 +146,10 @@ pub static GOTO: TokenParser = |_, captures, line_index, _| {
   let left_raw = &captures[1];
 
   let dir = GotoDirection::from_str(left_raw).unwrap();
-  let by = if captures.len() >= 2 {
-    GotoBy::from_str(&captures[2]).ok()
-  } else {
-    None
-  };
+
+  let by = captures
+    .get(2)
+    .and_then(|by_value| GotoBy::from_str(by_value.as_str()).ok());
 
   (line_index + 1, Some(Instruction::Goto { dir, by }))
 };

@@ -71,7 +71,7 @@ pub fn execute<I: Clone + IoHandler>(
     }
 
     Instruction::Goto { dir, by } => {
-      let amount = if let Some(goto_by) = by {
+      let mut amount = if let Some(goto_by) = by {
         match goto_by {
           GotoBy::ByCell(cell) => runtime.memory[*cell] as usize,
           GotoBy::ByValue(value) => *value,
@@ -81,9 +81,34 @@ pub fn execute<I: Clone + IoHandler>(
       };
 
       match dir {
-        GotoDirection::Right => runtime.pointer += amount,
-        GotoDirection::Left => runtime.pointer -= amount,
-      };
+        GotoDirection::Right => {
+          // How much cells do we have until an memory overflow. (1, 2, 3, PANIC(Array out of bounds))
+          let space_left = runtime.memory.len() - runtime.pointer;
+
+          if amount > space_left {
+            amount -= space_left;
+
+            // End of the memory, so go to the start.
+            runtime.pointer = 0;
+          }
+
+          runtime.pointer += amount;
+        }
+
+        GotoDirection::Left => {
+          // How much cells do we have until an negative overflow. (3, 2, 1, 0, PANIC(Subtract with overflow))
+          let space_left = runtime.pointer;
+
+          if amount > space_left {
+            amount -= space_left;
+
+            // Start of the memory, so go to the end.
+            runtime.pointer = runtime.memory.len();
+          }
+
+          runtime.pointer -= amount;
+        }
+      }
     }
   }
 }

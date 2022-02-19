@@ -1,6 +1,6 @@
 use std::time::Instant;
 
-use brainease_lexer::syntax::{CellValue, Instruction, CellPosition};
+use brainease_lexer::syntax::{CellPosition, CellValue, Instruction};
 
 use crate::{
   executor::execute,
