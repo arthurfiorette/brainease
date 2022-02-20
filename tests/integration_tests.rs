@@ -21,12 +21,12 @@ impl TestIoHandler {
     let expected_output = lines.get(1).unwrap()[1..].trim().to_string();
     let expected_input = lines.get(2).unwrap()[1..].trim();
 
-    let input = if expected_input.is_empty() {
+    let input: Vec<CellValue> = if expected_input.is_empty() {
       vec![]
     } else {
       expected_input
         .split(',')
-        .map(|s| s.parse::<CellValue>().unwrap())
+        .map(|s| s.parse().unwrap())
         .collect()
     };
 
@@ -50,10 +50,10 @@ impl IoHandler for TestIoHandler {
   }
 }
 
-fn scan_dir(name: &PathBuf) -> Result<Vec<String>> {
+fn scan_dir(name: &PathBuf) -> Result<Vec<(String, String)>> {
   let content = fs::read_dir(name)?;
 
-  let mut files: Vec<String> = vec![];
+  let mut files = vec![];
 
   for file in content {
     let file = file?;
@@ -63,7 +63,10 @@ fn scan_dir(name: &PathBuf) -> Result<Vec<String>> {
       files.append(&mut scan_dir(&path)?);
     }
 
-    files.push(fs::read_to_string(&path)?)
+    files.push((
+      file.file_name().to_str().unwrap().to_string(),
+      fs::read_to_string(&path)?,
+    ))
   }
 
   Ok(files)
@@ -75,17 +78,18 @@ fn run_resources() -> Result<()> {
 
   let files = scan_dir(&Path::new("tests/resources").to_path_buf())?;
 
-  for file in files {
-    let instructions = parser::parse_file(&file);
-    let io_handler = TestIoHandler::build_from_file(file.lines().collect());
+  for (filename, content) in files {
+    let instructions = parser::parse_file(&content);
+    let io_handler = TestIoHandler::build_from_file(content.lines().collect());
 
     let mut runtime = Runtime::<TestIoHandler>::build(instructions, 30, io_handler);
 
     runtime.run();
 
     assert_eq!(
-      runtime.io_handler.output,
-      runtime.io_handler.expected_output
+      runtime.io_handler.output, runtime.io_handler.expected_output,
+      "\n\n###\nTest failed for file ({})\n###\n\n",
+      filename
     );
   }
 

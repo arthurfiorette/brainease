@@ -1,0 +1,67 @@
+# Second line is expected output and third line is provided input.
+# 000000000000000000000000000000
+#
+
+# Just a bunch of goto left and right
+# and then indexes the memory with the current pointer.
+# Simple test to catch memory indexing errors.
+
+write *@
+goto left
+write *@
+goto left
+write *@
+goto left
+write *@
+goto left
+write *@
+goto left
+write *@
+goto left
+write *@
+goto right
+write *@
+goto right
+write *@
+goto right
+write *@
+goto right
+write *@
+goto right
+write *@
+goto right
+write *@
+goto right
+write *@
+goto left
+write *@
+goto left
+write *@
+goto left
+write *@
+goto left
+write *@
+goto right
+write *@
+goto right
+write *@
+goto right
+write *@
+goto right
+write *@
+goto left
+write *@
+goto left
+write *@
+goto left
+write *@
+goto left
+write *@
+goto right
+write *@
+goto right
+write *@
+goto right
+write *@
+goto right
+write *@
