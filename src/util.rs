@@ -1,4 +1,4 @@
-use std::{env, path::Path};
+use std::env;
 
 pub fn fallback_rust_log(def: &str) {
   let log_env = env::var("RUST_LOG");
@@ -12,15 +12,4 @@ pub fn fallback_rust_log(def: &str) {
     .format_target(false)
     .format_timestamp(None)
     .init();
-}
-
-/// Returns the absolute path and the filename
-pub fn normalize_path(raw: &str) -> (String, String) {
-  let path = Path::new(raw);
-
-  // FIXME: There has to be a better way
-  (
-    path.canonicalize().unwrap().to_str().unwrap().to_string(),
-    path.file_name().unwrap().to_str().unwrap().to_string(),
-  )
 }

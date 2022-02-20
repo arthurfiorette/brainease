@@ -1,12 +1,16 @@
-mod default;
-mod proxy;
-
-pub use default::*;
-pub use proxy::*;
-
 use brainease_lexer::syntax::CellValue;
 
-pub trait IoHandler {
-  fn read_input(&mut self) -> CellValue;
-  fn write_output(&mut self, output: &[CellValue]);
+mod default;
+pub use default::*;
+
+pub trait IoHandler: Clone {
+  type Err;
+
+  fn read_input(&mut self) -> Result<CellValue, Self::Err>;
+  fn write_output(&mut self, output: &[CellValue]) -> Result<(), Self::Err>;
+
+  /// Flushes the output buffer.
+  ///
+  /// Normally just emits a newline character.
+  fn flush(&mut self) -> Result<(), Self::Err>;
 }

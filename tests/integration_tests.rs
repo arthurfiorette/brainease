@@ -1,6 +1,5 @@
 use std::{
-  env, fs,
-  io::Result,
+  env, fs, io,
   path::{Path, PathBuf},
   vec,
 };
@@ -39,18 +38,26 @@ impl TestIoHandler {
 }
 
 impl IoHandler for TestIoHandler {
-  fn read_input(&mut self) -> CellValue {
-    self.input.remove(0)
+  type Err = ();
+
+  fn read_input(&mut self) -> Result<CellValue, Self::Err> {
+    Ok(self.input.remove(0))
   }
 
-  fn write_output(&mut self, output: &[CellValue]) {
+  fn write_output(&mut self, output: &[CellValue]) -> Result<(), Self::Err> {
     for c in output {
-      self.output.push(*c as char)
+      self.output.push(*c as char);
     }
+
+    Ok(())
+  }
+
+  fn flush(&mut self) -> Result<(), Self::Err> {
+    Ok(())
   }
 }
 
-fn scan_dir(name: &PathBuf) -> Result<Vec<(String, String)>> {
+fn scan_dir(name: &PathBuf) -> io::Result<Vec<(String, String)>> {
   let content = fs::read_dir(name)?;
 
   let mut files = vec![];
@@ -73,7 +80,7 @@ fn scan_dir(name: &PathBuf) -> Result<Vec<(String, String)>> {
 }
 
 #[test]
-fn run_resources() -> Result<()> {
+fn run_resources() -> io::Result<()> {
   env::set_var("RUST_LOG", "debug");
 
   let files = scan_dir(&Path::new("tests/resources").to_path_buf())?;
@@ -86,9 +93,11 @@ fn run_resources() -> Result<()> {
     let instructions = parser::parse_file(&content);
     let io_handler = TestIoHandler::build_from_file(content.lines().collect());
 
-    let mut runtime = Runtime::<TestIoHandler>::build(instructions, 30, io_handler);
+    let mut runtime = Runtime::new(instructions, 30, io_handler);
 
-    runtime.run();
+    let result = runtime.run();
+
+    assert!(result.is_ok());
 
     assert_eq!(
       runtime.io_handler.output, runtime.io_handler.expected_output,

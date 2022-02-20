@@ -2,10 +2,13 @@ use brainease_lexer::syntax::{GotoBy, GotoDirection, Instruction};
 
 use crate::{io_handler::IoHandler, runtime::Runtime};
 
-pub fn execute<I: Clone + IoHandler>(
+pub fn execute<I>(
   instruction: &Instruction,
   runtime: &mut Runtime<I>,
-) {
+) -> Result<(), I::Err>
+where
+  I: IoHandler,
+{
   match instruction {
     Instruction::Increment { cell, value } => {
       let pointer = cell.or(runtime.pointer);
@@ -43,20 +46,24 @@ pub fn execute<I: Clone + IoHandler>(
     Instruction::Read(cell) => {
       let pointer = cell.or(runtime.pointer);
 
-      runtime.memory[pointer] = runtime.io_handler.read_input();
+      runtime.memory[pointer] = runtime.io_handler.read_input()?;
     }
 
     Instruction::Write(cell) => {
       let pointer = cell.or(runtime.pointer);
       let val = runtime.memory[pointer];
 
-      runtime.io_handler.write_output(val.to_string().as_bytes());
+      runtime
+        .io_handler
+        .write_output(val.to_string().as_bytes())?;
     }
 
     Instruction::Print(cell) => {
       let pointer = cell.or(runtime.pointer);
 
-      runtime.io_handler.write_output(&[runtime.memory[pointer]]);
+      runtime
+        .io_handler
+        .write_output(&[runtime.memory[pointer]])?;
     }
 
     Instruction::Loop { cell, inner } => {
@@ -64,7 +71,7 @@ pub fn execute<I: Clone + IoHandler>(
 
       while runtime.memory[pointer] != 0 {
         for instruction in inner {
-          execute(instruction, runtime);
+          execute(instruction, runtime)?;
         }
       }
     }
@@ -87,7 +94,7 @@ pub fn execute<I: Clone + IoHandler>(
 
       if logic.matches(runtime.memory[cell_pointer], other) {
         for instruction in inner {
-          execute(instruction, runtime);
+          execute(instruction, runtime)?;
         }
       }
     }
@@ -134,4 +141,6 @@ pub fn execute<I: Clone + IoHandler>(
       }
     }
   }
+
+  Ok(())
 }
