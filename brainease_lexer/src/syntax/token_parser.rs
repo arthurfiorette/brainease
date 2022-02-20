@@ -1,6 +1,6 @@
 use lazy_regex::Captures;
 
-use super::{IfLogic, Instruction};
+use super::{GotoDirection, IfLogic, Instruction, GotoBy};
 use crate::{logger, parser::parse_partial_file, util};
 
 /// A closure that parses a line of code into a `Instruction`.
@@ -141,11 +141,9 @@ pub static IF: TokenParser = |file, captures, line_index, indentation| {
 
 // A token parser for the Goto instruction regex result.
 pub static GOTO: TokenParser = |_, captures, line_index, _| {
-  let left_raw = &captures[1];
+  let dir: GotoDirection = captures[1].parse().unwrap();
 
-  let dir = left_raw.parse().unwrap();
-
-  let by = captures
+  let by: Option<GotoBy> = captures
     .get(2)
     .and_then(|by_value| by_value.as_str().parse().ok());
 

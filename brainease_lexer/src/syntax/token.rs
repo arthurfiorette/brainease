@@ -79,8 +79,8 @@ impl TokenKind {
       let captures = regex.captures(text);
 
       // Regex match
-      if let Some(captures) = captures {
-        return Some((token, captures));
+      if captures.is_some() {
+        return captures.map(|captures| (token, captures));
       }
     }
 
