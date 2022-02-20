@@ -1,6 +1,6 @@
 use lazy_regex::Captures;
 
-use super::{GotoDirection, IfLogic, Instruction, GotoBy};
+use super::{GotoBy, GotoDirection, IfLogic, Instruction};
 use crate::{logger, parser::parse_partial_file, util};
 
 /// A closure that parses a line of code into a `Instruction`.
