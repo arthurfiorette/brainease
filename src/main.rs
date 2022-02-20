@@ -16,6 +16,11 @@ fn main() {
 
   log::trace!("Cli args: {:?}", args);
 
+  if !args.main.ends_with(".brain") {
+    log::error!("{} does not end with .brain", args.main);
+    process::exit(1);
+  }
+
   let (absolute_path, filename) = util::normalize_path(&args.main);
 
   log::trace!("Reading '{}'", filename);

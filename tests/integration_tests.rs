@@ -79,6 +79,10 @@ fn run_resources() -> Result<()> {
   let files = scan_dir(&Path::new("tests/resources").to_path_buf())?;
 
   for (filename, content) in files {
+    if !filename.ends_with(".brain") {
+      continue;
+    }
+
     let instructions = parser::parse_file(&content);
     let io_handler = TestIoHandler::build_from_file(content.lines().collect());
 
