@@ -9,11 +9,13 @@ pub fn execute<I: Clone + IoHandler>(
   match instruction {
     Instruction::Increment { cell, value } => {
       let pointer = cell.or(runtime.pointer);
+
       runtime.memory[pointer] = runtime.memory[pointer].wrapping_add(*value);
     }
 
     Instruction::Decrement { cell, value } => {
       let pointer = cell.or(runtime.pointer);
+
       runtime.memory[pointer] = runtime.memory[pointer].wrapping_sub(*value);
     }
 
@@ -28,31 +30,33 @@ pub fn execute<I: Clone + IoHandler>(
     Instruction::Swap { from, with } => {
       let from_pointer = from.or(runtime.pointer);
       let with_pointer = with.or(runtime.pointer);
+
       runtime.memory.swap(from_pointer, with_pointer);
     }
 
     Instruction::Save { cell, value } => {
       let pointer = cell.or(runtime.pointer);
+
       runtime.memory[pointer] = *value;
     }
 
     Instruction::Read(cell) => {
       let pointer = cell.or(runtime.pointer);
+
       runtime.memory[pointer] = runtime.io_handler.read_input();
     }
 
     Instruction::Write(cell) => {
       let pointer = cell.or(runtime.pointer);
+      let val = runtime.memory[pointer];
 
-      runtime
-        .io_handler
-        .write_output(runtime.memory[pointer].to_ne_bytes()[0]);
+      runtime.io_handler.write_output(val.to_string().as_bytes());
     }
 
     Instruction::Print(cell) => {
       let pointer = cell.or(runtime.pointer);
 
-      runtime.io_handler.write_output(runtime.memory[pointer]);
+      runtime.io_handler.write_output(&[runtime.memory[pointer]]);
     }
 
     Instruction::Loop { cell, inner } => {

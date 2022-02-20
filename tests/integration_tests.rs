@@ -43,8 +43,10 @@ impl IoHandler for TestIoHandler {
     self.input.remove(0)
   }
 
-  fn write_output(&mut self, output: CellValue) {
-    self.output.push(output as char);
+  fn write_output(&mut self, output: &[CellValue]) {
+    for c in output {
+      self.output.push(*c as char)
+    }
   }
 }
 

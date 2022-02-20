@@ -18,9 +18,9 @@ impl IoHandler for DefaultIoHandler {
     data[0]
   }
 
-  fn write_output(&mut self, output: CellValue) {
+  fn write_output(&mut self, output: &[CellValue]) {
     stdout()
-      .write_all(&[output])
+      .write_all(output)
       .expect("Could not write to stdout");
   }
 }
