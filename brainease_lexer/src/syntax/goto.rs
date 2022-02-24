@@ -19,6 +19,15 @@ impl FromStr for GotoDirection {
   }
 }
 
+impl ToString for GotoDirection {
+  fn to_string(&self) -> String {
+    match self {
+      GotoDirection::Left => "left".to_string(),
+      GotoDirection::Right => "right".to_string(),
+    }
+  }
+}
+
 #[derive(Debug, Clone, PartialEq)]
 pub enum GotoBy {
   Cell(CellPosition),
@@ -38,6 +47,16 @@ impl FromStr for GotoBy {
     } else {
       GotoBy::Number(s.parse()?)
     })
+  }
+}
+
+impl ToString for GotoBy {
+  fn to_string(&self) -> String {
+    match self {
+      GotoBy::Cell(val) => format!("*{}", val),
+      GotoBy::Pointer => "*@".to_string(),
+      GotoBy::Number(val) => val.to_string(),
+    }
   }
 }
 

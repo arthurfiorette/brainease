@@ -78,6 +78,19 @@ impl FromStr for IfLogic {
   }
 }
 
+impl ToString for IfLogic {
+  fn to_string(&self) -> String {
+    match self {
+      IfLogic::Equal => "==".to_string(),
+      IfLogic::NotEqual => "!=".to_string(),
+      IfLogic::Less => "<".to_string(),
+      IfLogic::Greater => ">".to_string(),
+      IfLogic::LessOrEqual => "<=".to_string(),
+      IfLogic::GreaterOrEqual => ">=".to_string(),
+    }
+  }
+}
+
 #[cfg(test)]
 mod tests {
   use super::*;

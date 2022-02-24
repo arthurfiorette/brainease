@@ -8,18 +8,6 @@ pub enum CellOrPointer {
   Pointer,
 }
 
-impl FromStr for CellOrPointer {
-  type Err = ParseIntError;
-
-  fn from_str(str: &str) -> Result<Self, Self::Err> {
-    if str.eq("@") {
-      Ok(CellOrPointer::Pointer)
-    } else {
-      Ok(CellOrPointer::Cell(str.parse()?))
-    }
-  }
-}
-
 impl CellOrPointer {
   pub fn or(&self, val: CellPosition) -> CellPosition {
     match *self {
@@ -35,6 +23,27 @@ impl CellOrPointer {
     match *self {
       CellOrPointer::Cell(cell) => cell,
       CellOrPointer::Pointer => panic!(),
+    }
+  }
+}
+
+impl FromStr for CellOrPointer {
+  type Err = ParseIntError;
+
+  fn from_str(str: &str) -> Result<Self, Self::Err> {
+    if str.eq("@") {
+      Ok(CellOrPointer::Pointer)
+    } else {
+      Ok(CellOrPointer::Cell(str.parse()?))
+    }
+  }
+}
+
+impl ToString for CellOrPointer {
+  fn to_string(&self) -> String {
+    match self {
+      CellOrPointer::Cell(val) => format!("*{}", val),
+      CellOrPointer::Pointer => "*@".to_string(),
     }
   }
 }

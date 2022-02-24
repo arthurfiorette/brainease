@@ -1,4 +1,4 @@
-use super::{CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic};
+use super::{CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic, TokenKind};
 
 /// A Instruction that contain brainease logic.
 #[derive(Debug, Clone, PartialEq)]
@@ -135,4 +135,22 @@ pub enum Instruction {
     dir: GotoDirection,
     by: Option<GotoBy>,
   },
+}
+
+impl Instruction {
+  pub fn kind(&self) -> TokenKind {
+    match self {
+      Instruction::Increment { .. } => TokenKind::Increment,
+      Instruction::Decrement { .. } => TokenKind::Decrement,
+      Instruction::Move { .. } => TokenKind::Move,
+      Instruction::Swap { .. } => TokenKind::Swap,
+      Instruction::Save { .. } => TokenKind::Save,
+      Instruction::Read(_) => TokenKind::Read,
+      Instruction::Write(_) => TokenKind::Write,
+      Instruction::Print(_) => TokenKind::Print,
+      Instruction::Loop { .. } => TokenKind::Loop,
+      Instruction::If { .. } => TokenKind::If,
+      Instruction::Goto { .. } => TokenKind::Goto,
+    }
+  }
 }

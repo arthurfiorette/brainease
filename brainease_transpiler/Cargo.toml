@@ -1,0 +1,14 @@
+[package]
+name = "brainease_transpiler"
+version = "1.0.3"
+edition = "2021"
+description = "A brainf*ck-style programming language, but readable"
+documentation = "https://arthurfiorette.github.io/brainease"
+homepage = "https://github.com/arthurfiorette/brainease"
+repository = "https://github.com/arthurfiorette/brainease"
+license = "MIT"
+readme = "./README.md"
+
+[dependencies]
+brainease_lexer = { path = "../brainease_lexer", version = "^1" }
+log = "^0.4"
