@@ -1,44 +1,22 @@
-use brainease_lexer::parser;
-use brainease_runtime::{io_handler::DefaultIoHandler, runtime::Runtime};
+mod cli;
+mod run;
+mod transpile;
+mod util;
+
 use clap::Parser;
-use std::{
-  io::{stdout, Result, Write},
-  path::Path,
-  process,
-};
+use cli::{Cli, Commands};
 
-pub mod args;
-pub mod reader;
-pub mod util;
+fn main() {
+  let args = Cli::parse();
 
-fn main() -> Result<()> {
-  let args = args::Args::parse();
-  util::fallback_rust_log(&args.log_level);
+  util::setup_logger(&args.verbose);
 
-  log::trace!("Cli args: {:?}", args);
+  let result = match &args.command {
+    Commands::Transpile(opts) => transpile::run(opts),
+    Commands::Run(opts) => run::run(opts),
+  };
 
-  if !args.main.ends_with(".brain") {
-    log::error!("{} does not end with .brain", args.main);
-    process::exit(1);
+  if let Err(err) = result {
+    log::trace!("{:#?}", err)
   }
-
-  let path = Path::new(&args.main);
-
-  let main_file = reader::read_file(path);
-  let instructions = parser::parse_file(&main_file);
-
-  log::trace!("Instructions: {:?}", instructions);
-
-  let mut runtime = Runtime::new(instructions, args.memory, DefaultIoHandler {});
-
-  log::debug!("Starting runtime");
-
-  // A little space between stdout
-  let elapsed_time = runtime.run()?;
-
-  stdout().write_all(b"\n").unwrap();
-
-  log::debug!("Elapsed time: {}s.", elapsed_time.as_secs_f64());
-
-  Ok(())
 }

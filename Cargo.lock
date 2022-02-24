@@ -40,7 +40,9 @@ version = "1.0.3"
 dependencies = [
  "brainease_lexer",
  "brainease_runtime",
+ "brainease_transpiler",
  "clap",
+ "clap-verbosity-flag",
  "env_logger",
  "log",
 ]
@@ -55,6 +57,14 @@ dependencies = [
 
 [[package]]
 name = "brainease_runtime"
+version = "1.0.3"
+dependencies = [
+ "brainease_lexer",
+ "log",
+]
+
+[[package]]
+name = "brainease_transpiler"
 version = "1.0.3"
 dependencies = [
  "brainease_lexer",
@@ -82,6 +92,16 @@ dependencies = [
  "strsim",
  "termcolor",
  "textwrap",
+]
+
+[[package]]
+name = "clap-verbosity-flag"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "17e437250f23cdd03daf3de763093aa27873a026ef9a156800da9ddd617c51d4"
+dependencies = [
+ "clap",
+ "log",
 ]
 
 [[package]]
