@@ -1,0 +1,80 @@
+name: Another Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+  attach:
+    needs: [test]
+    name: Attach binaries on latest release (${{ matrix.os }})
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            binary_target: x86_64-unknown-linux-musl
+            toolchain: stable
+
+          - os: windows-latest
+            binary_target: x86_64-pc-windows-msvc
+            toolchain: stable-x86_64-pc-windows-msvc
+
+          - os: macos-latest
+            binary_target: x86_64-apple-darwin
+            toolchain: stable
+
+    steps:
+      - name: Install musl tools
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get install musl-tools
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache cargo files
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            ./target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          profile: minimal
+          override: true
+
+      - name: Build binaries
+        run: cargo build --all --release
+
+      - name: Zip binaries
+        uses: papeloto/action-zip@v1
+        with:
+          files: README.md LICENSE target/release/${{ (matrix.os == 'windows-latest' && 'brainease.exe') || 'brainease'}}
+          dest: brainease-${{ matrix.binary_target }}.zip
+
+      - name: Upload Binaries
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: '*.zip'
+          file_glob: true
+          tag: v1.0.1 #${{ github.ref }}
+          overwrite: true
