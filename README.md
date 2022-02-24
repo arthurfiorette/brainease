@@ -28,30 +28,35 @@ $ cargo install brainease
 <br />
 
 ```r
-# brainease -f examples/hello.brain
+# brain run -f examples/hello.brain
 
 save 'H' at *1
-save 'e' at *2
-save 'l' at *3
-save 'o' at *4
-save ' ' at *5
-save 'W' at *6
-save 'r' at *7
-save 'd' at *8
-
 print *1
+save 'e' at *2
 print *2
+save 'l' at *3
 print *3
 print *3
+save 'o' at *4
 print *4
+save ',' at *5
 print *5
-print *6
-print *4
-print *7
-print *3
-print *8
 
-#> Hello World
+save ' ' at *6
+print *6
+
+save 'W' at *7
+print *7
+print *4 # o
+save 'r' at *8
+print *8
+print *3 # l
+save 'd' at *9
+print *9
+save '!' at *10
+print *10
+
+#> Hello, World!
 ```
 
 <br />
