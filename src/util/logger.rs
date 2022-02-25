@@ -1,6 +1,9 @@
-use clap_verbosity_flag::Verbosity;
+use clap_verbosity_flag::{LogLevel, Verbosity};
 
-pub fn setup_logger(verbose: &Verbosity) {
+pub fn setup_logger<L>(verbose: &Verbosity<L>)
+where
+  L: LogLevel,
+{
   env_logger::builder()
     .filter_level(verbose.log_level_filter())
     .format_indent(None)

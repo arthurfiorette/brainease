@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use clap_verbosity_flag::Verbosity;
+use clap_verbosity_flag::{Verbosity, WarnLevel};
 
 use crate::{run::RunOpts, transpile::TranspileOpts};
 
@@ -11,7 +11,7 @@ pub struct Cli {
   pub command: Commands,
 
   #[clap(flatten)]
-  pub verbose: Verbosity,
+  pub verbose: Verbosity<WarnLevel>,
 }
 
 #[derive(Subcommand, Debug)]
