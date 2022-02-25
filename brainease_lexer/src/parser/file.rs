@@ -3,7 +3,9 @@ use crate::syntax::Instruction;
 
 pub fn parse_file(file: &str) -> Vec<Instruction> {
   let lines: Vec<&str> = file.lines().collect();
-  parse_partial_file(&lines, 0, 0, 0).1
+  let (_, instructions) = parse_partial_file(&lines, 0, 0, 0);
+
+  instructions
 }
 
 /// Parses a file from a specified starting point. Returns the next line to parse and the
@@ -35,8 +37,11 @@ pub fn parse_partial_file(
     if let Some(instruction) = result.instruction {
       instructions.push(instruction);
 
-      // line had content
-      last_contentful_line = line_index;
+      // It's used next_line - 1 instead of line_index, because
+      // the line_index may not account empty lines (and etc) between
+      // the line_index and his previous one. So, next_line - 1
+      // will always be the last contentful line.
+      last_contentful_line = result.next_line - 1;
     }
 
     line_index = result.next_line;
@@ -44,4 +49,40 @@ pub fn parse_partial_file(
   }
 
   (last_contentful_line + 1, instructions)
+}
+
+#[cfg(test)]
+pub mod tests {
+  use crate::syntax::{CellOrPointer, Instruction};
+
+  use super::parse_file;
+
+  #[test]
+  pub fn test_double_loop() {
+    let code = "
+save '.' at *@
+loop *@
+  loop *@
+    print *@
+";
+
+    let parsed = parse_file(code);
+
+    assert_eq!(
+      parsed,
+      vec![
+        Instruction::Save {
+          cell: CellOrPointer::Pointer,
+          value: b'.',
+        },
+        Instruction::Loop {
+          cell: CellOrPointer::Pointer,
+          inner: vec![Instruction::Loop {
+            cell: CellOrPointer::Pointer,
+            inner: vec![Instruction::Print(CellOrPointer::Pointer)]
+          }]
+        }
+      ]
+    )
+  }
 }

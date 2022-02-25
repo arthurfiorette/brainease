@@ -26,6 +26,8 @@ pub fn parse_instruction(
     // This should never, REALLY, happen. But time may go backwards.
     if indentation < 2 {
       logger::unknown_indentation(&line_index, &indentation);
+
+      // FIXME: Remove process::exit
       process::exit(1);
     }
 
