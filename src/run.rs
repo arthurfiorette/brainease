@@ -1,7 +1,4 @@
-use std::{
-  io::{self, stdout, Write},
-  path::Path,
-};
+use std::{io, path::Path};
 
 use brainease_lexer::parser;
 use brainease_runtime::{
