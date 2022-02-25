@@ -11,8 +11,6 @@ impl IoHandler for DefaultIoHandler {
   type Err = io::Error;
 
   fn read_input(&mut self) -> Result<CellValue, Self::Err> {
-    println!("Enter input: ");
-
     let mut data = [0; 1];
     stdin().read_exact(&mut data)?;
 
@@ -24,6 +22,7 @@ impl IoHandler for DefaultIoHandler {
   }
 
   fn flush(&mut self) -> Result<(), Self::Err> {
+    stdout().write_all(b"\n")?;
     stdout().flush()
   }
 }

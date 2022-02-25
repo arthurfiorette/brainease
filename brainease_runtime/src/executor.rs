@@ -67,9 +67,7 @@ where
     }
 
     Instruction::Loop { cell, inner } => {
-      let pointer = cell.or(runtime.pointer);
-
-      while runtime.memory[pointer] != 0 {
+      while runtime.memory[cell.or(runtime.pointer)] != 0 {
         for instruction in inner {
           execute(instruction, runtime)?;
         }
