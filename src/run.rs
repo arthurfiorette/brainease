@@ -20,7 +20,7 @@ pub struct RunOpts {
   main: String,
 
   /// The length to initialize the memory array
-  #[clap(short = 'm', long = "memory", default_value = "3000")]
+  #[clap(short = 'm', long = "memory", default_value = "30000")]
   memory_length: usize,
 }
 
@@ -60,9 +60,6 @@ where
   log::debug!("Starting runtime");
 
   let elapsed_time = runtime.run()?;
-
-  // Prints suffix
-  stdout().write_all(b"\n").unwrap();
 
   log::debug!("Elapsed time: {}s.", elapsed_time.as_secs_f64());
 
