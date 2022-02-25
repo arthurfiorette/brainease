@@ -13,10 +13,10 @@ pub fn read_file(path: &Path) -> io::Result<String> {
   content
 }
 
-pub fn write_file(path: &Path, contents: Vec<String>) -> io::Result<()> {
+pub fn write_file(path: &Path, content: String) -> io::Result<()> {
   log::trace!("Writing {}", path.display());
 
-  let result = fs::write(path, contents.join("\n"));
+  let result = fs::write(path, content);
 
   if let Err(err) = &result {
     log::error!("Could not write to {}", path.display());
