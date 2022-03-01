@@ -1,18 +1,11 @@
 use crate::logger;
 
-/// Checks if the given line is empty or is a comment (starts with `#`).
-pub fn is_empty_line(line: &str) -> bool {
-  for char in line.chars() {
-    if char == '#' {
-      return true;
-    }
-
-    if !char.is_whitespace() {
-      return false;
-    }
-  }
-
-  true
+/// Creates a function that returns a new string with everything before a # character.
+pub fn strip_comments(line: &str) -> &str {
+  line
+    .find('#')
+    .map_or(line, |index| &line[..index])
+    .trim_end()
 }
 
 /// Returns true if the given line has the exact given number of spaces.
@@ -20,15 +13,12 @@ pub fn match_indentation(spaces: usize, line: &str) -> bool {
   let mut chars = line.chars();
 
   for _ in 0..spaces {
-    let char = chars.next();
-    if char.is_none() || !char.unwrap().is_whitespace() {
+    if chars.next().map_or(true, |c| !c.is_whitespace()) {
       return false;
     }
   }
 
-  // Ensures that indentation has ended.
-  let char = chars.next();
-  char.is_none() || !char.unwrap().is_whitespace()
+  chars.next().map_or(true, |c| !c.is_whitespace())
 }
 
 pub fn log_extra_chars(line_index: &usize, str: &str) {
@@ -40,40 +30,6 @@ pub fn log_extra_chars(line_index: &usize, str: &str) {
 #[cfg(test)]
 mod tests {
   use super::*;
-
-  #[test]
-  fn test_empty_line_comment() {
-    for i in 1..50 {
-      assert!(is_empty_line(&format!("{}# comment", " ".repeat(i))));
-    }
-  }
-
-  #[test]
-  fn test_empty_line_random_chars() {
-    let space_chars = [
-      ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '　', ' ', ' ', ' ', ' ', ' ',
-      ' ', ' ', '　', ' ', ' ', ' ', ' ', '　', ' ',
-    ];
-
-    for char in space_chars {
-      for char2 in space_chars {
-        for i in 1..20 {
-          let space = format!("{}{}", char, char2).repeat(i);
-
-          assert!(is_empty_line(&space));
-          assert!(is_empty_line(&format!("{} # a comment", space)));
-          assert!(!is_empty_line(&format!("{} not a comment", space)));
-        }
-      }
-    }
-  }
-
-  #[test]
-  fn test_not_empty_line() {
-    for i in 1..50 {
-      assert!(!is_empty_line(&format!("{} not a comment", " ".repeat(i))));
-    }
-  }
 
   #[test]
   fn indentation_with_empty_lines() {
@@ -89,6 +45,14 @@ mod tests {
         i,
         &format!("{}{}", " ".repeat(i), "exact")
       ));
+    }
+  }
+
+  #[test]
+  fn indentation_samples() {
+    for i in 1..10 {
+      assert!(match_indentation(i, &" ".repeat(i)));
+      assert!(match_indentation(i, &format!("{}exact", " ".repeat(i))));
     }
   }
 
@@ -123,11 +87,30 @@ mod tests {
   }
 
   #[test]
-  fn comments_after_code() {
-    assert!(is_empty_line("    # comment instruction"));
-    assert!(is_empty_line("# comment instruction"));
-    assert!(is_empty_line("######## a lot of #'s"));
-    assert!(!is_empty_line("instruction # comment"));
-    assert!(!is_empty_line("instruction # comment another instruction"));
+  fn strip_comments_samples() {
+    assert_eq!(strip_comments("# whole line comment"), "");
+    assert_eq!(strip_comments("    # comment instruction"), "");
+    assert_eq!(strip_comments("# comment instruction"), "");
+    assert_eq!(strip_comments("######## a lot of #'s"), "");
+    assert_eq!(strip_comments("instruction # comment"), "instruction");
+    assert_eq!(
+      strip_comments("instruction # comment another instruction"),
+      "instruction"
+    );
+  }
+
+  #[test]
+  fn strip_comments_trailing_spaces() {
+    let space_chars = [
+      ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '　', ' ', ' ', ' ', ' ', ' ',
+      ' ', ' ', '　', ' ', ' ', ' ', ' ', '　', ' ',
+    ];
+
+    for i in 1..20 {
+      for space in space_chars {
+        let expected = format!("text{}", space.to_string().repeat(i));
+        assert_eq!(strip_comments(&format!("{}# comment", expected)), "text");
+      }
+    }
   }
 }

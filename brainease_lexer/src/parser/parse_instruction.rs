@@ -4,7 +4,7 @@ use super::LineResult;
 use crate::{
   logger,
   syntax::{TokenKind, TokenParser},
-  util::{is_empty_line, match_indentation},
+  util::{strip_comments, match_indentation}
 };
 
 pub fn parse_instruction(
@@ -12,9 +12,9 @@ pub fn parse_instruction(
   indentation: usize,
   line_index: usize,
 ) -> LineResult {
-  let mut line = file[line_index];
+  let mut line = strip_comments(file[line_index]);
 
-  if is_empty_line(line) {
+  if line.is_empty() {
     return LineResult {
       new_indentation: indentation,
       instruction: None,
