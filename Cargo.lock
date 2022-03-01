@@ -49,7 +49,7 @@ dependencies = [
 
 [[package]]
 name = "brainease_lexer"
-version = "1.0.3"
+version = "1.0.4"
 dependencies = [
  "lazy-regex",
  "log",
@@ -57,7 +57,7 @@ dependencies = [
 
 [[package]]
 name = "brainease_runtime"
-version = "1.0.3"
+version = "1.0.4"
 dependencies = [
  "brainease_lexer",
  "log",
@@ -65,7 +65,7 @@ dependencies = [
 
 [[package]]
 name = "brainease_transpiler"
-version = "1.0.3"
+version = "1.0.4"
 dependencies = [
  "brainease_lexer",
  "log",

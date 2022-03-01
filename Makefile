@@ -2,6 +2,9 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 
 all:
 
+test-watch:
+	cargo watch -x "test --all"
+
 changelog:
 	@git-cliff -o CHANGELOG.md
 
