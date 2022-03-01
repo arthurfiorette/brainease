@@ -2,10 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.0.4] - 2022-03-01
 
 ### Bug Fixes
 
+- Use 30.000 as default memory length
+- Update pointer every loop check
+- Fixed unknown indentation after double indentation block
+- Goto index out of bounds (#2)
+- Write and print output (#2)
 - Wrap pointer if value is the same as memory length
 - Fixed goto capturing group
 - Use @ for pointer as # is a comment :p
@@ -18,6 +23,8 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 
+- Updated hello world example
+- Fixed changelog
 - Added changelog
 - Fixed site url
 - More documentation
@@ -26,6 +33,11 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 
+- Removed run option after transpilation
+- Cli using new transpiler
+- Transpile cli and subcommands
+- Transpile from brainfuck code
+- Use .brain as file extension (#2)
 - Accept # as pointer
 - Goto instruction
 - [**breaking**] Integrated `if_cell` into `if`
@@ -33,12 +45,19 @@ All notable changes to this project will be documented in this file.
 
 ### Miscellaneous Tasks
 
+- Bump clap from 3.1.2 to 3.1.3 (#5)
+- Clippy code
+- Bump clap from 3.1.1 to 3.1.2 (#4)
+- Bump clap from 3.1.0 to 3.1.1 (#3)
 - Updated debugger
 - Bump clap from 3.0.14 to 3.1.0 (#1)
 - Added debug config for vscode
 
 ### Refactor
 
+- Smaller and faster transpiler
+- Cli paths normalization and result handling (#2)
+- Idiomatic rust code
 - Trace cli arguments
 - Split io_handler into multiple files
 - IoHandler for different IO modes
@@ -53,8 +72,14 @@ All notable changes to this project will be documented in this file.
 
 ### Ci
 
+- Attach binaries on latest release
+- Updated ci to test all packages
 - Dependabot.yml
 - Added docs action
+
+### Tag
+
+- Bump all brainease crates
 
 ## [1.0.3] - 2022-02-07
 
