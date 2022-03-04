@@ -43,8 +43,12 @@ pub fn parse_bf_code(code: &[u8], index: usize) -> (Option<Instruction>, usize) 
 
       (
         Some(Instruction::Goto {
-          by: Some(GotoBy::Number(count)),
           dir: GotoDirection::Right,
+          by: if count == 1 {
+            None
+          } else {
+            Some(GotoBy::Number(count))
+          },
         }),
         index,
       )
@@ -61,8 +65,12 @@ pub fn parse_bf_code(code: &[u8], index: usize) -> (Option<Instruction>, usize) 
 
       (
         Some(Instruction::Goto {
-          by: Some(GotoBy::Number(count)),
           dir: GotoDirection::Left,
+          by: if count == 1 {
+            None
+          } else {
+            Some(GotoBy::Number(count))
+          },
         }),
         index,
       )
