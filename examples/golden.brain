@@ -1,0 +1,163 @@
+# Transpiled from http://brainfuck.org/golden.b
+# [golden.b -- compute golden ratio
+# (c) 2019 Daniel B. Cristofani
+# http://brainfuck.org/]
+
+# This program computes the "golden ratio" (https://oeis.org/A001622). Because
+# this number is infinitely long, this program doesn't terminate on its own;
+# you will have to kill it.
+
+inc 1 in *@
+goto right by 7
+inc 2 in *@
+goto right
+inc 1 in *@
+goto right
+inc 1 in *@
+goto right
+inc 1 in *@
+goto right
+inc 2 in *@
+goto left
+loop *@
+  inc 1 in *@
+  loop *@
+    dec 2 in *@
+    loop *@
+      inc 2 in *@
+      goto right by 2
+      dec 2 in *@
+    dec 1 in *@
+    goto right
+    dec 2 in *@
+    loop *@
+      inc 1 in *@
+      loop *@
+        inc 1 in *@
+        goto left
+        inc 1 in *@
+        loop *@
+          dec 1 in *@
+          goto left by 2
+          inc 1 in *@
+        inc 2 in *@
+        goto left by 2
+        loop *@
+          dec 1 in *@
+          loop *@
+            dec 1 in *@
+            goto right
+            dec 1 in *@
+            loop *@
+              goto right by 2
+              dec 1 in *@
+            inc 2 in *@
+            goto left
+            loop *@
+              goto left by 2
+            inc 2 in *@
+            goto left by 2
+            dec 1 in *@
+          inc 1 in *@
+          goto left by 2
+        goto right by 4
+        dec 1 in *@
+        goto left by 5
+        inc 2 in *@
+        goto left
+        dec 1 in *@
+        goto left by 2
+        inc 6 in *@
+        loop *@
+          goto left
+          inc 8 in *@
+          goto right
+          dec 1 in *@
+        goto left
+        print *@
+        dec 3 in *@
+        goto left
+        loop *@
+          dec 1 in *@
+          goto right
+          print *@
+          loop *@
+            dec 1 in *@
+          inc 5 in *@
+          goto right
+        goto right
+        loop *@
+          loop *@
+            dec 1 in *@
+          goto right by 2
+      inc 1 in *@
+      goto right by 2
+      dec 2 in *@
+    inc 1 in *@
+    goto left
+    inc 1 in *@
+    loop *@
+      dec 1 in *@
+      goto left
+      inc 1 in *@
+      goto left
+      inc 1 in *@
+    inc 2 in *@
+    goto right by 2
+  goto left by 4
+  loop *@
+    loop *@
+      goto left by 2
+    goto right by 2
+    loop *@
+      dec 1 in *@
+      loop *@
+        inc 3 in *@
+        goto left by 2
+        dec 1 in *@
+      inc 1 in *@
+      goto right by 2
+      dec 1 in *@
+    inc 2 in *@
+    loop *@
+      goto left by 2
+    goto left by 5
+    inc 1 in *@
+    goto right
+  goto right
+  loop *@
+    dec 1 in *@
+    goto right by 2
+    loop *@
+      loop *@
+        goto right by 3
+        loop *@
+          goto right by 2
+        inc 1 in *@
+        loop *@
+          dec 1 in *@
+          loop *@
+            dec 1 in *@
+            goto right by 2
+            inc 1 in *@
+            goto right by 4
+            dec 1 in *@
+            loop *@
+              dec 1 in *@
+              loop *@
+                inc 3 in *@
+                goto left by 2
+                loop *@
+                  dec 1 in *@
+              inc 1 in *@
+              goto right by 2
+              dec 1 in *@
+            inc 2 in *@
+            loop *@
+              goto left by 2
+          inc 1 in *@
+          goto left by 2
+        goto left
+        dec 1 in *@
+      goto left
+  goto right by 7

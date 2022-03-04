@@ -1,0 +1,102 @@
+# Transpiled from http://brainfuck.org/squares2.b
+
+# [squares2.b -- compute square numbers
+# (c) 2016 Daniel B. Cristofani
+# http://brainfuck.org/]
+
+# This program outputs square numbers. It doesn't terminate.
+
+goto right by 10
+inc 1 in *@
+goto right
+inc 2 in *@
+goto left
+loop *@
+  loop *@
+    loop *@
+      goto left by 2
+      inc 1 in *@
+      goto right
+      inc 1 in *@
+      goto right
+      dec 1 in *@
+    inc 6 in *@
+    loop *@
+      goto left
+      inc 8 in *@
+      goto right
+      dec 1 in *@
+    goto left
+    dec 1 in *@
+    print *@
+    loop *@
+      dec 1 in *@
+    goto left by 3
+  inc 10 in *@
+  print *@
+  loop *@
+    dec 1 in *@
+  goto right by 5
+  loop *@
+    goto right by 4
+  goto left by 4
+  loop *@
+    loop *@
+      goto left by 3
+      inc 1 in *@
+      goto right
+      inc 1 in *@
+      goto right by 2
+      dec 1 in *@
+    goto left by 3
+    dec 1 in *@
+    goto left
+  goto right by 2
+  inc 2 in *@
+  loop *@
+    loop *@
+      goto left by 3
+      inc 10 in *@
+      loop *@
+        goto right by 3
+        loop *@
+          dec 1 in *@
+          goto right by 2
+          inc 1 in *@
+          goto left
+        goto right
+        loop *@
+          goto left
+        goto left by 4
+        dec 1 in *@
+      goto right by 3
+      loop *@
+        goto right by 2
+        loop *@
+          dec 1 in *@
+        goto right by 2
+        inc 1 in *@
+        goto left by 4
+        loop *@
+          goto right by 2
+          inc 1 in *@
+          goto left by 2
+          dec 1 in *@
+      goto right by 4
+    goto left by 2
+    dec 1 in *@
+    loop *@
+      inc 1 in *@
+      goto right by 4
+    inc 1 in *@
+    loop *@
+      goto left by 4
+    goto right
+  goto right by 3
+  loop *@
+    goto right by 4
+  goto left by 4
+  dec 1 in *@
+  goto left by 2
+  inc 1 in *@
+  goto left by 2
