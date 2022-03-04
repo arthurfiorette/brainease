@@ -1,0 +1,20 @@
+[config]
+skip_core_tasks = true
+
+[tasks.format]
+workspace = false
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--", "--emit=files"]
+
+[tasks.changelog]
+workspace = false
+install_crate = "git-cliff"
+command = "git-cliff"
+args = ["-o=CHANGELOG.md"]
+
+[tasks.watch]
+workspace = false
+install_crate = "cargo-watch"
+command = "cargo"
+args = ["watch", "-x", "test --all"]
