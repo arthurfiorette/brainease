@@ -9,8 +9,8 @@ pub trait IoHandler: Clone {
   fn read_input(&mut self) -> Result<CellValue, Self::Err>;
   fn write_output(&mut self, output: &[CellValue]) -> Result<(), Self::Err>;
 
-  /// Flushes the output buffer.
+  /// Flushes the output buffer. May or may not execute something
   ///
-  /// Normally just emits a newline character.
+  /// Called after every instruction loop is executed.
   fn flush(&mut self) -> Result<(), Self::Err>;
 }

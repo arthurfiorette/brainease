@@ -1,6 +1,6 @@
 use brainease_lexer::syntax::{GotoBy, GotoDirection, Instruction};
 
-use crate::{io_handler::IoHandler, runtime::Runtime};
+use crate::{execute_many::execute_many, io_handler::IoHandler, runtime::Runtime};
 
 pub fn execute<I>(
   instruction: &Instruction,
@@ -67,10 +67,9 @@ where
     }
 
     Instruction::Loop { cell, inner } => {
+      // Needs to calculate cell.or(runtime.pointer) every time, because the pointer may change.
       while runtime.memory[cell.or(runtime.pointer)] != 0 {
-        for instruction in inner {
-          execute(instruction, runtime)?;
-        }
+        execute_many(inner, runtime)?;
       }
     }
 
@@ -91,9 +90,7 @@ where
       };
 
       if logic.matches(runtime.memory[cell_pointer], other) {
-        for instruction in inner {
-          execute(instruction, runtime)?;
-        }
+        execute_many(inner, runtime)?;
       }
     }
 

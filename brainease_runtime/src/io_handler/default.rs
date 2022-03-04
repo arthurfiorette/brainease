@@ -22,7 +22,6 @@ impl IoHandler for DefaultIoHandler {
   }
 
   fn flush(&mut self) -> Result<(), Self::Err> {
-    stdout().write_all(b"\n")?;
     stdout().flush()
   }
 }

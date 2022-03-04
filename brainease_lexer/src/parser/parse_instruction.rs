@@ -4,7 +4,7 @@ use super::LineResult;
 use crate::{
   logger,
   syntax::{TokenKind, TokenParser},
-  util::{strip_comments, match_indentation}
+  util::{match_indentation, strip_comments},
 };
 
 pub fn parse_instruction(
