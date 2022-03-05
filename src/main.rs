@@ -21,5 +21,5 @@ fn main() {
   }
 
   // Emits a newline character
-  print!("\n");
+  println!();
 }
