@@ -3,7 +3,7 @@ mod run;
 mod transpile;
 mod util;
 
-use std::io::{stdout, Write, self};
+use std::io::{self, stdout, Write};
 
 use clap::Parser;
 use cli::{Cli, Commands};
