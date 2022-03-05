@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.5] - 2022-03-05
+
+### Bug Fixes
+
+- Clippy
+- Flush output after every instruction loop
+- Extra chars warns even if its only comments
+
+### Documentation
+
+- Added examples
+
+### Miscellaneous Tasks
+
+- Use cargo-make for common tasks
+- Add funding.yml
+- Bump clap from 3.1.3 to 3.1.5 (#6)
+- Bump cli to v1.0.4
+
+### Refactor
+
+- Change -f to argument
+- Use None when GotoDirection is 1
+
+### Ci
+
+- Fixed ci and updated changelog
+
+### Deps
+
+- Updated autocfg
+
+### Tag
+
+- V1.0.5
+
 ## [1.0.4] - 2022-03-01
 
 ### Bug Fixes
