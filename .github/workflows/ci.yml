@@ -1,4 +1,4 @@
-name: Cargo workspace CI
+name: Rust CI
 
 on:
   push:
@@ -8,9 +8,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  lints:
-    name: Lints
-    runs-on: ubuntu-latest
+  job:
+    name: Rust CI (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    matrix:
+      os:
+        - ubuntu-latest
+        - windows-latest
+        - macos-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -29,56 +35,18 @@ jobs:
             ./target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Run fmt
-        run: cargo fmt --all -- --check
+      # Code compiles
+      - name: Run check
+        run: cargo check --all
 
+      # Follow "rules"
       - name: Run clippy
         run: cargo clippy --all -- -D warnings
 
-  test:
-    name: Test suits
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-
-      - name: Cache cargo files
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            ./target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-
+      # Test passes
       - name: Run test
         run: cargo test --all
-
-  check:
-    name: Check code
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-
-      - name: Cache cargo files
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            ./target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Run check
-        run: cargo check --all
+      
+      # Bad formatting
+      - name: Run fmt
+        run: cargo fmt --all -- --check
