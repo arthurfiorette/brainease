@@ -1,6 +1,7 @@
 use crate::{
   logger,
-  util::{match_indentation, strip_comments}, syntax::find_match,
+  syntax::find_match,
+  util::{match_indentation, strip_comments},
 };
 
 use super::line_result::LineResult;
