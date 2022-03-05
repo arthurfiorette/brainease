@@ -7,8 +7,10 @@ use crate::util;
 
 #[derive(Parser, Debug)]
 #[clap(
-  name = "transpile",
-  about = "Transpile Brainease source code to Brainfuck"
+  author,
+  version,
+  name = "Brainease Transpiler",
+  about = "Transpile brainf*ck source into brainease code"
 )]
 pub struct TranspileOpts {
   /// The bf source file to transpile

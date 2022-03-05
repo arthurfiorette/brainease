@@ -10,7 +10,12 @@ use clap::Parser;
 use crate::util;
 
 #[derive(Parser, Debug)]
-#[clap(name = "run", about = "Run Brainease source code")]
+#[clap(
+  author,
+  version,
+  name = "Brainease Runner",
+  about = "Run brainease code"
+)]
 pub struct RunOpts {
   /// The main brainease file to run
   main: String,

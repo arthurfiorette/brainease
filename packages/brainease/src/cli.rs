@@ -4,8 +4,7 @@ use clap_verbosity_flag::{Verbosity, WarnLevel};
 use crate::{run::RunOpts, transpile::TranspileOpts};
 
 #[derive(Parser, Debug)]
-#[clap(name = "Brainease")]
-#[clap(about = "A brainf*ck-style programming language, but readable")]
+#[clap(author, version, about, name = "Brainease")]
 pub struct Cli {
   #[clap(subcommand)]
   pub command: Commands,
