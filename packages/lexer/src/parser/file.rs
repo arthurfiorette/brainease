@@ -29,6 +29,12 @@ pub fn parse_partial_file(
   while line_index < file.len() {
     let result = parse_instruction(file, indentation, line_index);
 
+    // Occurred an error while parsing the instruction.
+    // Return an empty vector.
+    if result.error {
+      return (file.len(), Vec::new());
+    }
+
     // Indentation is over, we're done.
     if result.new_indentation < starting_indentation {
       break;

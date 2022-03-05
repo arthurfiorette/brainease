@@ -1,11 +1,9 @@
-use std::process;
-
-use super::LineResult;
 use crate::{
   logger,
-  syntax::{TokenKind, TokenParser},
-  util::{match_indentation, strip_comments},
+  util::{match_indentation, strip_comments}, syntax::find_match,
 };
+
+use super::line_result::LineResult;
 
 pub fn parse_instruction(
   file: &[&str],
@@ -15,11 +13,7 @@ pub fn parse_instruction(
   let mut line = strip_comments(file[line_index]);
 
   if line.is_empty() {
-    return LineResult {
-      new_indentation: indentation,
-      instruction: None,
-      next_line: line_index + 1,
-    };
+    return LineResult::next_line(indentation, line_index);
   }
 
   if !match_indentation(indentation, line) {
@@ -27,8 +21,7 @@ pub fn parse_instruction(
     if indentation < 2 {
       logger::unknown_indentation(&line_index, &indentation);
 
-      // FIXME: Remove process::exit
-      process::exit(1);
+      return LineResult::error();
     }
 
     // Indentation has ended.
@@ -39,23 +32,13 @@ pub fn parse_instruction(
   // Clears indentation
   line = &line[indentation..];
 
-  if let Some((token, captures)) = TokenKind::find_match(line) {
-    let parser: TokenParser = token.parser();
+  if let Some((token, captures)) = find_match(line) {
+    let (next_line, instruction) =
+      token.read_instruction(file, captures, line_index, indentation);
 
-    let (next_line, instruction) = parser(file, captures, line_index, indentation);
-
-    return LineResult {
-      instruction,
-      next_line,
-      new_indentation: indentation,
-    };
+    return LineResult::new(instruction, next_line, indentation);
   }
 
   logger::unknown_line(&line_index, line);
-
-  LineResult {
-    new_indentation: indentation,
-    instruction: None,
-    next_line: line_index + 1,
-  }
+  LineResult::error()
 }

@@ -1,8 +1,4 @@
-use std::{
-  env, fs, io,
-  path::{Path, PathBuf},
-  vec,
-};
+use std::{env, fs, io, path::Path, vec};
 
 use brainease_lexer::{parser, syntax::CellValue};
 use brainease_runtime::{io_handler::IoHandler, runtime::Runtime};
@@ -20,14 +16,10 @@ impl TestIoHandler {
     let expected_output = lines.get(1).unwrap()[1..].trim().to_string();
     let expected_input = lines.get(2).unwrap()[1..].trim();
 
-    let input: Vec<CellValue> = if expected_input.is_empty() {
-      vec![]
-    } else {
-      expected_input
-        .split(',')
-        .map(|s| s.parse().unwrap())
-        .collect()
-    };
+    let input = expected_input
+      .split(',')
+      .map(|i| i.parse().unwrap())
+      .collect();
 
     TestIoHandler {
       input,
@@ -57,7 +49,7 @@ impl IoHandler for TestIoHandler {
   }
 }
 
-fn scan_dir(name: &PathBuf) -> io::Result<Vec<(String, String)>> {
+fn scan_dir(name: &Path) -> io::Result<Vec<(String, String)>> {
   let content = fs::read_dir(name)?;
 
   let mut files = vec![];
