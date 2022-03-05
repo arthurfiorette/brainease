@@ -1,5 +1,5 @@
 [package]
-name = "brainease_runtime"
+name = "brainease"
 version = "1.0.5"
 edition = "2021"
 description = "A brainf*ck-style programming language, but readable"
@@ -10,5 +10,12 @@ license = "MIT"
 readme = "./README.md"
 
 [dependencies]
-brainease_lexer = { path = "../brainease_lexer", version = "^1" }
+brainease_runtime = { path = "../runtime", version = "^1" }
+brainease_lexer = { path = "../lexer", version = "^1" }
+brainease_transpiler = { path = "../transpiler", version = "^1" }
+
+clap = { version = "^3.1", features = ["derive"] }
+
+clap-verbosity-flag = "^1"
+env_logger = "^0.9"
 log = "^0.4"
