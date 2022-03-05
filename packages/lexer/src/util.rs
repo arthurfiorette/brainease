@@ -1,5 +1,3 @@
-use crate::logger;
-
 /// Creates a function that returns a new string with everything before a # character.
 pub fn strip_comments(line: &str) -> &str {
   line
@@ -19,12 +17,6 @@ pub fn match_indentation(spaces: usize, line: &str) -> bool {
   }
 
   chars.next().map_or(true, |c| !c.is_whitespace())
-}
-
-pub fn log_extra_chars(line_index: &usize, str: &str) {
-  if !str.is_empty() {
-    logger::extra_characters(line_index, str);
-  }
 }
 
 #[cfg(test)]

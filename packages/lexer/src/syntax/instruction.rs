@@ -1,4 +1,8 @@
-use super::{CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic, TokenKind};
+use super::{CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic};
+use crate::token::{
+  DecrementToken, GotoToken, IfToken, IncrementToken, LoopToken, MoveToken, PrintToken,
+  ReadToken, SaveToken, SwapToken, Token, WriteToken,
+};
 
 /// A Instruction that contain brainease logic.
 #[derive(Debug, Clone, PartialEq)]
@@ -138,19 +142,19 @@ pub enum Instruction {
 }
 
 impl Instruction {
-  pub fn kind(&self) -> TokenKind {
+  pub fn token(&self) -> &'static dyn Token {
     match self {
-      Instruction::Increment { .. } => TokenKind::Increment,
-      Instruction::Decrement { .. } => TokenKind::Decrement,
-      Instruction::Move { .. } => TokenKind::Move,
-      Instruction::Swap { .. } => TokenKind::Swap,
-      Instruction::Save { .. } => TokenKind::Save,
-      Instruction::Read(_) => TokenKind::Read,
-      Instruction::Write(_) => TokenKind::Write,
-      Instruction::Print(_) => TokenKind::Print,
-      Instruction::Loop { .. } => TokenKind::Loop,
-      Instruction::If { .. } => TokenKind::If,
-      Instruction::Goto { .. } => TokenKind::Goto,
+      Instruction::Increment { .. } => &IncrementToken,
+      Instruction::Decrement { .. } => &DecrementToken,
+      Instruction::Move { .. } => &MoveToken,
+      Instruction::Swap { .. } => &SwapToken,
+      Instruction::Save { .. } => &SaveToken,
+      Instruction::Read(_) => &ReadToken,
+      Instruction::Write(_) => &WriteToken,
+      Instruction::Print(_) => &PrintToken,
+      Instruction::Loop { .. } => &LoopToken,
+      Instruction::If { .. } => &IfToken,
+      Instruction::Goto { .. } => &GotoToken,
     }
   }
 }
