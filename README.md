@@ -28,7 +28,7 @@ $ cargo install brainease
 <br />
 
 ```r
-# brain run examples/hello.brain
+# brainease run examples/hello.brain
 
 save 'H' at *1
 save 'e' at *2
