@@ -13,7 +13,6 @@ use crate::util;
 #[clap(name = "run", about = "Run Brainease source code")]
 pub struct RunOpts {
   /// The main brainease file to run
-  #[clap(short = 'f', long = "file")]
   main: String,
 
   /// The length to initialize the memory array

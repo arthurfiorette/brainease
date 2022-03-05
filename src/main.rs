@@ -19,4 +19,7 @@ fn main() {
   if let Err(err) = result {
     log::trace!("{:#?}", err)
   }
+
+  // Emits a newline character
+  print!("\n");
 }

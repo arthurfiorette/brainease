@@ -1,5 +1,5 @@
 # Hello world program written in Brainease
-# You can run it with brainease run -f examples/hello.brain
+# You can run it with brainease run examples/hello.brain
 
 save 'H' at *1
 save 'e' at *2

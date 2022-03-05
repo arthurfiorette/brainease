@@ -12,19 +12,11 @@ use crate::util;
 )]
 pub struct TranspileOpts {
   /// The bf source file to transpile
-  #[clap(short = 'f', long = "file")]
   main: String,
 
   /// The output file to write
   #[clap(short = 'o', long = "output")]
   output: Option<String>,
-
-  #[clap(
-    long = "memory",
-    help = "The memory length when -r is used",
-    default_value = "3000"
-  )]
-  memory_length: usize,
 }
 
 pub fn run(opts: &TranspileOpts) -> io::Result<()> {
