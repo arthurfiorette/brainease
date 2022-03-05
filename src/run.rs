@@ -23,15 +23,11 @@ pub struct RunOpts {
 pub fn run(opts: &RunOpts) -> io::Result<()> {
   let main = Path::new(&opts.main);
 
-  // Checks for .main file format
   if !opts.main.ends_with(".brain") {
-    log::error!(
-      "{:?} has an unknown file format of {:?}",
-      main.file_name().unwrap(),
-      main.extension().unwrap()
+    log::warn!(
+      "{:?} should use a .brain file extension",
+      main.file_name().unwrap()
     );
-
-    return Ok(());
   }
 
   let main_content = util::read_file(main)?;
@@ -56,6 +52,9 @@ where
   log::debug!("Starting runtime");
 
   let elapsed_time = runtime.run()?;
+
+  // Break output line
+  println!();
 
   log::debug!("Elapsed time: {}s.", elapsed_time.as_secs_f64());
 

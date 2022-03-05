@@ -3,10 +3,12 @@ mod run;
 mod transpile;
 mod util;
 
+use std::io::{stdout, Write, self};
+
 use clap::Parser;
 use cli::{Cli, Commands};
 
-fn main() {
+fn main() -> io::Result<()> {
   let args = Cli::parse();
 
   util::setup_logger(&args.verbose);
@@ -20,6 +22,7 @@ fn main() {
     log::trace!("{:#?}", err)
   }
 
-  // Emits a newline character
-  println!();
+  stdout().flush()?;
+
+  Ok(())
 }

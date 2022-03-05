@@ -5,9 +5,8 @@ pub fn read_file(path: &Path) -> io::Result<String> {
 
   let content = fs::read_to_string(path);
 
-  if let Err(err) = &content {
-    log::error!("Could not find {}", path.display());
-    log::trace!("{:#?}", err);
+  if content.is_err() {
+    log::error!("Could not find file {}", path.display());
   }
 
   content
@@ -18,9 +17,8 @@ pub fn write_file(path: &Path, content: String) -> io::Result<()> {
 
   let result = fs::write(path, content);
 
-  if let Err(err) = &result {
+  if result.is_err() {
     log::error!("Could not write to {}", path.display());
-    log::trace!("{:#?}", err);
   }
 
   result
