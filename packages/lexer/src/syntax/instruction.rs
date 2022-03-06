@@ -1,7 +1,7 @@
 use super::{CellOrChar, CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic};
 use crate::token::{
-  DecrementToken, GotoToken, IfToken, IncrementToken, LoopToken, MoveToken, PrintToken,
-  ReadToken, SaveToken, SwapToken, Token, WriteToken, BreakToken,
+  BreakToken, DecrementToken, GotoToken, IfToken, IncrementToken, LoopToken, MoveToken,
+  PrintToken, ReadToken, SaveToken, SwapToken, Token, WriteToken,
 };
 
 /// A Instruction that contain brainease logic.
@@ -107,15 +107,15 @@ pub enum Instruction {
 
   /// Stops the current indentation block execution. If executed on the top level,
   /// the program will exit.
-  /// 
+  ///
   /// You can use `exit` to exit the program independently of the indentation level.
-  /// 
+  ///
   /// ```r
   /// # Exit the program
   /// exit
   /// # or
   /// return
-  /// 
+  ///
   /// # inside indentation
   /// if *1 == 1
   ///   exit # exit the program

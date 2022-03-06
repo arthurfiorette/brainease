@@ -14,7 +14,7 @@ where
   let mut should_exit = false;
 
   for instruction in instructions {
-    if let Instruction::Break(exit) = instruction {  
+    if let Instruction::Break(exit) = instruction {
       should_exit = *exit;
       break;
     }
