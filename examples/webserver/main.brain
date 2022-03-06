@@ -1,0 +1,151 @@
+# Simple web server that returns the user User-Agent header as body.
+# Inspired from https://github.com/EvanHahn/brainfuck-web-app/blob/master/server.bf
+
+print 'H'
+print 'T'
+print 'T'
+print 'P'
+print '/'
+print '1'
+print '.'
+print '1'
+print ' '
+
+# Save G to get his ASCII code
+save 'G' at *1
+read *2
+
+# Method does not starts with G, so it cannot be GET. Return 404 Not found.
+if *2 != *1
+  print '4'
+  print '0'
+  print '4'
+  print ' '
+  print 'N'
+  print 'o'
+  print 't'
+  print ' '
+  print 'F'
+  print 'o'
+  print 'u'
+  print 'n'
+  print 'd'
+
+# Request is GET
+if *2 == *1
+  print '2'
+  print '0'
+  print '0'
+  print ' '
+  print 'O'
+  print 'K'
+
+# Header -- Server: brainease
+print '\n'
+print 'S'
+print 'e'
+print 'r'
+print 'v'
+print 'e'
+print 'r'
+print ':'
+print ' '
+print 'b'
+print 'r'
+print 'a'
+print 'i'
+print 'n'
+print 'e'
+print 'a'
+print 's'
+print 'e'
+print '/'
+print '1'
+print '.'
+print '1'
+
+# If this is a 404, then we are done.
+if *2 != *1
+  exit
+
+# Header -- Content-Type: text/plain
+print '\n'
+print 'C'
+print 'o'
+print 'n'
+print 't'
+print 'e'
+print 'n'
+print 't'
+print '-'
+print 'T'
+print 'y'
+print 'p'
+print 'e'
+print ':'
+print ' '
+print 't'
+print 'e'
+print 'x'
+print 't'
+print '/'
+print 'p'
+print 'l'
+print 'a'
+print 'i'
+print 'n'
+
+#
+# Find out the User-Agent header in the request
+#
+
+# Used to be a simple break statement
+inc 1 in *3
+
+# Loop until it reads a sequence of "User-Agent: "
+loop *3
+  read *4
+  if *4 == 'U'
+    read *4
+    if *4 == 's'
+      read *4
+      if *4 == 'e'
+        read *4
+        if *4 == 'r'
+          read *4
+          if *4 == '-'
+            read *4
+            if *4 == 'A'
+              read *4
+              if *4 == 'g'
+                read *4
+                if *4 == 'e'
+                  read *4
+                  if *4 == 'n'
+                    read *4
+                    if *4 == 't'
+                      read *4
+                      if *4 == ':'
+                        read *4
+                        if *4 == ' '
+                          dec 1 in *3
+
+#
+# Next read will be a user agent value
+#
+
+# Go to the response body
+print '\n'
+print '\n'
+
+# Print the user agent value
+loop *1
+  read *@
+
+  if *@ == '\n'
+    exit
+
+  print *@
+
+# That's it.
+# :)
