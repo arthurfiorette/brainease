@@ -26,7 +26,6 @@ impl Token for PrintToken {
     let cell: CellOrChar = if let Some(c) = captures.get(1) {
       CellOrChar::Cell(c.as_str().parse().unwrap())
     } else {
-    
       captures[2].parse::<CellOrChar>().unwrap()
     };
 

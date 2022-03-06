@@ -1,5 +1,7 @@
 use crate::cleaner::clean_bf_code;
-use brainease_lexer::syntax::{CellOrPointer, GotoBy, GotoDirection, Instruction, CellOrChar};
+use brainease_lexer::syntax::{
+  CellOrChar, CellOrPointer, GotoBy, GotoDirection, Instruction,
+};
 
 pub fn parse_bf(code: &str) -> Vec<Instruction> {
   let cleaned = clean_bf_code(code);

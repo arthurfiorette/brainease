@@ -1,4 +1,4 @@
-use super::{CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic, CellOrChar};
+use super::{CellOrChar, CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic};
 use crate::token::{
   DecrementToken, GotoToken, IfToken, IncrementToken, LoopToken, MoveToken, PrintToken,
   ReadToken, SaveToken, SwapToken, Token, WriteToken,
@@ -60,7 +60,7 @@ pub enum Instruction {
   /// ```
   Save {
     cell: CellOrPointer,
-    value: CellValue
+    value: CellValue,
   },
 
   /// Reads the ASCII code of the given char from stdin.
@@ -117,7 +117,7 @@ pub enum Instruction {
   ///   write 1
   ///
   /// ```
-  If { 
+  If {
     cell: CellOrPointer,
     cell_or_value: CellOrPointer,
     /// If the cellOrValue points to a cell instead of a value
