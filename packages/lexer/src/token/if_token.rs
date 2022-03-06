@@ -17,7 +17,7 @@ impl Token for IfToken {
   }
 
   fn regex(&self) -> &'static Lazy<Regex> {
-    // https://regex101.com/r/kZ8kfi/1
+    // https://regex101.com/r/kZ8kfi/2
     static REGEX: &Lazy<Regex> =
       regex!(r"^if\s\*(\d+|@)\s(==|!=|>|<|<=|>=)\s(\d{1,3}|\*(?:\d+|@)|'\\?.')\s*$");
 

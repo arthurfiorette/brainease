@@ -5,7 +5,7 @@ use crate::{execute_many::execute_many, io_handler::IoHandler, runtime::Runtime}
 pub fn execute<I>(
   instruction: &Instruction,
   runtime: &mut Runtime<I>,
-) -> Result<(), I::Err>
+) -> Result<bool, I::Err>
 where
   I: IoHandler,
 {
@@ -83,7 +83,11 @@ where
     Instruction::Loop { cell, inner } => {
       // Needs to calculate cell.or(runtime.pointer) every time, because the pointer may change.
       while runtime.memory[cell.or(runtime.pointer)] != 0 {
-        execute_many(inner, runtime)?;
+        let exit_early = execute_many(inner, runtime)?;
+
+        if exit_early {
+          return Ok(true);
+        }
       }
     }
 
@@ -104,7 +108,11 @@ where
       };
 
       if logic.matches(runtime.memory[cell_pointer], other) {
-        execute_many(inner, runtime)?;
+        let exit_early = execute_many(inner, runtime)?;
+
+        if exit_early {
+          return Ok(true);
+        }
       }
     }
 
@@ -149,7 +157,9 @@ where
         }
       }
     }
+
+    Instruction::Break(_) => {}
   }
 
-  Ok(())
+  Ok(false)
 }

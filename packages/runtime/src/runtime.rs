@@ -31,6 +31,7 @@ impl<I: IoHandler> Runtime<I> {
   pub fn run(&mut self) -> Result<Duration, I::Err> {
     let now = Instant::now();
 
+    // Exit early can be ignored because the program will exit anyway.
     execute_many(&self.instructions.clone(), self)?;
 
     self.io_handler.flush()?;

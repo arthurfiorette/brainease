@@ -2,6 +2,7 @@ use crate::syntax::Instruction;
 use core::fmt;
 use lazy_regex::{Captures, Lazy, Regex};
 
+mod break_token;
 mod decrement;
 mod goto;
 mod if_token;
@@ -14,6 +15,7 @@ mod save;
 mod swap;
 mod write;
 
+pub use break_token::*;
 pub use decrement::*;
 pub use goto::*;
 pub use if_token::*;
@@ -51,7 +53,7 @@ impl<'a> PartialEq<&'a dyn Token> for &'a dyn Token {
   }
 }
 
-pub fn all_tokens() -> [&'static dyn Token; 11] {
+pub fn all_tokens() -> [&'static dyn Token; 12] {
   [
     &decrement::DecrementToken,
     &goto::GotoToken,
@@ -64,5 +66,6 @@ pub fn all_tokens() -> [&'static dyn Token; 11] {
     &save::SaveToken,
     &swap::SwapToken,
     &write::WriteToken,
+    &break_token::BreakToken,
   ]
 }

@@ -1,7 +1,7 @@
 use super::{CellOrChar, CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic};
 use crate::token::{
   DecrementToken, GotoToken, IfToken, IncrementToken, LoopToken, MoveToken, PrintToken,
-  ReadToken, SaveToken, SwapToken, Token, WriteToken,
+  ReadToken, SaveToken, SwapToken, Token, WriteToken, BreakToken,
 };
 
 /// A Instruction that contain brainease logic.
@@ -105,6 +105,25 @@ pub enum Instruction {
     inner: Vec<Instruction>,
   },
 
+  /// Stops the current indentation block execution. If executed on the top level,
+  /// the program will exit.
+  /// 
+  /// You can use `exit` to exit the program independently of the indentation level.
+  /// 
+  /// ```r
+  /// # Exit the program
+  /// exit
+  /// # or
+  /// return
+  /// 
+  /// # inside indentation
+  /// if *1 == 1
+  ///   exit # exit the program
+  ///   # or
+  ///   return # exit this indentation
+  /// ```
+  Break(bool),
+
   /// Executes the inner instructions if the specified cell matches
   /// the logic with the given value
   ///
@@ -155,6 +174,7 @@ impl Instruction {
       Instruction::Loop { .. } => &LoopToken,
       Instruction::If { .. } => &IfToken,
       Instruction::Goto { .. } => &GotoToken,
+      Instruction::Break(_) => &BreakToken,
     }
   }
 }
