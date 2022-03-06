@@ -1,7 +1,9 @@
+# Rust output
 target
 
-
+# Vscode personal files
 .vscode/*
 !.vscode/launch.json
 
+# Temporary folder
 /tmp
