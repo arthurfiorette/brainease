@@ -19,45 +19,12 @@ Brainease</h1>
   <br />
 </h3>
 
+![cover](.github/readme.png)
+
 <br />
 
 ```sh
 $ cargo install brainease
-```
-
-<br />
-
-```r
-# brain run examples/hello.brain
-
-save 'H' at *1
-save 'e' at *2
-save 'l' at *3
-save 'o' at *4
-save ',' at *5
-save ' ' at *6
-save 'W' at *7
-save 'r' at *8
-save 'd' at *9
-save '!' at *10
-
-print *1 # H
-print *2 # e
-print *3 # l
-print *3 # l
-print *4 # o
-print *5 # ,
-
-print *6 # ' '
-
-print *7 # W
-print *4 # o
-print *8 # r
-print *3 # l
-print *9 # d
-print *10 # !
-
-#> Hello, World!
 ```
 
 <br />
