@@ -13,6 +13,7 @@ impl Token for ReadToken {
   }
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^read\s\*(\d+|@)\s*$");
+
     REGEX
   }
 

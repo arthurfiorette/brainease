@@ -13,6 +13,7 @@ impl Token for SaveToken {
   }
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^save\s'(.)'\sat\s\*(\d+|@)\s*$");
+
     REGEX
   }
 

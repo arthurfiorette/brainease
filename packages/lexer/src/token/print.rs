@@ -17,6 +17,7 @@ impl Token for PrintToken {
 
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^print\s(?:(?:\*(\d+|@))|'(\\?.)')\s*$");
+
     REGEX
   }
 

@@ -13,6 +13,7 @@ impl Token for LoopToken {
   }
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^loop\s\*(\d+|@)\s*$");
+
     REGEX
   }
 

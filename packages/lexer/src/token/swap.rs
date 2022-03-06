@@ -13,6 +13,7 @@ impl Token for SwapToken {
   }
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^swap\s\*(\d+|@)\sand\s\*(\d+|@)\s*$");
+
     REGEX
   }
 

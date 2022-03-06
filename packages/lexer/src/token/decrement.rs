@@ -14,6 +14,7 @@ impl Token for DecrementToken {
 
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^dec\s(\d{1,3})\sin\s\*(\d+|@)\s*$");
+
     REGEX
   }
 

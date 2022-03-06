@@ -120,7 +120,7 @@ pub enum Instruction {
   If {
     cell: CellOrPointer,
     cell_or_value: CellOrPointer,
-    /// If the cellOrValue points to a cell instead of a value
+    /// If the cell_or_value points to a cell instead of a value
     is_cell: bool,
     logic: IfLogic,
     inner: Vec<Instruction>,

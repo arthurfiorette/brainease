@@ -13,6 +13,7 @@ impl Token for MoveToken {
   }
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^move\s\*(\d+|@)\sto\s\*(\d+|@)\s*$");
+
     REGEX
   }
 

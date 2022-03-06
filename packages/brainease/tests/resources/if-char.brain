@@ -1,0 +1,8 @@
+# Second line is expected output and third line is provided input.
+# A
+#
+
+save 'A' at *1
+
+if *1 == 'A'
+  print 'A'

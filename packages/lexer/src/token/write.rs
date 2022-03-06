@@ -1,6 +1,9 @@
 use lazy_regex::{regex, Captures, Lazy, Regex};
 
-use crate::{syntax::{CellOrChar, Instruction}, util::interpret_escape_chars};
+use crate::{
+  syntax::{CellOrChar, Instruction},
+  util::interpret_escape_chars,
+};
 
 use super::Token;
 
@@ -14,6 +17,7 @@ impl Token for WriteToken {
 
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^write\s(?:(?:\*(\d+|@))|'(\\?.)')\s*$");
+
     REGEX
   }
 

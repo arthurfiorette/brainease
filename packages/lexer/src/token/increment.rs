@@ -15,6 +15,7 @@ impl Token for IncrementToken {
 
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^inc\s(\d{1,3})\sin\s\*(\d+|@)\s*$");
+
     REGEX
   }
 

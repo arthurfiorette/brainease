@@ -1,6 +1,10 @@
 use lazy_regex::{regex, Captures, Lazy, Regex};
 
-use crate::{parser::parse_partial_file, syntax::Instruction};
+use crate::{
+  parser::parse_partial_file,
+  syntax::{CellOrPointer, Instruction},
+  util::interpret_escape_chars,
+};
 
 use super::Token;
 
@@ -11,9 +15,12 @@ impl Token for IfToken {
   fn name(&self) -> &'static str {
     "if"
   }
+
   fn regex(&self) -> &'static Lazy<Regex> {
+    // https://regex101.com/r/kZ8kfi/1
     static REGEX: &Lazy<Regex> =
-      regex!(r"^if\s\*(\d+|@)\s(==|!=|>|<|<=|>=)\s(\d{1,3}|\*(\d+|@))\s*$");
+      regex!(r"^if\s\*(\d+|@)\s(==|!=|>|<|<=|>=)\s(\d{1,3}|\*(?:\d+|@)|'\\?.')\s*$");
+
     REGEX
   }
 
@@ -24,23 +31,68 @@ impl Token for IfToken {
     line_index: usize,
     indentation: usize,
   ) -> (usize, Option<Instruction>) {
-    let first_cell = captures[1].parse().unwrap();
+    let cell = captures[1].parse().unwrap();
     let logic = captures[2].parse().unwrap();
-
-    let is_if_cell = file[line_index].matches('*').count() == 2;
-    let value_or_cell = captures[if is_if_cell { 4 } else { 3 }].parse().unwrap();
 
     let (next_line, inner) =
       parse_partial_file(file, line_index + 1, indentation + 2, line_index);
 
+    // 4 types of If
+    //
+    // 1:   if *12 == 'A'  # Char
+    // 2:   if *12 == *@   # Pointer
+    // 3:   if *12 == *12  # Cell
+    // 4:   if *12 == 12   # Value
+
+    // If 1
+    if captures[3].starts_with('\'') {
+      let char = interpret_escape_chars(
+        // Only the second char -- 'A' -> A
+        &captures[3][1..2],
+      )
+      .parse::<char>()
+      .unwrap();
+
+      return (
+        next_line,
+        Some(Instruction::If {
+          cell,
+          logic,
+          inner,
+          is_cell: false,
+          cell_or_value: CellOrPointer::Cell(char as usize),
+        }),
+      );
+    }
+
+    // If 2 and 3
+    if let Some(txt) = captures[3].strip_prefix('*') {
+      let cell_or_value = txt.parse::<CellOrPointer>().unwrap();
+
+      return (
+        next_line,
+        Some(Instruction::If {
+          cell,
+          logic,
+          inner,
+          is_cell: true,
+          cell_or_value,
+        }),
+      );
+    }
+
+    // If 4
+
+    let value = captures[3].parse::<usize>().unwrap();
+
     (
       next_line,
       Some(Instruction::If {
-        cell: first_cell,
+        cell,
         logic,
-        is_cell: is_if_cell,
-        cell_or_value: value_or_cell,
         inner,
+        is_cell: false,
+        cell_or_value: CellOrPointer::Cell(value),
       }),
     )
   }
@@ -51,13 +103,25 @@ pub mod tests {
   use super::*;
   use crate::syntax::find_match;
 
+  static LEFT_OPERATORS: [&str; 2] = ["*@", "*1"];
+  static OPERATORS: [&str; 6] = ["==", "!=", "<=", ">=", ">", "<"];
+  static RIGHT_OPERATORS: [&str; 6] = ["*@", "*53", "23", "'A'", "' '", "'\\n'"];
+
   #[test]
   fn regex() {
     let regex = (IfToken).regex();
 
-    for left in ["*@", "*1"] {
-      for right in ["*@", "*53", "23"] {
-        for operator in ["==", "!=", "<=", ">=", ">", "<"] {
+    for left in LEFT_OPERATORS {
+      for right in RIGHT_OPERATORS {
+        for wrongly_operator in [
+          "&", "|", "^", "%", "<<", ">>", "~", "!", "=", "+", "-", "*", "/", "\\", "--",
+        ] {
+          let expression = format!("if {} {} {}", left, wrongly_operator, right);
+
+          assert!(!regex.is_match(&expression));
+        }
+
+        for operator in OPERATORS {
           let expression = format!("if {} {} {}", left, operator, right);
           assert!(regex.is_match(&expression));
 
@@ -79,23 +143,15 @@ pub mod tests {
           // without both space
           assert!(!regex.is_match(&format!("if {}{}{}", left, operator, right)));
         }
-
-        for wrongly_operator in [
-          "&", "|", "^", "%", "<<", ">>", "~", "!", "=", "+", "-", "*", "/", "\\", "--",
-        ] {
-          let expression = format!("if {} {} {}", left, wrongly_operator, right);
-
-          assert!(!regex.is_match(&expression));
-        }
       }
     }
   }
 
   #[test]
   fn captures() {
-    for left in ["*@", "*1"] {
-      for right in ["*@", "*53"] {
-        for operator in ["==", "!=", "<=", ">=", ">", "<"] {
+    for left in LEFT_OPERATORS {
+      for operator in OPERATORS {
+        for right in RIGHT_OPERATORS {
           let expression = format!("if {} {} {}", left, operator, right);
 
           let (token, captures) = find_match(&expression).unwrap();
@@ -103,7 +159,7 @@ pub mod tests {
           assert_eq!(token, &IfToken);
           assert_eq!(format!("*{}", &captures[1]), left);
           assert_eq!(&captures[2], operator);
-          assert_eq!(format!("*{}", &captures[4]), right);
+          assert_eq!(&captures[3], right);
         }
       }
     }
