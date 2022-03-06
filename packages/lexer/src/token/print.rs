@@ -1,6 +1,9 @@
 use lazy_regex::{regex, Captures, Lazy, Regex};
 
-use crate::syntax::{CellOrChar, Instruction};
+use crate::{
+  syntax::{CellOrChar, Instruction},
+  util::interpret_escape_chars,
+};
 
 use super::Token;
 
@@ -11,8 +14,9 @@ impl Token for PrintToken {
   fn name(&self) -> &'static str {
     "print"
   }
+
   fn regex(&self) -> &'static Lazy<Regex> {
-    static REGEX: &Lazy<Regex> = regex!(r"^print\s(?:(?:\*(\d+|@))|'(.)')\s*$");
+    static REGEX: &Lazy<Regex> = regex!(r"^print\s(?:(?:\*(\d+|@))|'(\\?.)')\s*$");
     REGEX
   }
 
@@ -26,7 +30,11 @@ impl Token for PrintToken {
     let cell: CellOrChar = if let Some(c) = captures.get(1) {
       CellOrChar::Cell(c.as_str().parse().unwrap())
     } else {
-      captures[2].parse::<CellOrChar>().unwrap()
+      CellOrChar::Char(
+        interpret_escape_chars(&captures[2])
+          .parse::<char>()
+          .unwrap(),
+      )
     };
 
     (line_index + 1, Some(Instruction::Print(cell)))
@@ -70,6 +78,18 @@ pub mod tests {
     assert_eq!(token, &PrintToken);
     assert!(captures.get(1).is_none());
     assert_eq!(&captures[2], "H");
+
+    let (token, captures) = find_match("print ' '").unwrap();
+
+    assert_eq!(token, &PrintToken);
+    assert!(captures.get(1).is_none());
+    assert_eq!(&captures[2], " ");
+
+    let (token, captures) = find_match("print '1'").unwrap();
+
+    assert_eq!(token, &PrintToken);
+    assert!(captures.get(1).is_none());
+    assert_eq!(&captures[2], "1");
 
     let (token, captures) = find_match("print *@").unwrap();
 

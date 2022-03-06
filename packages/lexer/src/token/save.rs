@@ -1,6 +1,6 @@
 use lazy_regex::{regex, Captures, Lazy, Regex};
 
-use crate::{logger, syntax::Instruction};
+use crate::{logger, syntax::Instruction, util::interpret_escape_chars};
 
 use super::Token;
 
@@ -23,7 +23,10 @@ impl Token for SaveToken {
     line_index: usize,
     _: usize,
   ) -> (usize, Option<Instruction>) {
-    let char = captures[1].chars().next().unwrap();
+    let char = interpret_escape_chars(&captures[1])
+      .parse::<char>()
+      .unwrap();
+
     let cell = captures[2].parse().unwrap();
 
     if char as usize > u8::MAX as usize {

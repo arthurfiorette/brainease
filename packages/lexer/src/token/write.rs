@@ -1,6 +1,6 @@
 use lazy_regex::{regex, Captures, Lazy, Regex};
 
-use crate::syntax::{CellOrChar, Instruction};
+use crate::{syntax::{CellOrChar, Instruction}, util::interpret_escape_chars};
 
 use super::Token;
 
@@ -13,7 +13,7 @@ impl Token for WriteToken {
   }
 
   fn regex(&self) -> &'static Lazy<Regex> {
-    static REGEX: &Lazy<Regex> = regex!(r"^write\s(?:(?:\*(\d+|@))|'(.)')\s*$");
+    static REGEX: &Lazy<Regex> = regex!(r"^write\s(?:(?:\*(\d+|@))|'(\\?.)')\s*$");
     REGEX
   }
 
@@ -27,7 +27,11 @@ impl Token for WriteToken {
     let cell: CellOrChar = if let Some(c) = captures.get(1) {
       CellOrChar::Cell(c.as_str().parse().unwrap())
     } else {
-      captures[2].parse().unwrap()
+      CellOrChar::Char(
+        interpret_escape_chars(&captures[2])
+          .parse::<char>()
+          .unwrap(),
+      )
     };
 
     (line_index + 1, Some(Instruction::Write(cell)))
@@ -69,6 +73,18 @@ pub mod tests {
     assert_eq!(token, &WriteToken);
     assert!(captures.get(1).is_none());
     assert_eq!(&captures[2], "H");
+
+    let (token, captures) = find_match("write ' '").unwrap();
+
+    assert_eq!(token, &WriteToken);
+    assert!(captures.get(1).is_none());
+    assert_eq!(&captures[2], " ");
+
+    let (token, captures) = find_match("write '1'").unwrap();
+
+    assert_eq!(token, &WriteToken);
+    assert!(captures.get(1).is_none());
+    assert_eq!(&captures[2], "1");
 
     let (token, captures) = find_match("write *@").unwrap();
 

@@ -1,5 +1,5 @@
 # Second line is expected output and third line is provided input.
-# A B C 65 66 67
+# A B C 65 66 67 1 2
 #
 
 print 'A'
@@ -13,3 +13,7 @@ print ' '
 write 'B'
 print ' '
 write 'C'
+print ' '
+print '1'
+print ' '
+print '2'
