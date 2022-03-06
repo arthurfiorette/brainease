@@ -1,5 +1,5 @@
 use crate::cleaner::clean_bf_code;
-use brainease_lexer::syntax::{CellOrPointer, GotoBy, GotoDirection, Instruction};
+use brainease_lexer::syntax::{CellOrPointer, GotoBy, GotoDirection, Instruction, CellOrChar};
 
 pub fn parse_bf(code: &str) -> Vec<Instruction> {
   let cleaned = clean_bf_code(code);
@@ -27,7 +27,7 @@ pub fn parse_bf_code(code: &[u8], index: usize) -> (Option<Instruction>, usize) 
 
   match code[index] {
     // Unotimizable
-    b'.' => (Some(Instruction::Print(CellOrPointer::Pointer)), index + 1),
+    b'.' => (Some(Instruction::Print(CellOrChar::pointer())), index + 1),
 
     b',' => (Some(Instruction::Read(CellOrPointer::Pointer)), index + 1),
 

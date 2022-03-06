@@ -1,4 +1,4 @@
-use super::{CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic};
+use super::{CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic, CellOrChar};
 use crate::token::{
   DecrementToken, GotoToken, IfToken, IncrementToken, LoopToken, MoveToken, PrintToken,
   ReadToken, SaveToken, SwapToken, Token, WriteToken,
@@ -60,7 +60,7 @@ pub enum Instruction {
   /// ```
   Save {
     cell: CellOrPointer,
-    value: CellValue,
+    value: CellValue
   },
 
   /// Reads the ASCII code of the given char from stdin.
@@ -77,7 +77,7 @@ pub enum Instruction {
   /// # Prints the byte value of cell 10 to stdout
   /// write 10
   /// ```
-  Write(CellOrPointer),
+  Write(CellOrChar),
 
   /// Sends the current ASCII code of the given char to stdout.
   ///
@@ -85,12 +85,12 @@ pub enum Instruction {
   /// # Prints the ASCII code stored in cell 10
   /// print 10
   /// ```
-  Print(CellOrPointer),
+  Print(CellOrChar),
 
   /// Loops the inner instructions until the given cell value is 0
   ///
   /// ```r
-  /// # Prints 10987654321 to stdout
+  /// # Writes 10987654321 to stdout
   ///
   /// # Increments 10 in cell 1
   /// inc 10 in 1
@@ -117,7 +117,7 @@ pub enum Instruction {
   ///   write 1
   ///
   /// ```
-  If {
+  If { 
     cell: CellOrPointer,
     cell_or_value: CellOrPointer,
     /// If the cellOrValue points to a cell instead of a value

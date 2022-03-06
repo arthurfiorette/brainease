@@ -59,7 +59,7 @@ pub fn parse_partial_file(
 
 #[cfg(test)]
 pub mod tests {
-  use crate::syntax::{CellOrPointer, Instruction};
+  use crate::syntax::{CellOrPointer, Instruction, CellOrChar};
 
   use super::parse_file;
 
@@ -85,7 +85,7 @@ loop *@
           cell: CellOrPointer::Pointer,
           inner: vec![Instruction::Loop {
             cell: CellOrPointer::Pointer,
-            inner: vec![Instruction::Print(CellOrPointer::Pointer)]
+            inner: vec![Instruction::Print(CellOrChar::pointer())]
           }]
         }
       ]

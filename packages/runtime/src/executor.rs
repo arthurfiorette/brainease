@@ -1,4 +1,4 @@
-use brainease_lexer::syntax::{GotoBy, GotoDirection, Instruction};
+use brainease_lexer::syntax::{CellOrChar, GotoBy, GotoDirection, Instruction};
 
 use crate::{execute_many::execute_many, io_handler::IoHandler, runtime::Runtime};
 
@@ -49,22 +49,36 @@ where
       runtime.memory[pointer] = runtime.io_handler.read_input()?;
     }
 
-    Instruction::Write(cell) => {
-      let pointer = cell.or(runtime.pointer);
-      let val = runtime.memory[pointer];
+    Instruction::Write(cell) => match cell {
+      CellOrChar::Char(c) => {
+        runtime
+          .io_handler
+          .write_output((*c as u8).to_string().as_bytes())?;
+      }
 
-      runtime
-        .io_handler
-        .write_output(val.to_string().as_bytes())?;
-    }
+      CellOrChar::Cell(cell) => {
+        let pointer = cell.or(runtime.pointer);
+        let val = runtime.memory[pointer];
 
-    Instruction::Print(cell) => {
-      let pointer = cell.or(runtime.pointer);
+        runtime
+          .io_handler
+          .write_output(val.to_string().as_bytes())?;
+      }
+    },
 
-      runtime
-        .io_handler
-        .write_output(&[runtime.memory[pointer]])?;
-    }
+    Instruction::Print(cell) => match cell {
+      CellOrChar::Char(c) => {
+        runtime.io_handler.write_output(&[*c as u8])?;
+      }
+
+      CellOrChar::Cell(cell) => {
+        let pointer = cell.or(runtime.pointer);
+
+        runtime
+          .io_handler
+          .write_output(&[runtime.memory[pointer]])?;
+      }
+    },
 
     Instruction::Loop { cell, inner } => {
       // Needs to calculate cell.or(runtime.pointer) every time, because the pointer may change.
