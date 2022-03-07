@@ -9,10 +9,11 @@ pub struct BreakToken;
 
 impl Token for BreakToken {
   fn name(&self) -> &'static str {
-    "read"
+    "break"
   }
+
   fn regex(&self) -> &'static Lazy<Regex> {
-    static REGEX: &Lazy<Regex> = regex!(r"^(return|exit)?\s*$");
+    static REGEX: &Lazy<Regex> = regex!(r"^(exit|break|continue)?\s*$");
 
     REGEX
   }
@@ -24,9 +25,9 @@ impl Token for BreakToken {
     line_index: usize,
     _: usize,
   ) -> (usize, Option<Instruction>) {
-    let is_exit = &captures[1] == "exit";
+    let break_type = captures[1].parse().unwrap();
 
-    (line_index + 1, Some(Instruction::Break(is_exit)))
+    (line_index + 1, Some(Instruction::Break(break_type)))
   }
 }
 
@@ -38,14 +39,14 @@ pub mod tests {
   fn regex() {
     let regex = (BreakToken).regex();
 
-    assert!(regex.is_match("return"));
-    assert!(regex.is_match("exit"));
-    assert!(regex.is_match("return  "));
-    assert!(regex.is_match("exit  "));
+    let tokens = ["exit", "break", "continue"];
 
-    assert!(!regex.is_match("return  asdfgsdfh random text :)      "));
-    assert!(!regex.is_match("exit   asdfgsdfh random text :)      "));
-    assert!(!regex.is_match(" exit"));
-    assert!(!regex.is_match(" return"));
+    for token in tokens {
+      assert!(regex.is_match(token));
+      assert!(regex.is_match(&format!("{}   ", token)));
+
+      assert!(!regex.is_match(&format!("{} random text", token)));
+      assert!(!regex.is_match(&format!(" {}", token)));
+    }
   }
 }

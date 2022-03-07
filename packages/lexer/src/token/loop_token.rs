@@ -11,6 +11,7 @@ impl Token for LoopToken {
   fn name(&self) -> &'static str {
     "loop"
   }
+
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> = regex!(r"^loop\s\*(\d+|@)\s*$");
 

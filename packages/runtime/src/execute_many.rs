@@ -1,4 +1,4 @@
-use brainease_lexer::syntax::Instruction;
+use brainease_lexer::syntax::{BreakType, Instruction};
 
 use crate::{executor::execute, io_handler::IoHandler, runtime::Runtime};
 
@@ -7,28 +7,19 @@ use crate::{executor::execute, io_handler::IoHandler, runtime::Runtime};
 pub fn execute_many<I>(
   instructions: &[Instruction],
   runtime: &mut Runtime<I>,
-) -> Result<bool, I::Err>
+) -> Result<Option<BreakType>, I::Err>
 where
   I: IoHandler,
 {
-  let mut should_exit = false;
-
   for instruction in instructions {
-    if let Instruction::Break(exit) = instruction {
-      should_exit = *exit;
-      break;
-    }
-
-    // Execute other instructions
-    should_exit = execute(instruction, runtime)?;
-
-    if should_exit {
-      break;
+    // For any type of break type, just return early.
+    if let Some(break_type) = execute(instruction, runtime)? {
+      return Ok(Some(break_type));
     }
   }
 
   // Ensure the output buffer is flushed every loop.
   runtime.io_handler.flush()?;
 
-  Ok(should_exit)
+  Ok(None)
 }

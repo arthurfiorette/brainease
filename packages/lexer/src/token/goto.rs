@@ -11,6 +11,7 @@ impl Token for GotoToken {
   fn name(&self) -> &'static str {
     "goto"
   }
+
   fn regex(&self) -> &'static Lazy<Regex> {
     static REGEX: &Lazy<Regex> =
       regex!(r"^goto\s(left|right)(?:\sby\s(\d+|\*(\d+|@)))?\s*$");

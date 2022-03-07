@@ -17,13 +17,7 @@ pub fn transpile_instruction(instruction: &Instruction, indentation: usize) -> S
   use brainease_lexer::syntax::Instruction::*;
 
   let transpiled = match instruction {
-    Break(exit) => {
-      if *exit {
-        "exit".to_string()
-      } else {
-        "return".to_string()
-      }
-    }
+    Break(exit) => exit.to_string(),
 
     Increment { cell, value } => {
       format!("inc {} in {}", value, cell.to_string())

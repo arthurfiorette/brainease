@@ -1,4 +1,7 @@
-use super::{CellOrChar, CellOrPointer, CellValue, GotoBy, GotoDirection, IfLogic};
+use super::{
+  break_type::BreakType, CellOrChar, CellOrPointer, CellValue, GotoBy, GotoDirection,
+  IfLogic,
+};
 use crate::token::{
   BreakToken, DecrementToken, GotoToken, IfToken, IncrementToken, LoopToken, MoveToken,
   PrintToken, ReadToken, SaveToken, SwapToken, Token, WriteToken,
@@ -122,7 +125,7 @@ pub enum Instruction {
   ///   # or
   ///   return # exit this indentation
   /// ```
-  Break(bool),
+  Break(BreakType),
 
   /// Executes the inner instructions if the specified cell matches
   /// the logic with the given value

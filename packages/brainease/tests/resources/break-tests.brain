@@ -1,0 +1,32 @@
+# Second line is expected output and third line is provided input.
+# 9765AC
+#
+
+inc 10 in *1
+
+# A loop that ends when *1 is 4
+loop *1
+  dec 1 in *1
+
+  if *1 == 8
+    continue
+
+  if *1 < 5
+    break
+
+  write *1
+
+print 'A'
+
+
+# Expects that *1 is 4
+if *1 != 4
+  print 'B'
+
+# Prints C and exit
+if *1 < 5
+  print 'C'
+  exit
+
+# This should never be printed.
+print 'D'

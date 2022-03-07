@@ -1,11 +1,13 @@
-use brainease_lexer::syntax::{CellOrChar, GotoBy, GotoDirection, Instruction};
+use brainease_lexer::syntax::{
+  BreakType, CellOrChar, GotoBy, GotoDirection, Instruction,
+};
 
 use crate::{execute_many::execute_many, io_handler::IoHandler, runtime::Runtime};
 
 pub fn execute<I>(
   instruction: &Instruction,
   runtime: &mut Runtime<I>,
-) -> Result<bool, I::Err>
+) -> Result<Option<BreakType>, I::Err>
 where
   I: IoHandler,
 {
@@ -14,12 +16,16 @@ where
       let pointer = cell.or(runtime.pointer);
 
       runtime.memory[pointer] = runtime.memory[pointer].wrapping_add(*value);
+
+      Ok(None)
     }
 
     Instruction::Decrement { cell, value } => {
       let pointer = cell.or(runtime.pointer);
 
       runtime.memory[pointer] = runtime.memory[pointer].wrapping_sub(*value);
+
+      Ok(None)
     }
 
     Instruction::Move { current, next } => {
@@ -28,6 +34,8 @@ where
 
       runtime.memory[next_pointer] = runtime.memory[current_pointer];
       runtime.memory[current_pointer] = 0;
+
+      Ok(None)
     }
 
     Instruction::Swap { from, with } => {
@@ -35,60 +43,86 @@ where
       let with_pointer = with.or(runtime.pointer);
 
       runtime.memory.swap(from_pointer, with_pointer);
+
+      Ok(None)
     }
 
     Instruction::Save { cell, value } => {
       let pointer = cell.or(runtime.pointer);
 
       runtime.memory[pointer] = *value;
+
+      Ok(None)
     }
 
     Instruction::Read(cell) => {
       let pointer = cell.or(runtime.pointer);
 
       runtime.memory[pointer] = runtime.io_handler.read_input()?;
+
+      Ok(None)
     }
 
-    Instruction::Write(cell) => match cell {
-      CellOrChar::Char(c) => {
-        runtime
-          .io_handler
-          .write_output((*c as u8).to_string().as_bytes())?;
+    Instruction::Write(cell) => {
+      match cell {
+        CellOrChar::Char(c) => {
+          runtime
+            .io_handler
+            .write_output((*c as u8).to_string().as_bytes())?;
+        }
+
+        CellOrChar::Cell(cell) => {
+          let pointer = cell.or(runtime.pointer);
+          let val = runtime.memory[pointer];
+
+          runtime
+            .io_handler
+            .write_output(val.to_string().as_bytes())?;
+        }
       }
 
-      CellOrChar::Cell(cell) => {
-        let pointer = cell.or(runtime.pointer);
-        let val = runtime.memory[pointer];
+      Ok(None)
+    }
 
-        runtime
-          .io_handler
-          .write_output(val.to_string().as_bytes())?;
+    Instruction::Print(cell) => {
+      match cell {
+        CellOrChar::Char(c) => {
+          runtime.io_handler.write_output(&[*c as u8])?;
+        }
+
+        CellOrChar::Cell(cell) => {
+          let pointer = cell.or(runtime.pointer);
+
+          runtime
+            .io_handler
+            .write_output(&[runtime.memory[pointer]])?;
+        }
       }
-    },
 
-    Instruction::Print(cell) => match cell {
-      CellOrChar::Char(c) => {
-        runtime.io_handler.write_output(&[*c as u8])?;
-      }
-
-      CellOrChar::Cell(cell) => {
-        let pointer = cell.or(runtime.pointer);
-
-        runtime
-          .io_handler
-          .write_output(&[runtime.memory[pointer]])?;
-      }
-    },
+      Ok(None)
+    }
 
     Instruction::Loop { cell, inner } => {
       // Needs to calculate cell.or(runtime.pointer) every time, because the pointer may change.
       while runtime.memory[cell.or(runtime.pointer)] != 0 {
-        let exit_early = execute_many(inner, runtime)?;
+        if let Some(break_type) = execute_many(inner, runtime)? {
+          match break_type {
+            BreakType::Exit => {
+              return Ok(Some(break_type));
+            }
 
-        if exit_early {
-          return Ok(true);
+            BreakType::Break => {
+              break;
+            }
+
+            BreakType::Continue => {
+              continue;
+            }
+          }
         }
       }
+
+      Ok(None)
     }
 
     Instruction::If {
@@ -108,12 +142,11 @@ where
       };
 
       if logic.matches(runtime.memory[cell_pointer], other) {
-        let exit_early = execute_many(inner, runtime)?;
-
-        if exit_early {
-          return Ok(true);
-        }
+        let break_type = execute_many(inner, runtime)?;
+        return Ok(break_type);
       }
+
+      Ok(None)
     }
 
     Instruction::Goto { dir, by } => {
@@ -156,10 +189,10 @@ where
           runtime.pointer -= amount;
         }
       }
+
+      Ok(None)
     }
 
-    Instruction::Break(_) => {}
+    Instruction::Break(break_type) => Ok(Some(*break_type)),
   }
-
-  Ok(false)
 }

@@ -1,7 +1,7 @@
 use std::time::{Duration, Instant};
 
 use crate::{execute_many::execute_many, io_handler::IoHandler};
-use brainease_lexer::syntax::{CellPosition, CellValue, Instruction};
+use brainease_lexer::syntax::{BreakType, CellPosition, CellValue, Instruction};
 
 /// A struct representing the result after parsing a whole instruction.
 /// Which may or may not already started or ended.
@@ -32,7 +32,17 @@ impl<I: IoHandler> Runtime<I> {
     let now = Instant::now();
 
     // Exit early can be ignored because the program will exit anyway.
-    execute_many(&self.instructions.clone(), self)?;
+    if let Some(break_type) = execute_many(&self.instructions.clone(), self)? {
+      match break_type {
+        // Continue is a no-op
+        BreakType::Continue => {
+          log::error!("There's a continue outside of a loop.")
+        }
+
+        // The program has already exited. No need to do anything.
+        BreakType::Exit | BreakType::Break => {}
+      }
+    }
 
     self.io_handler.flush()?;
 
