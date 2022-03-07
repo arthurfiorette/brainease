@@ -48,7 +48,7 @@ jobs:
       # Test passes
       - name: Run test
         run: cargo test --all
-      
+
       # Bad formatting
       - name: Run fmt
         run: cargo fmt --all -- --check
