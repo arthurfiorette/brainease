@@ -17,4 +17,4 @@ args = ["-o=CHANGELOG.md"]
 workspace = false
 install_crate = "cargo-watch"
 command = "cargo"
-args = ["watch", "-x", "test --all"]
+args = ["watch", "-x", "test --all -- --nocapture"]
