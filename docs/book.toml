@@ -2,7 +2,6 @@
 title = "Brainease"
 authors = ["arthurfiorette"]
 description = "A brainf*ck-style programming language, but readable"
-
 src = "src"
 language = "en"
 multilingual = false
@@ -11,3 +10,6 @@ multilingual = false
 site-url = "/brainease/"
 git-repository-url = "https://github.com/arthurfiorette/brainease"
 edit-url-template = "https://github.com/arthurfiorette/brainease/edit/main/docs/{path}"
+
+[rust]
+edition = "2021" 

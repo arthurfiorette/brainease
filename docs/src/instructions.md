@@ -22,7 +22,8 @@ Along this section, you will encounter some examples that contain a comment like
 # [0, 0, 0, 0, 0]
 ```
 
-This is a pretty simple comment to illustrate the current memory allocation state. Read more about **Brainease**'s [memory management](/memory.html).
+This is a pretty simple comment to illustrate the current memory allocation state. Read
+more about **Brainease**'s [memory management](/memory.html).
 
 There's also this comment:
 

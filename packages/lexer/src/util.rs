@@ -21,7 +21,7 @@ pub fn match_indentation(spaces: usize, line: &str) -> bool {
 
 /// Replaces all characters that should be escaped with their escaped version.
 ///
-/// https://doc.rust-lang.org/reference/tokens.html#ascii-escapes
+/// <https://doc.rust-lang.org/reference/tokens.html#ascii-escapes>
 pub fn interpret_escape_chars(text: &str) -> String {
   text
     .replace("\\n", "\n")

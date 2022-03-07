@@ -18,3 +18,17 @@ workspace = false
 install_crate = "cargo-watch"
 command = "cargo"
 args = ["watch", "-x", "test --all -- --nocapture"]
+
+[tasks.doc-build]
+install_crate = "mdbook"
+cwd = "docs"
+workspace = false
+command = "mdbook"
+args = ["build"]
+
+[tasks.doc-serve]
+install_crate = "mdbook"
+cwd = "docs"
+workspace = false
+command = "mdbook"
+args = ["serve"]

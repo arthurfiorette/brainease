@@ -19,7 +19,7 @@ Brainease</h1>
   <br />
 </h3>
 
-![cover](.github/readme.png)
+![cover](./assets/readme.png)
 
 <br />
 
@@ -37,7 +37,8 @@ $ cargo install brainease
 
 ## License
 
-The brainease compiler source and his documentation are released under **GPLv3**. See [`LICENSE`](LICENSE) for more informations.
+The brainease compiler source and his documentation are released under **GPLv3**. See
+[`LICENSE`](LICENSE) for more informations.
 
 <br />
 
