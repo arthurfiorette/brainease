@@ -22,30 +22,33 @@ pub fn parse_bf(code: &str) -> Vec<Instruction> {
   instructions
 }
 
-// pub fn transpile_cleaned(code: &[u8], start_index: usize) -> (Vec<Instruction>, usize) {}
-
 pub fn parse_bf_code(code: &[u8], index: usize) -> (Option<Instruction>, usize) {
+  let char = code[index];
   let mut index = index;
 
-  match code[index] {
+  match char {
     // Unotimizable
     b'.' => (Some(Instruction::Print(CellOrChar::pointer())), index + 1),
 
     b',' => (Some(Instruction::Read(CellOrPointer::Pointer)), index + 1),
 
     // Groupable
-    b'>' => {
+    b'>' | b'<' => {
       index += 1;
       let mut count = 1;
 
-      while index < code.len() && code[index] == b'>' {
+      while index < code.len() && code[index] == char {
         index += 1;
         count += 1;
       }
 
       (
         Some(Instruction::Goto {
-          dir: GotoDirection::Right,
+          dir: if char == b'>' {
+            GotoDirection::Right
+          } else {
+            GotoDirection::Left
+          },
           by: if count == 1 {
             None
           } else {
@@ -56,62 +59,32 @@ pub fn parse_bf_code(code: &[u8], index: usize) -> (Option<Instruction>, usize) 
       )
     }
 
-    b'<' => {
+    b'+' | b'-' => {
       index += 1;
       let mut count = 1;
 
-      while index < code.len() && code[index] == b'<' {
+      while index < code.len() && code[index] == char {
         index += 1;
         count += 1;
       }
 
-      (
-        Some(Instruction::Goto {
-          dir: GotoDirection::Left,
-          by: if count == 1 {
-            None
-          } else {
-            Some(GotoBy::Number(count))
-          },
-        }),
-        index,
-      )
-    }
-
-    b'+' => {
-      index += 1;
-      let mut count = 1;
-
-      while index < code.len() && code[index] == b'+' {
-        index += 1;
-        count += 1;
+      if char == b'+' {
+        (
+          Some(Instruction::Increment {
+            cell: CellOrPointer::Pointer,
+            value: count,
+          }),
+          index,
+        )
+      } else {
+        (
+          Some(Instruction::Decrement {
+            cell: CellOrPointer::Pointer,
+            value: count,
+          }),
+          index,
+        )
       }
-
-      (
-        Some(Instruction::Increment {
-          cell: CellOrPointer::Pointer,
-          value: count,
-        }),
-        index,
-      )
-    }
-
-    b'-' => {
-      index += 1;
-      let mut count = 1;
-
-      while index < code.len() && code[index] == b'-' {
-        index += 1;
-        count += 1;
-      }
-
-      (
-        Some(Instruction::Decrement {
-          cell: CellOrPointer::Pointer,
-          value: count,
-        }),
-        index,
-      )
     }
 
     // Loops
@@ -147,5 +120,45 @@ pub fn parse_bf_code(code: &[u8], index: usize) -> (Option<Instruction>, usize) 
     // Ignore unknown character
     // May be an ] (End of loop), in this case, just ignore it.
     _ => (None, index + 1),
+  }
+}
+
+#[cfg(test)]
+pub mod tests {
+  use super::*;
+
+  #[test]
+  fn goto_by_one_is_none() {
+    assert_eq!(
+      parse_bf(">"),
+      vec![Instruction::Goto {
+        dir: GotoDirection::Right,
+        by: None,
+      }]
+    );
+
+    assert_eq!(
+      parse_bf(">>"),
+      vec![Instruction::Goto {
+        dir: GotoDirection::Right,
+        by: Some(GotoBy::Number(2)),
+      }]
+    );
+
+    assert_eq!(
+      parse_bf("<"),
+      vec![Instruction::Goto {
+        dir: GotoDirection::Left,
+        by: None,
+      }]
+    );
+
+    assert_eq!(
+      parse_bf("<<"),
+      vec![Instruction::Goto {
+        dir: GotoDirection::Left,
+        by: Some(GotoBy::Number(2)),
+      }]
+    );
   }
 }
