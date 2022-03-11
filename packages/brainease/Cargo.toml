@@ -19,5 +19,5 @@ env_logger = "^0.9"
 log = "^0.4"
 
 [[bin]]
-name = "brain"
+name = "brainz"
 path = "src/main.rs"
