@@ -7,7 +7,7 @@ div#content.content h6:not(:first-child) {
   margin-top: 10rem;
 }
 
-div#content.content > main {
+div#content.content {
   margin-bottom: 10rem;
 }
 

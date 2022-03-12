@@ -34,7 +34,7 @@ An important and basic concept inherited from the brainf\*ck language is the poi
 A pointer is a special value that can point to a cell in the memory. But, when you change
 the pointer's value, it will only change to what cell is being pointed to.
 
-[Read more about pointer movement](language/pointer-movement.md).
+[Read more about pointer movement](../language/pointer-movement.md).
 
 <bf-memory length="5"></bf-memory>
 
