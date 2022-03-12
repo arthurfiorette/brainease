@@ -1,17 +1,6 @@
-[![Issues](https://img.shields.io/github/issues/arthurfiorette/brainease?logo=github&label=Issues)](https://github.com/arthurfiorette/brainease/issues)
-[![Stars](https://img.shields.io/github/stars/arthurfiorette/brainease?logo=github&label=Stars)](https://github.com/arthurfiorette/brainease/stargazers)
-[![License](https://img.shields.io/github/license/arthurfiorette/brainease?label=License)](https://github.com/arthurfiorette/brainease/blob/main/LICENSE)
-[![Version](https://img.shields.io/crates/v/brainease?logo=rust&label=Version)](https://crates.io/crates/brainease)
+![cover](./assets/readme.png)
 
-<br />
-
-<div align="center">
-  <pre>
-  <h1>🤯
-Brainease</h1>
-  </pre>
-  <br />
-</div>
+<h1 align="center">🤯<br/>Brainease</h1>
 
 <h3 align="center">
   <code>Brainease</code> is a brainf*ck-style programming language, but readable.
@@ -19,18 +8,22 @@ Brainease</h1>
   <br />
 </h3>
 
-![cover](./assets/readme.png)
+[![Issues](https://img.shields.io/github/issues/arthurfiorette/brainease?logo=github&label=Issues)](https://github.com/arthurfiorette/brainease/issues)
+[![Stars](https://img.shields.io/github/stars/arthurfiorette/brainease?logo=github&label=Stars)](https://github.com/arthurfiorette/brainease/stargazers)
+[![License](https://img.shields.io/github/license/arthurfiorette/brainease?label=License)](https://github.com/arthurfiorette/brainease/blob/main/LICENSE)
+[![Version](https://img.shields.io/crates/v/brainease?logo=rust&label=Version)](https://crates.io/crates/brainease)
 
 <br />
 
 ```sh
 $ cargo install brainease
+# Or download from the latest release
 ```
 
 <br />
 
 <h3 align=center>
-  <a href="https://arthurfiorette.github.io/brainease/" target="_blank">Documentation at <code>arthurfiorette.github.io/brainease</code></a>
+  <a href="https://arthur.run/brainease/" target="_blank">Documentation at <code>arthur.run/brainease</code></a>
 </h3>
 
 <br />
