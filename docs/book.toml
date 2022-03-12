@@ -10,6 +10,8 @@ multilingual = false
 site-url = "/brainease/"
 git-repository-url = "https://github.com/arthurfiorette/brainease"
 edit-url-template = "https://github.com/arthurfiorette/brainease/edit/main/docs/{path}"
+additional-js = ["./assets/bf-memory.js"]
+additional-css = ["./assets/styles.css"]
 
 [rust]
-edition = "2021" 
+edition = "2021"

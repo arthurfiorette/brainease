@@ -2,10 +2,10 @@
 
 # Learning
 
-- [IDE Support](./learning/ide-support.md)
 - [Installing](./learning/installing.md)
-- [Memory](./learning/memory.md)
 - [Syntax](./learning/syntax.md)
+- [Memory](./learning/memory.md)
+- [IDE Support](./learning/ide-support.md)
 
 # Language
 

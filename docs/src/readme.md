@@ -1,7 +1,5 @@
 ![cover](./assets/readme.png)
 
-<br />
-
 # Introduction
 
 **Brainease** is a scripting language that has many similar concepts with
@@ -16,8 +14,6 @@ understand.
 - Memory management done with a simple, fast and linear memory allocation system.
 - Python-like indentation system - Just **two** spaces.
 
-<br />
-
 # Contributing
 
 brainease is free and open source. You can find the source code on
@@ -26,11 +22,7 @@ be posted on the
 [Github issue tracker](https://github.com/arthurfiorette/brainease/issues). Brainease
 relies on the community to fix bugs and add features.
 
-<br />
-
 # License
 
 The brainease compiler source and his documentation are released under the
 [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).
-
-<br />

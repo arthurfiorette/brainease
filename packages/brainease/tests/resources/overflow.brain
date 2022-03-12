@@ -1,0 +1,17 @@
+# Second line is expected output and third line is provided input.
+# 1 253
+#
+
+# Inc overflow
+inc 254 in *1
+inc 3 in *1
+
+write *1 # Expects 1
+
+print ' '
+
+# Dec overflow
+inc 2 in *2
+dec 5 in *2
+
+write *2 # Expects 253
