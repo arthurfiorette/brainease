@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    name: Lints
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,10 +18,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-
-      - name: Install required packages
-        run: cargo install mdbook cargo-make
-
+      
       - name: Cache cargo files
         uses: actions/cache@v2
         with:
@@ -32,6 +29,9 @@ jobs:
             ~/.cargo/git/db/
             ./target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install required packages
+        run: cargo install mdbook cargo-make
 
       - name: Build docs
         run: cargo make docs-build
