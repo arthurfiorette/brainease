@@ -12,5 +12,5 @@ print 'l'
 print 'd'
 print '!'
 
-# brain run examples/hello.brain
+# brainz run examples/hello.brain
 #> Hello, World!
