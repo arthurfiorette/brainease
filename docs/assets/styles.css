@@ -7,8 +7,9 @@ div#content.content h6:not(:first-child) {
   margin-top: 10rem;
 }
 
-div#content.content {
-  margin-bottom: 10rem;
+main {
+  margin-top: 5rem;
+  margin-bottom: 7rem;
 }
 
 td.pointer {
