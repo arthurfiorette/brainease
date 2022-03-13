@@ -23,7 +23,7 @@ $ cargo install brainease
 <br />
 
 <h3 align=center>
-  <a href="https://arthur.run/brainease/" target="_blank">Documentation at <code>arthur.run/brainease</code></a>
+  <a href="https://brainease.cli.rs/" target="_blank">Documentation at <code>brainease.cli.rs</code></a>
 </h3>
 
 <br />
