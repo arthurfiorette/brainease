@@ -31,7 +31,7 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install required packages
-        run: cargo install mdbook cargo-make
+        run: cargo install mdbook cargo-make --force
 
       - name: Build docs
         run: cargo make docs-build
