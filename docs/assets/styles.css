@@ -4,7 +4,7 @@ div#content.content h3:not(:first-child),
 div#content.content h4:not(:first-child),
 div#content.content h5:not(:first-child),
 div#content.content h6:not(:first-child) {
-  margin-top: 10rem;
+  margin-top: 7rem;
 }
 
 main {

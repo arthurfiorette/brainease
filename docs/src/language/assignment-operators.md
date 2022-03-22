@@ -51,7 +51,7 @@ save '\n' at *6
 # the same as `inc 10 in *6`...
 ```
 
-### Getting characters from STDIN
+### Getting values from STDIN
 
 With the default `Io Handler` implementation, you can read a character from **STDIN** and
 save his ASCII value in a specific cell.

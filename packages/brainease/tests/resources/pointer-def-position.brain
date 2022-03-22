@@ -1,0 +1,27 @@
+# Second line is expected output and third line is provided input.
+# 1 4 2
+#
+
+inc 1 in *0
+inc 2 in *1
+inc 3 in *2
+
+# Tests max array is 30
+# 
+inc 4 in *29
+
+# Expects pointer is at *0
+write *@
+
+goto left
+print ' '
+
+# Pointer is in *29
+write *@
+
+goto right by 2
+print ' '
+
+# Pointer should be at *1
+# 29 .. 0 .. 1
+write *@
