@@ -1,0 +1,17 @@
+div#content.content h1:not(:first-child),
+div#content.content h2:not(:first-child),
+div#content.content h3:not(:first-child),
+div#content.content h4:not(:first-child),
+div#content.content h5:not(:first-child),
+div#content.content h6:not(:first-child) {
+  margin-top: 7rem;
+}
+
+main {
+  margin-top: 5rem;
+  margin-bottom: 7rem;
+}
+
+td.pointer {
+  background-color: hsla(0, 0%, 0%, 20%);
+}
