@@ -105,9 +105,9 @@ where
     Instruction::Loop { cell, inner } => {
       // Needs to calculate cell.or(runtime.pointer) every time, because the pointer may change.
       while runtime.memory[cell.or(runtime.pointer)] != 0 {
-        if let Some(break_type) = execute_many(inner, runtime)? {
+        if let Some(break_type) = execute_many(inner, runtime, false)? {
           match break_type {
-            BreakType::Exit => {
+            BreakType::Exit | BreakType::BreakAll => {
               return Ok(Some(break_type));
             }
 
@@ -142,7 +142,7 @@ where
       };
 
       if logic.matches(runtime.memory[cell_pointer], other) {
-        let break_type = execute_many(inner, runtime)?;
+        let break_type = execute_many(inner, runtime, false)?;
         return Ok(break_type);
       }
 

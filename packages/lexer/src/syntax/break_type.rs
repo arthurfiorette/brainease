@@ -4,6 +4,7 @@ use std::str::FromStr;
 pub enum BreakType {
   Exit,
   Break,
+  BreakAll,
   Continue,
 }
 
@@ -14,6 +15,7 @@ impl FromStr for BreakType {
     match s {
       "exit" => Ok(BreakType::Exit),
       "break" => Ok(BreakType::Break),
+      "break all" => Ok(BreakType::BreakAll),
       "continue" => Ok(BreakType::Continue),
       _ => Err(()),
     }
@@ -25,6 +27,7 @@ impl ToString for BreakType {
     match self {
       BreakType::Exit => "exit".to_string(),
       BreakType::Break => "break".to_string(),
+      BreakType::BreakAll => "break all".to_string(),
       BreakType::Continue => "continue".to_string(),
     }
   }
@@ -38,13 +41,14 @@ pub mod tests {
 
   #[test]
   fn string_parse() {
-    let break_types = ["exit", "break", "continue"];
+    let break_types = ["exit", "break", "continue", "break all"];
 
     for break_type in break_types.iter() {
       assert_eq!(
         break_type,
         &break_type.parse::<BreakType>().unwrap().to_string()
       );
+
       assert_eq!(
         break_type,
         &BreakType::from_str(break_type).unwrap().to_string()

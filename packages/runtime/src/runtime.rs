@@ -32,15 +32,15 @@ impl<I: IoHandler> Runtime<I> {
     let now = Instant::now();
 
     // Exit early can be ignored because the program will exit anyway.
-    if let Some(break_type) = execute_many(&self.instructions.clone(), self)? {
+    if let Some(break_type) = execute_many(&self.instructions.clone(), self, true)? {
       match break_type {
         // Continue is a no-op
         BreakType::Continue => {
-          log::error!("There's a continue outside of a loop.")
+          log::error!("There's a continue outside of a loop. (A.K.A: top level root)")
         }
 
         // The program has already exited. No need to do anything.
-        BreakType::Exit | BreakType::Break => {}
+        BreakType::Exit | BreakType::Break | BreakType::BreakAll => {}
       }
     }
 

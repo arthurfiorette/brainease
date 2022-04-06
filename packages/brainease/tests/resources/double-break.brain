@@ -1,0 +1,41 @@
+# Second line is expected output and third line is provided input.
+# ABD EFG EFG H
+#
+
+inc 1 in *1
+
+# Break all test
+loop *1
+  print 'A'
+  
+  loop *1
+    print 'B'
+
+    break all
+    print 'X'
+  print 'C'
+
+print 'D'
+
+
+# Gives 2 loops
+inc 1 in *1
+
+# Simple break tests
+loop *1
+  print ' '
+  print 'E'
+
+  loop *1
+    print 'F'
+
+    break
+    print 'X'
+
+  print 'G'
+
+  # End loop anyway
+  dec 1 in *1
+
+print ' '
+print 'H'

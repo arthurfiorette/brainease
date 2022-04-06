@@ -13,7 +13,7 @@ impl Token for BreakToken {
   }
 
   fn regex(&self) -> &'static Lazy<Regex> {
-    static REGEX: &Lazy<Regex> = regex!(r"^(exit|break|continue)?\s*$");
+    static REGEX: &Lazy<Regex> = regex!(r"^(exit|break|continue|break\sall)?\s*$");
 
     REGEX
   }
@@ -39,7 +39,7 @@ pub mod tests {
   fn regex() {
     let regex = (BreakToken).regex();
 
-    let tokens = ["exit", "break", "continue"];
+    let tokens = ["exit", "break", "continue", "break all"];
 
     for token in tokens {
       assert!(regex.is_match(token));
