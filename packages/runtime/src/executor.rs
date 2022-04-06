@@ -58,6 +58,9 @@ where
     Instruction::Read(cell) => {
       let pointer = cell.or(runtime.pointer);
 
+      // Flushes any pending output.
+      runtime.io_handler.flush()?;
+
       runtime.memory[pointer] = runtime.io_handler.read_input()?;
 
       Ok(None)
