@@ -1,19 +1,15 @@
 # Second line is expected output and third line is provided input.
-# A B C 65 66 67 1 2
+# ABC 656667 1 50
 #
 
 print 'A'
-print ' '
 print 'B'
-print ' '
 print 'C'
 print ' '
 write 'A'
-print ' '
 write 'B'
-print ' '
 write 'C'
 print ' '
 print '1'
 print ' '
-print '2'
+write '2'

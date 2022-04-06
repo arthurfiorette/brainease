@@ -6,8 +6,10 @@ inc 1 in *0
 inc 2 in *1
 inc 3 in *2
 
-# Tests max array is 30
-# 
+#################################################
+# The array length used in tests is 30. (0..29) #
+#################################################
+
 inc 4 in *29
 
 # Expects pointer is at *0
