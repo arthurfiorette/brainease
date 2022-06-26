@@ -19,7 +19,7 @@ impl LineResult {
     }
   }
 
-  pub fn new(
+  pub fn normal(
     instruction: Option<Instruction>,
     next_line: usize,
     new_indentation: usize,

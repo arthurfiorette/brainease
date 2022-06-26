@@ -20,6 +20,7 @@ mod tests {
         by: Some(GotoBy::Number(2)),
         dir: GotoDirection::Right,
       },
+      
       Instruction::Loop {
         cell: CellOrPointer::Pointer,
         inner: vec![
@@ -27,23 +28,30 @@ mod tests {
             cell: CellOrPointer::Pointer,
             value: 1,
           },
+
           Instruction::Goto {
             by: None,
             dir: GotoDirection::Right,
           },
+
           Instruction::Print(CellOrChar::pointer()),
+          
           Instruction::Increment {
             cell: CellOrPointer::Pointer,
             value: 1,
           },
+
           Instruction::Read(CellOrPointer::Pointer),
         ],
       },
+
       Instruction::Decrement {
         cell: CellOrPointer::Pointer,
         value: 1,
       },
+
       Instruction::Print(CellOrChar::pointer()),
+      
       Instruction::Read(CellOrPointer::Pointer),
     ];
 

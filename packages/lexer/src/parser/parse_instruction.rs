@@ -37,7 +37,7 @@ pub fn parse_instruction(
     let (next_line, instruction) =
       token.read_instruction(file, captures, line_index, indentation);
 
-    return LineResult::new(instruction, next_line, indentation);
+    return LineResult::normal(instruction, next_line, indentation);
   }
 
   logger::unknown_line(&line_index, line);

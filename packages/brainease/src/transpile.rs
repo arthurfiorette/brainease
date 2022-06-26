@@ -33,6 +33,7 @@ pub fn run(opts: &TranspileOpts) -> io::Result<()> {
 
   if let Some(output) = &opts.output {
     let transpiled = transpile_code(&transpiled);
+    
     util::write_file(Path::new(output), transpiled)?;
   }
 

@@ -1,13 +1,11 @@
-use std::{io, path::Path};
-
+use crate::util;
 use brainease_lexer::parser;
 use brainease_runtime::{
   io_handler::{DefaultIoHandler, IoHandler},
   runtime::Runtime,
 };
 use clap::Parser;
-
-use crate::util;
+use std::{io, path::Path};
 
 #[derive(Parser, Debug)]
 #[clap(
