@@ -4,7 +4,7 @@ use crate::{parser::parse_partial_file, syntax::Instruction};
 
 use super::Token;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct LoopToken;
 
 impl Token for LoopToken {

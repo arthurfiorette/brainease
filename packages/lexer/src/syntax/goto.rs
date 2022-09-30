@@ -1,7 +1,7 @@
 use super::CellPosition;
 use std::{num::ParseIntError, str::FromStr};
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GotoDirection {
   Left,
   Right,
@@ -28,7 +28,7 @@ impl ToString for GotoDirection {
   }
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GotoBy {
   Cell(CellPosition),
   Pointer,

@@ -4,7 +4,7 @@ use crate::{logger, syntax::Instruction};
 
 use super::Token;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 
 pub struct IncrementToken;
 

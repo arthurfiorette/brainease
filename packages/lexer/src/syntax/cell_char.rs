@@ -1,7 +1,7 @@
 use super::{CellOrPointer, CellPosition};
 
 /// A simple enum that may contains a Char value or a Cell indicator.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CellOrChar {
   Cell(CellOrPointer),
   Char(char),

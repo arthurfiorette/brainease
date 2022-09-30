@@ -77,7 +77,7 @@ fn scan_dir(name: &Path) -> io::Result<Vec<(String, String)>> {
 fn run_resources() -> io::Result<()> {
   env::set_var("RUST_LOG", "debug");
 
-  let files = scan_dir(&Path::new("tests/resources").to_path_buf())?;
+  let files = scan_dir(Path::new("tests/resources"))?;
 
   for (filename, content) in files {
     if !filename.ends_with(".brain") {

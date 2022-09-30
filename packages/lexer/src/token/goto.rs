@@ -4,7 +4,7 @@ use crate::syntax::{GotoBy, GotoDirection, Instruction};
 
 use super::Token;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct GotoToken;
 
 impl Token for GotoToken {

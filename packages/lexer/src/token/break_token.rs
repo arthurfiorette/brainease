@@ -4,7 +4,7 @@ use crate::syntax::Instruction;
 
 use super::Token;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct BreakToken;
 
 impl Token for BreakToken {

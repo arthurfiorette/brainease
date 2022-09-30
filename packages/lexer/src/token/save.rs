@@ -4,7 +4,7 @@ use crate::{logger, syntax::Instruction, util::interpret_escape_chars};
 
 use super::Token;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct SaveToken;
 
 impl Token for SaveToken {

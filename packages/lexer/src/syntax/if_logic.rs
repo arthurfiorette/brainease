@@ -4,7 +4,7 @@ use super::CellValue;
 
 /// A simple enum that represents the values of
 /// `==`, `!=`, `<`, `<=`, `>` and `>=`.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum IfLogic {
   Equal,
   NotEqual,

@@ -7,7 +7,7 @@ use crate::{
 
 use super::Token;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct WriteToken;
 
 impl Token for WriteToken {

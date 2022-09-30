@@ -8,7 +8,7 @@ use crate::{
 
 use super::Token;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct IfToken;
 
 impl Token for IfToken {
