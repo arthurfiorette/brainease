@@ -1,3 +1,6 @@
+// clap_verbosity_flag needs to be updated.
+#![allow(deprecated)]
+
 mod cli;
 mod run;
 mod transpile;
