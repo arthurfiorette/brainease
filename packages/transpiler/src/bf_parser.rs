@@ -124,7 +124,7 @@ pub fn parse_bf_code(code: &[u8], index: usize) -> (Option<Instruction>, usize) 
 }
 
 #[cfg(test)]
-pub mod tests {
+mod tests {
   use super::*;
 
   #[test]

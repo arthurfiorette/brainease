@@ -16,7 +16,7 @@ pub fn clean_bf_code(bf_code: &str) -> Vec<u8> {
 }
 
 #[cfg(test)]
-pub mod tests {
+mod tests {
   use super::*;
 
   #[test]

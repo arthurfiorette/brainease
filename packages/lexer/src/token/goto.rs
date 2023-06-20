@@ -37,7 +37,7 @@ impl Token for GotoToken {
 }
 
 #[cfg(test)]
-pub mod tests {
+mod tests {
   use super::*;
   use crate::syntax::find_match;
 

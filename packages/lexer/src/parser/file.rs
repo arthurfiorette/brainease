@@ -58,7 +58,7 @@ pub fn parse_partial_file(
 }
 
 #[cfg(test)]
-pub mod tests {
+mod tests {
   use crate::syntax::{CellOrChar, CellOrPointer, Instruction};
 
   use super::parse_file;

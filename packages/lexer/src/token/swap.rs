@@ -32,7 +32,7 @@ impl Token for SwapToken {
 }
 
 #[cfg(test)]
-pub mod tests {
+mod tests {
   use super::*;
   use crate::syntax::find_match;
 

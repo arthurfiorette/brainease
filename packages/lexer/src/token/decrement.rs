@@ -44,7 +44,7 @@ impl Token for DecrementToken {
 }
 
 #[cfg(test)]
-pub mod tests {
+mod tests {
   use super::*;
   use crate::syntax::find_match;
 

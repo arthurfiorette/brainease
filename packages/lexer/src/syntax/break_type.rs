@@ -34,7 +34,7 @@ impl ToString for BreakType {
 }
 
 #[cfg(test)]
-pub mod tests {
+mod tests {
   use std::str::FromStr;
 
   use crate::syntax::BreakType;
