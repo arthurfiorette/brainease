@@ -2,10 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.0.8] - 2023-06-20
 
 ### Documentation
 
+- Changelog
 - Documentation overhaul
 - Changelog
 
