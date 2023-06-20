@@ -2,16 +2,107 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.5] - 2022-03-05
+## [unreleased]
+
+### Refactor
+
+- Removed pub mod tests
+
+## [1.0.7] - 2023-06-20
 
 ### Bug Fixes
 
+- Include correct binary name on releasing
+- Remove deprecated warnings
+- Flush output before reading any input
+- Added break all type
+- Fixed ci
+
+### Documentation
+
+- Fixed cname
+- Added pointer movement page
+- Updated documentation page
+- Assignment operators page
+- Updated docs site url
+- Fixed link url
+- Removed margin top
+- Learning section
+- Added install page
+- Updated readme png
+- Formatted license and readme
+- Updated docs sketch
+- Updated readme example
+- Added web server example
+
+### Features
+
+- Tag v1.0.7
+- Added arm version
+- Updated dependencies
+- [**breaking**] Rename binary into brainz
+- Exit, break and continue
+- Return and exit instructions
+- Allow if with chars
+- Interpret escape characters in print, write and save
+- Allow direct print without saving it in memory
+
+### Miscellaneous Tasks
+
+- Bump env_logger from 0.9.0 to 0.9.1 (#23)
+- Bump clap from 3.1.18 to 3.2.2 (#22)
+- Gitattributes
+- Bump clap-verbosity-flag from 1.0.0 to 1.0.1 (#21)
+- Bump regex from 1.5.4 to 1.5.6 (#20)
+- Updated sponsors
+- Bump clap from 3.1.17 to 3.1.18 (#19)
+- Bump clap from 3.1.15 to 3.1.17 (#18)
+- Bump clap from 3.1.14 to 3.1.15 (#15)
+- Bump log from 0.4.16 to 0.4.17 (#16)
+- Bump clap from 3.1.12 to 3.1.14 (#14)
+- Bump clap from 3.1.10 to 3.1.12 (#13)
+- Bump clap from 3.1.9 to 3.1.10 (#12)
+- Bump clap from 3.1.8 to 3.1.9 (#11)
+- Bump clap from 3.1.6 to 3.1.8 (#10)
+- Bump log from 0.4.14 to 0.4.16 (#9)
+- Bump clap from 3.1.5 to 3.1.6 (#8)
+- Bump lazy-regex from 2.2.2 to 2.3.0 (#7)
+- Allow print! on tests
+- Gitignore
+- Fixed launch config
+
+### Refactor
+
+- Clippy and Eq imports
+- Minor things
+- Added cli descriptions
+
+### Testing
+
+- Refactored some tests
+- If char tests
+- Added transpiler initial unit tests
+
+### Ci
+
+- Fixed docs ci
+- Updated docs CI
+
+## [1.0.6] - 2022-03-05
+
+### Bug Fixes
+
+- Fixed integration tests
+- Exit early when parse_line return error
+- Prevent panic when file is not found
 - Clippy
 - Flush output after every instruction loop
 - Extra chars warns even if its only comments
 
 ### Documentation
 
+- Updated readme symlinks
+- Fixed readme example
 - Added examples
 
 ### Miscellaneous Tasks
@@ -23,11 +114,16 @@ All notable changes to this project will be documented in this file.
 
 ### Refactor
 
+- Dedicated struct for instructions
+- Rename binary to `brain`
+- Move crates under packages/**
 - Change -f to argument
 - Use None when GotoDirection is 1
 
 ### Ci
 
+- Fixed Rust CI syntax
+- Groupped CI into 3 per-os jobs
 - Fixed ci and updated changelog
 
 ### Deps
@@ -36,6 +132,7 @@ All notable changes to this project will be documented in this file.
 
 ### Tag
 
+- V1.0.6
 - V1.0.5
 
 ## [1.0.4] - 2022-03-01
@@ -184,3 +281,4 @@ All notable changes to this project will be documented in this file.
 ### Tag
 
 - V1.0.1
+
