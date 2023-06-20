@@ -2,7 +2,7 @@
 
 ### Download binary
 
-You can download the brainease binary from the
+You can download the `brainz` binary from the
 [latest release](https://github.com/arthurfiorette/brainease/releases).
 
 There are 3 different OSes available:
@@ -14,10 +14,11 @@ There are 3 different OSes available:
 - [Windows](https://github.com/arthurfiorette/brainease/releases/latest/download/brainease-x86_64-pc-windows-msvc.zip)
   (`pc-windows-msvc`)
 
-For other than the three mentioned, you can download and install from source.
+> To install on other OSes, you can [install from cargo](#install-from-cargo) or download
+> the [source code](#install-from-source) and compile it yourself.
 
-Then, you can use the binary to run your brainease programs. You can also move the binary
-downloaded into your
+After, just unzip and use the `brainz` or `brainz.eze` file to run your programs. You can
+also move the binary downloaded into your
 [bin directory](https://superuser.com/questions/983138/what-is-the-equivalent-of-the-bin-directory-for-windows).
 
 Then, you can just check your installation:

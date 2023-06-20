@@ -1,5 +1,6 @@
 # Rust output
 target
+brainease-*.zip
 
 # Vscode personal files
 .vscode/*
