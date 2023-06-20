@@ -131,7 +131,7 @@ jobs:
         with:
           files:
             README.md LICENSE target/release/${{ (matrix.os == 'windows-latest' &&
-            'brainease.exe') || 'brainease'}}
+            'brainz.exe') || 'brainz'}}
           dest: brainease-${{ matrix.binary_target }}.zip
 
       - name: Upload Binaries
