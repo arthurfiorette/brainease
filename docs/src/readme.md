@@ -10,7 +10,7 @@ understand.
 
 - One instruction per line, long files but shorter width.
 - Syntax highlighting for every IDE that supports
-  [highlighting for the `R` language](./ide-support.md).
+  [highlighting for the `R` language](./learning/ide.md).
 - Memory management done with a simple, fast and linear memory allocation system.
 - Python-like indentation system - Just **two** spaces.
 

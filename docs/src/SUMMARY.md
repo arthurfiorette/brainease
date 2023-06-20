@@ -5,7 +5,6 @@
 - [Installing](./learning/installing.md)
 - [Syntax](./learning/syntax.md)
 - [Memory](./learning/memory.md)
-- [IDE Support](./learning/ide-support.md)
 
 # Language
 

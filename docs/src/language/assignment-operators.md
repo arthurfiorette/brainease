@@ -3,7 +3,7 @@
 In brainease, you can assign and change the value of a specific cell with **4** main
 instructions: `inc`, `dec`, `save` and `read`.
 
-### Incrementing and Decrementing
+## Incrementing and Decrementing
 
 You can increment or decrement a cell with the `inc` and `dec` instructions. They are a
 **1:1** mapping to brainf\*ck with the `+` and `-` operators. The only catch is that you
@@ -27,7 +27,7 @@ dec 84 in *@
 You need to be careful, because with these two instructions is pretty easy to overflow a
 cell. Read more about [cell overflow](../learning/memory.md#cell-overflow).
 
-### Getting ASCII values
+## Getting ASCII values
 
 To prevent you from programming with a ASCII table on the second monitor, there's a
 "special" instruction that allows you to save the ASCII value of a character in a specific
@@ -51,7 +51,7 @@ save '\n' at *6
 # the same as `inc 10 in *6`...
 ```
 
-### Getting values from STDIN
+## Getting values from STDIN
 
 With the default `Io Handler` implementation, you can read a character from **STDIN** and
 save his ASCII value in a specific cell.

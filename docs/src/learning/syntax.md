@@ -48,7 +48,7 @@ rules:
 - `<number>` is a raw number. Depending on the instruction, it can be used to increment a
   value, decrement or be a condition.
 
-# Learn by example
+## Learn by example
 
 There are plenty examples at the
 [**examples**](https://github.com/arthurfiorette/brainease/tree/main/examples) folder. But
@@ -74,4 +74,30 @@ loop *@
 
 # this is a instruction
 inc 123 in *2 # 123 is a raw number and *2 is a memory index
+```
+
+## IDE Support
+
+There is a plan to add support for **VSCode** with an official extension. But until then,
+you can enable syntax highlighting for your favorite IDE by aliasing all `.brain` files to
+the `R Programming Language`.
+
+Here's an example of brainease code highlighted with `R` syntax:
+
+```r
+print 'A'
+
+inc 1 in *2
+
+# Multi
+# Line
+# comment
+
+loop *@
+  if *2 >= 17 # Some comment
+    exit
+
+  # Pointer
+  save 'a' at *@
+  goto left by 3
 ```
