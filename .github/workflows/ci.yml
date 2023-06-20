@@ -37,6 +37,10 @@ jobs:
             ./target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
+      # Bad formatting
+      - name: Run fmt
+        run: cargo fmt --all -- --check
+
       # Code compiles
       - name: Run check
         run: cargo check --all
@@ -48,7 +52,3 @@ jobs:
       # Test passes
       - name: Run test
         run: cargo test --all
-
-      # Bad formatting
-      - name: Run fmt
-        run: cargo fmt --all -- --check
