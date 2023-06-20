@@ -68,7 +68,7 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "brainease"
-version = "1.0.6"
+version = "1.0.7"
 dependencies = [
  "brainease_lexer",
  "brainease_runtime",
@@ -81,7 +81,7 @@ dependencies = [
 
 [[package]]
 name = "brainease_lexer"
-version = "1.0.6"
+version = "1.0.7"
 dependencies = [
  "lazy-regex",
  "log",
@@ -89,7 +89,7 @@ dependencies = [
 
 [[package]]
 name = "brainease_runtime"
-version = "1.0.6"
+version = "1.0.7"
 dependencies = [
  "brainease_lexer",
  "log",
@@ -97,7 +97,7 @@ dependencies = [
 
 [[package]]
 name = "brainease_transpiler"
-version = "1.0.6"
+version = "1.0.7"
 dependencies = [
  "brainease_lexer",
  "log",
