@@ -8,45 +8,45 @@ use super::Token;
 pub struct BreakToken;
 
 impl Token for BreakToken {
-  fn name(&self) -> &'static str {
-    "break"
-  }
+    fn name(&self) -> &'static str {
+        "break"
+    }
 
-  fn regex(&self) -> &'static Lazy<Regex> {
-    static REGEX: &Lazy<Regex> = regex!(r"^(exit|break|continue|break\sall)?\s*$");
+    fn regex(&self) -> &'static Lazy<Regex> {
+        static REGEX: &Lazy<Regex> = regex!(r"^(exit|break|continue|break\sall)?\s*$");
 
-    REGEX
-  }
+        REGEX
+    }
 
-  fn read_instruction(
-    &self,
-    _: &[&str],
-    captures: Captures,
-    line_index: usize,
-    _: usize,
-  ) -> (usize, Option<Instruction>) {
-    let break_type = captures[1].parse().unwrap();
+    fn read_instruction(
+        &self,
+        _: &[&str],
+        captures: Captures,
+        line_index: usize,
+        _: usize,
+    ) -> (usize, Option<Instruction>) {
+        let break_type = captures[1].parse().unwrap();
 
-    (line_index + 1, Some(Instruction::Break(break_type)))
-  }
+        (line_index + 1, Some(Instruction::Break(break_type)))
+    }
 }
 
 #[cfg(test)]
 mod tests {
-  use super::*;
+    use super::*;
 
-  #[test]
-  fn regex() {
-    let regex = (BreakToken).regex();
+    #[test]
+    fn regex() {
+        let regex = (BreakToken).regex();
 
-    let tokens = ["exit", "break", "continue", "break all"];
+        let tokens = ["exit", "break", "continue", "break all"];
 
-    for token in tokens {
-      assert!(regex.is_match(token));
-      assert!(regex.is_match(&format!("{}   ", token)));
+        for token in tokens {
+            assert!(regex.is_match(token));
+            assert!(regex.is_match(&format!("{}   ", token)));
 
-      assert!(!regex.is_match(&format!("{} random text", token)));
-      assert!(!regex.is_match(&format!(" {}", token)));
+            assert!(!regex.is_match(&format!("{} random text", token)));
+            assert!(!regex.is_match(&format!(" {}", token)));
+        }
     }
-  }
 }

@@ -1,25 +1,25 @@
 use std::{fs, io, path::Path};
 
 pub fn read_file(path: &Path) -> io::Result<String> {
-  log::trace!("Reading {}", path.display());
+    log::trace!("Reading {}", path.display());
 
-  let content = fs::read_to_string(path);
+    let content = fs::read_to_string(path);
 
-  if content.is_err() {
-    log::error!("Could not find file {}", path.display());
-  }
+    if content.is_err() {
+        log::error!("Could not find file {}", path.display());
+    }
 
-  content
+    content
 }
 
 pub fn write_file(path: &Path, content: String) -> io::Result<()> {
-  log::trace!("Writing {}", path.display());
+    log::trace!("Writing {}", path.display());
 
-  let result = fs::write(path, content);
+    let result = fs::write(path, content);
 
-  if result.is_err() {
-    log::error!("Could not write to {}", path.display());
-  }
+    if result.is_err() {
+        log::error!("Could not write to {}", path.display());
+    }
 
-  result
+    result
 }
