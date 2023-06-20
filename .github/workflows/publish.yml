@@ -102,6 +102,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install musl tools
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: sudo apt-get install musl-tools
 
       - name: Cache cargo files
