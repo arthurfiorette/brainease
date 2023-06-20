@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 
-### Refactor
+### Tag
 
-- Removed pub mod tests
+- V1.0.7
 
 ## [1.0.7] - 2023-06-20
 
@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 
+- Changelog
 - Fixed cname
 - Added pointer movement page
 - Updated documentation page
@@ -37,6 +38,9 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 
+- Updated actions v3
+- Updated actions v2
+- Updated actions
 - Tag v1.0.7
 - Added arm version
 - Updated dependencies
@@ -73,6 +77,7 @@ All notable changes to this project will be documented in this file.
 
 ### Refactor
 
+- Removed pub mod tests
 - Clippy and Eq imports
 - Minor things
 - Added cli descriptions
