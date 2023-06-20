@@ -2,12 +2,6 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
-
-### Tag
-
-- V1.0.7
-
 ## [1.0.7] - 2023-06-20
 
 ### Bug Fixes
@@ -38,9 +32,6 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 
-- Updated actions v3
-- Updated actions v2
-- Updated actions
 - Tag v1.0.7
 - Added arm version
 - Updated dependencies
@@ -90,6 +81,7 @@ All notable changes to this project will be documented in this file.
 
 ### Ci
 
+- Updated ci to latests versions
 - Fixed docs ci
 - Updated docs CI
 
