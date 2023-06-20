@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### Documentation
+
+- Documentation overhaul
+- Changelog
+
+### Ci
+
+- Format first
+
+### Tag
+
+- V1.0.8
+
 ## [1.0.7] - 2023-06-20
 
 ### Bug Fixes
