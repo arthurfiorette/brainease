@@ -5,14 +5,16 @@
 You can download the `brainz` binary from the
 [latest release](https://github.com/arthurfiorette/brainease/releases).
 
-There are 3 different OSes available:
+There are 4 different OSes available:
 
-- [Linux](https://github.com/arthurfiorette/brainease/releases/latest/download/brainease-x86_64-unknown-linux-musl.zip)
-  (`unknown-linux-musl`)
-- [MacOS](https://github.com/arthurfiorette/brainease/releases/latest/download/brainease-x86_64-apple-darwin.zip)
-  (`apple-darwin`)
-- [Windows](https://github.com/arthurfiorette/brainease/releases/latest/download/brainease-x86_64-pc-windows-msvc.zip)
-  (`pc-windows-msvc`)
+- [x86_64-unknown-linux-musl](https://github.com/arthurfiorette/brainease/releases/latest/download/brainease-x86_64-unknown-linux-musl.zip)
+  (`x86_64-unknown-linux-musl`)
+- [x86_64-apple-darwin](https://github.com/arthurfiorette/brainease/releases/latest/download/brainease-x86_64-apple-darwin.zip)
+  (`x86_64-apple-darwin`)
+- [x86_64-pc-windows-msv](https://github.com/arthurfiorette/brainease/releases/latest/download/brainease-x86_64-pc-windows-msvc.zip)
+  (`x86_64-pc-windows-msv`)
+- [armv7-unknown-linux-gnueabihf](https://github.com/arthurfiorette/brainease/releases/latest/download/brainease-armv7-unknown-linux-gnueabihf.zip)
+  (`armv7-unknown-linux-gnueabihf`)
 
 > To install on other OSes, you can [install from cargo](#install-from-cargo) or download
 > the [source code](#install-from-source) and compile it yourself.
