@@ -76,7 +76,7 @@ jobs:
 
   attach:
     needs: [test]
-    name: Attach binaries on latest release (${{ matrix.os }})
+    name: Attach binaries on latest release (${{ matrix.target }})
     runs-on: ubuntu-latest
 
     strategy:
@@ -91,7 +91,6 @@ jobs:
           ]
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -130,7 +129,7 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files:
-            README.md LICENSE target/release/${{ (matrix.os == 'windows-latest' &&
+            README.md LICENSE target/${{ matrix.target }}/release/${{ (matrix.target == 'x86_64-pc-windows-msvc' &&
             'brainz.exe') || 'brainz'}}
           dest: brainease-${{ matrix.target }}.zip
 
