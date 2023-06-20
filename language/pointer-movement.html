@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Pointer Movement - Brainease</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="A brainf*ck-style programming language, but readable">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././assets/styles.css">
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Learning</li><li class="chapter-item expanded "><a href="../learning/installing.html"><strong aria-hidden="true">2.</strong> Installing</a></li><li class="chapter-item expanded "><a href="../learning/syntax.html"><strong aria-hidden="true">3.</strong> Syntax</a></li><li class="chapter-item expanded "><a href="../learning/memory.html"><strong aria-hidden="true">4.</strong> Memory</a></li><li class="chapter-item expanded affix "><li class="part-title">Language</li><li class="chapter-item expanded "><a href="../language/assignment-operators.html"><strong aria-hidden="true">5.</strong> Assignment Operators</a></li><li class="chapter-item expanded "><a href="../language/pointer-movement.html" class="active"><strong aria-hidden="true">6.</strong> Pointer Movement</a></li><li class="chapter-item expanded "><a href="../language/loops-and-flow-control.html"><strong aria-hidden="true">7.</strong> Loops and Flow Control</a></li><li class="chapter-item expanded "><a href="../language/handling-io.html"><strong aria-hidden="true">8.</strong> Handling I/O</a></li><li class="chapter-item expanded affix "><li class="part-title">Instructions</li><li class="chapter-item expanded "><a href="../instructions/inc-and-dec.html"><strong aria-hidden="true">9.</strong> Increment and Decrement</a></li><li class="chapter-item expanded "><a href="../instructions/print-and-write.html"><strong aria-hidden="true">10.</strong> Print and Write</a></li><li class="chapter-item expanded "><a href="../instructions/read-and-save.html"><strong aria-hidden="true">11.</strong> Read and Save</a></li><li class="chapter-item expanded "><a href="../instructions/move-and-swap.html"><strong aria-hidden="true">12.</strong> Move and Swap</a></li><li class="chapter-item expanded "><a href="../instructions/goto.html"><strong aria-hidden="true">13.</strong> Goto</a></li><li class="chapter-item expanded "><a href="../instructions/if.html"><strong aria-hidden="true">14.</strong> If</a></li><li class="chapter-item expanded "><a href="../instructions/loop.html"><strong aria-hidden="true">15.</strong> Loop</a></li><li class="chapter-item expanded "><a href="../instructions/break.html"><strong aria-hidden="true">16.</strong> Break</a></li><li class="chapter-item expanded affix "><li class="part-title">Reference</li><li class="chapter-item expanded "><a href="../reference/programmatically-usage.html"><strong aria-hidden="true">17.</strong> Programmatically Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/bf-transpiler.html"><strong aria-hidden="true">17.1.</strong> Transpiling from brainf*ck</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/brainease-cli.html"><strong aria-hidden="true">18.</strong> Brainease Cli</a></li><li class="chapter-item expanded "><a href="../reference/runtime.html"><strong aria-hidden="true">19.</strong> Runtime</a></li><li class="chapter-item expanded "><a href="../reference/transpiler.html"><strong aria-hidden="true">20.</strong> Transpiler</a></li><li class="chapter-item expanded "><a href="../reference/lexer.html"><strong aria-hidden="true">21.</strong> Lexer</a></li><li class="chapter-item expanded affix "><li class="part-title">Other</li><li class="chapter-item expanded "><a href="../changelog.html"><strong aria-hidden="true">22.</strong> Changelog</a></li><li class="chapter-item expanded "><a href="../license.html"><strong aria-hidden="true">23.</strong> License</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Brainease</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/arthurfiorette/brainease" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/arthurfiorette/brainease/edit/main/docs/src/language/pointer-movement.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="pointer-movement"><a class="header" href="#pointer-movement">Pointer Movement</a></h1>
+<p>Sometimes, you'll need the flexibility to read and manipulate data cells without knowing
+their exact position. For example, you may need to save N cells depending in the size of
+the provided STDIN input.</p>
+<blockquote>
+<p>The pointer value starts at <strong><code>0</code></strong>.</p>
+</blockquote>
+<p>This can be managed by the <code>@</code> <em>(A.K.A pointer)</em> cell index. Anywhere that a cell can be
+referenced, <code>inc 1 in *1</code> for example, you can also use the <code>@</code> pointer. <code>inc 1 in *@</code> in
+this example.</p>
+<p>You can also move the pointer around with the <code>goto</code> operator.</p>
+<h2 id="the-goto-operator"><a class="header" href="#the-goto-operator">The <code>goto</code> operator</a></h2>
+<p>There are 2 sides to move the pointer and 2 ways for each side.</p>
+<p>You can see the dedicated <a href="../instructions/goto.html"><code>goto</code></a> instruction page for more
+details.</p>
+<pre><code class="language-r"># Moves to left by one cell
+goto left
+
+# Moves the pointer to the left by 5 cells
+goto left by 5
+
+# Moves to right by one cell
+goto right
+
+# Moves the pointer to the right by 5 cells
+goto right by 5
+</code></pre>
+<h2 id="pointer-overflow"><a class="header" href="#pointer-overflow">Pointer overflow</a></h2>
+<p>If the pointer is current at a edge cell <em>(i.e. <code>0</code> or <code>29 999</code>)</em>, and you move it in the
+opposite direction, you'll have the <code>pointer overflow</code> effect. It is pretty simple and
+easy to understand.</p>
+<p>Look at this code example:</p>
+<pre><code class="language-r"># This example is using --memory=10 to allocate only 10 cells
+
+write *@ # Pointer is now at the first cell (0)
+
+# Pointer: *0 --- *(Max Memory Size)
+# Pointer: *0 -&gt; *9 (Because 0 to 9 is 10 cells)
+goto left
+
+write *@ # Pointer is now at the last cell (9)
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../language/assignment-operators.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../language/loops-and-flow-control.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../language/assignment-operators.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../language/loops-and-flow-control.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src=".././assets/bf-memory.js"></script>
+
+
+    </div>
+    </body>
+</html>
