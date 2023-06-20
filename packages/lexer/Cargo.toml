@@ -9,7 +9,6 @@ repository = "https://github.com/arthurfiorette/brainease"
 license = "MIT"
 readme = "./README.md"
 
-
 [dependencies]
-lazy-regex = "^2"
-log = "^0.4"
+lazy-regex = "2.5.0"
+log = "0.4.19"
