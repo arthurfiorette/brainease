@@ -76,7 +76,7 @@ jobs:
 
   attach:
     needs: [test]
-    name: Attach binaries on latest release (${{ matrix.target }})
+    name: Attach release binaries for ${{ matrix.target }}
     runs-on: ubuntu-latest
 
     strategy:
