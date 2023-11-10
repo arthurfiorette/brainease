@@ -10,5 +10,5 @@ license = "MIT"
 readme = "./README.md"
 
 [dependencies]
-lazy-regex = "3.0.2"
+lazy-regex = "3.1.0"
 log = "0.4.20"
