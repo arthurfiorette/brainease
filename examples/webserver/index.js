@@ -13,7 +13,7 @@ const PORT = 3000;
 const HOST = '0.0.0.0';
 
 /** The brainease binary location */
-const BRAINEASE_BINARY = path.resolve(__dirname, '../../target/release/brain');
+const BRAINEASE_BINARY = path.resolve(__dirname, '../../target/release/brainz');
 
 /** The brainease webserver code path */
 const BRAINEASE_CODE = path.resolve(__dirname, 'main.brain');
@@ -34,6 +34,11 @@ net
       // Calls brainease binary
       exec(command, { encoding: 'utf8', shell: 'bash' }, (_err, res, _stderr) => {
         socket.write(res.toString());
+
+        console.log({
+          request: data.toString(),
+          response: res.toString(),
+        })
 
         // Disconnect after sending response
         socket.destroy();
