@@ -11,4 +11,4 @@ readme = "./README.md"
 
 [dependencies]
 brainease_lexer = { path = "../lexer", version = "^1" }
-log = "0.4.20"
+log = "0.4.21"
